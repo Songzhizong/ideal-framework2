@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: EXAMPLE-CACHE-COROUTINE
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+  rabbitmq:
+    addresses: 127.0.0.1:5672
+    virtual-host: example
+    username: admin
+    password: admin
+ideal-event:
+  transaction:
+    type: mongo
+    enabled: false
+
+logging:
+  charset:
+    console: utf-8
+  level:
+    root: info
+    cn.cn.idealframework2: debug
+    io.netty.resolver.dns.DnsServerAddressStreamProviders: off
+    com.zzs.iam.launcher.configure.WebMessageConverterAutoConfigure: info
+  pattern:
+    console: "%clr(%d{HH:mm:ss.SSS}){faint} %clr(-%5p) %clr(-){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(%6L){magenta} %clr(:){faint} %m%n"

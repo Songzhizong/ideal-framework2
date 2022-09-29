@@ -15,6 +15,8 @@
  */
 package cn.idealframework2.spring;
 
+import reactor.netty.resources.ConnectionProvider;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.time.Duration;
@@ -27,12 +29,30 @@ public class HttpClientOptions {
   @Nonnull
   private String name = "httpClient";
 
+  /** 检测连接有效性的时间间隔 */
+  @Nullable
+  private Duration evictionInterval;
+
   /** 最大连接数 */
   private int maxConnections = 512;
 
   /** 等待队列大小, 默认情况下为最大连接数x2 */
   @Nullable
   private Integer pendingAcquireMaxCount;
+
+  /** 等待连接的超时时间 */
+  @Nonnull
+  private Duration pendingAcquireTimeout = Duration.ofSeconds(1);
+
+  /** 连接最大空闲时间 */
+  private Duration maxIdleTime = Duration.ofSeconds(60);
+
+  /** 连接最大存活时间 */
+  private Duration maxLifeTime = Duration.ofMinutes(10);
+
+  /** 获取连接的策略, 默认使用最近创建的 */
+  @Nonnull
+  private String leasingStrategy = ConnectionProvider.LEASING_STRATEGY_LIFO;
 
   /** 请求超时时间 */
   @Nullable
@@ -47,6 +67,18 @@ public class HttpClientOptions {
   /** 是否启用gzip支持 */
   private boolean compressionEnabled = false;
 
+  /** 优先选择最新创建的连接 */
+  public HttpClientOptions lifo() {
+    leasingStrategy = ConnectionProvider.LEASING_STRATEGY_LIFO;
+    return this;
+  }
+
+  /** 优先选择最早创建的连接 */
+  public HttpClientOptions fifo() {
+    leasingStrategy = ConnectionProvider.LEASING_STRATEGY_FIFO;
+    return this;
+  }
+
   @Nonnull
   public String getName() {
     return name;
@@ -54,6 +86,16 @@ public class HttpClientOptions {
 
   public HttpClientOptions setName(@Nonnull String name) {
     this.name = name;
+    return this;
+  }
+
+  @Nullable
+  public Duration getEvictionInterval() {
+    return evictionInterval;
+  }
+
+  public HttpClientOptions setEvictionInterval(@Nullable Duration evictionInterval) {
+    this.evictionInterval = evictionInterval;
     return this;
   }
 
@@ -74,6 +116,39 @@ public class HttpClientOptions {
   public HttpClientOptions setPendingAcquireMaxCount(@Nullable Integer pendingAcquireMaxCount) {
     this.pendingAcquireMaxCount = pendingAcquireMaxCount;
     return this;
+  }
+
+  @Nonnull
+  public Duration getPendingAcquireTimeout() {
+    return pendingAcquireTimeout;
+  }
+
+  public HttpClientOptions setPendingAcquireTimeout(@Nonnull Duration pendingAcquireTimeout) {
+    this.pendingAcquireTimeout = pendingAcquireTimeout;
+    return this;
+  }
+
+  public Duration getMaxIdleTime() {
+    return maxIdleTime;
+  }
+
+  public HttpClientOptions setMaxIdleTime(Duration maxIdleTime) {
+    this.maxIdleTime = maxIdleTime;
+    return this;
+  }
+
+  public Duration getMaxLifeTime() {
+    return maxLifeTime;
+  }
+
+  public HttpClientOptions setMaxLifeTime(Duration maxLifeTime) {
+    this.maxLifeTime = maxLifeTime;
+    return this;
+  }
+
+  @Nonnull
+  public String getLeasingStrategy() {
+    return leasingStrategy;
   }
 
   @Nullable

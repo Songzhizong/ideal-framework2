@@ -1,6 +1,7 @@
 package cn.idealframework2.transmission;
 
 import cn.idealframework2.lang.StringUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.annotation.Nonnull;
@@ -34,13 +35,15 @@ public class BasicResult implements Serializable {
   }
 
   @Transient
-  public boolean isSucceed() {
+  @JsonIgnore
+  public boolean isSuccessful() {
     return Boolean.TRUE.equals(success);
   }
 
   @Transient
+  @JsonIgnore
   public boolean isFailed() {
-    return !isSucceed();
+    return !isSuccessful();
   }
 
   public void setMessage(@Nullable String message) {

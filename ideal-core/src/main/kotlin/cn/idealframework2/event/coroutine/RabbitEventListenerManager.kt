@@ -10,7 +10,9 @@ import kotlinx.coroutines.reactor.awaitSingleOrNull
 import kotlinx.coroutines.reactor.mono
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.DisposableBean
 import org.springframework.boot.ApplicationArguments
+import org.springframework.boot.ApplicationRunner
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate
 import reactor.core.Disposable
 import reactor.rabbitmq.*
@@ -73,8 +75,8 @@ class RabbitEventListenerManager(
 
   class RabbitEventListener<T : Event>(
     exchange: String,
-    private val topic: String,
-    private val name: String,
+    topic: String,
+    name: String,
     temporary: Boolean,
     queuePrefix: String,
     private val cachePrefix: String,
@@ -83,7 +85,7 @@ class RabbitEventListenerManager(
     private val redisTemplate: ReactiveStringRedisTemplate,
     private val clazz: Class<T>,
     private val block: suspend CoroutineScope.(T) -> Unit
-  ) : EventListener {
+  ) : EventListener, DisposableBean, ApplicationRunner {
     private val lockValue = UUID.randomUUID().toString()
     private val finalQueueName: String
     private var disposable: Disposable? = null
@@ -118,7 +120,7 @@ class RabbitEventListenerManager(
                 return@mono
               }
               val uuid = message.uuid
-              val key = "$cachePrefix$finalQueueName:$uuid"
+              val key = "${cachePrefix}event_idempotent:$finalQueueName:$uuid"
               val tryLock = redisTemplate.opsForValue().setIfAbsent(key, lockValue, timeout)
                 .awaitSingleOrNull()
               try {
@@ -162,9 +164,5 @@ class RabbitEventListenerManager(
     override fun run(args: ApplicationArguments?) {
       this.start()
     }
-
-    override fun name() = name
-
-    override fun topic() = topic
   }
 }

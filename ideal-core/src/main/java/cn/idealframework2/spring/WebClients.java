@@ -104,8 +104,8 @@ public final class WebClients {
   public static WebClient.Builder webClientBuilderOfHttpClient(@Nonnull HttpClient httpClient,
                                                                @Nullable WebClientOptions options) {
     WebClient.Builder builder = WebClient.builder()
-        .clientConnector(new ReactorClientHttpConnector(httpClient))
-        .filter(TraceExchangeFilterFunction.getInstance());
+      .clientConnector(new ReactorClientHttpConnector(httpClient))
+      .filter(TraceExchangeFilterFunction.getInstance());
     if (options != null) {
       // URI 编码方式
       DefaultUriBuilderFactory.EncodingMode encodingMode = options.getEncodingMode();
@@ -138,17 +138,30 @@ public final class WebClients {
   @Nonnull
   public static HttpClient httpClient(@Nonnull HttpClientOptions options) {
     ConnectionProvider.Builder builder = ConnectionProvider
-        .builder(options.getName())
-        .maxConnections(options.getMaxConnections());
+      .builder(options.getName())
+      .maxIdleTime(options.getMaxIdleTime())
+      .maxLifeTime(options.getMaxLifeTime())
+      .maxConnections(options.getMaxConnections())
+      .pendingAcquireTimeout(options.getPendingAcquireTimeout());
+    String leasingStrategy = options.getLeasingStrategy();
+    if (ConnectionProvider.LEASING_STRATEGY_FIFO.equalsIgnoreCase(leasingStrategy)) {
+      builder.fifo();
+    } else {
+      builder.lifo();
+    }
     Integer pendingAcquireMaxCount = options.getPendingAcquireMaxCount();
     if (pendingAcquireMaxCount != null && pendingAcquireMaxCount > 0) {
       builder.pendingAcquireMaxCount(pendingAcquireMaxCount);
     }
+    Duration evictionInterval = options.getEvictionInterval();
+    if (evictionInterval != null) {
+      builder.evictInBackground(evictionInterval);
+    }
     ConnectionProvider connectionProvider = builder.build();
     HttpClient httpClient = HttpClient.create(connectionProvider)
-        .keepAlive(options.isKeepAlive())
-        .followRedirect(options.isFollowRedirect())
-        .compress(options.isCompressionEnabled());
+      .keepAlive(options.isKeepAlive())
+      .followRedirect(options.isFollowRedirect())
+      .compress(options.isCompressionEnabled());
     Duration responseTimeout = options.getResponseTimeout();
     if (responseTimeout != null && !responseTimeout.isZero()) {
       httpClient.responseTimeout(responseTimeout);
@@ -163,28 +176,28 @@ public final class WebClients {
       HttpStatusCode statusCode = resp.statusCode();
       int status = statusCode.value();
       return resp.bodyToMono(String.class)
-          .defaultIfEmpty("")
-          .flatMap(result -> {
-            log.debug("响应结果: " + result);
-            Result<T> parse = JsonUtils.parse(result, Result.class, clazz);
-            if (parse.getSuccess() == null) {
-              ResultException exception = new ResultException(status, null, result);
-              return Mono.error(exception);
-            }
-            if (statusCode.isError() || parse.isFailed()) {
-              ResultException exception = new ResultException(status, parse.getCode(), parse.getMessage());
-              return Mono.error(exception);
-            }
-            return Mono.just(parse);
-          })
-          .onErrorResume(throwable -> {
-            if (throwable instanceof VisibleException exception) {
-              return Mono.error(exception);
-            }
-            String message = throwable.getMessage();
-            ResultException exception = new ResultException(500, null, message);
+        .defaultIfEmpty("")
+        .flatMap(result -> {
+          log.debug("响应结果: " + result);
+          Result<T> parse = JsonUtils.parse(result, Result.class, clazz);
+          if (parse.getSuccess() == null) {
+            ResultException exception = new ResultException(status, null, result);
             return Mono.error(exception);
-          });
+          }
+          if (statusCode.isError() || parse.isFailed()) {
+            ResultException exception = new ResultException(status, parse.getCode(), parse.getMessage());
+            return Mono.error(exception);
+          }
+          return Mono.just(parse);
+        })
+        .onErrorResume(throwable -> {
+          if (throwable instanceof VisibleException exception) {
+            return Mono.error(exception);
+          }
+          String message = throwable.getMessage();
+          ResultException exception = new ResultException(500, null, message);
+          return Mono.error(exception);
+        });
     };
   }
 
@@ -195,28 +208,28 @@ public final class WebClients {
       HttpStatusCode statusCode = resp.statusCode();
       int status = statusCode.value();
       return resp.bodyToMono(String.class)
-          .defaultIfEmpty("")
-          .flatMap(result -> {
-            log.debug("响应结果: " + result);
-            T parse = JsonUtils.parse(result, reference);
-            if (parse.getSuccess() == null) {
-              ResultException exception = new ResultException(status, null, result);
-              return Mono.error(exception);
-            }
-            if (statusCode.isError() || parse.isFailed()) {
-              ResultException exception = new ResultException(status, parse.getCode(), parse.getMessage());
-              return Mono.error(exception);
-            }
-            return Mono.just(parse);
-          })
-          .onErrorResume(throwable -> {
-            if (throwable instanceof VisibleException exception) {
-              return Mono.error(exception);
-            }
-            String message = throwable.getMessage();
-            ResultException exception = new ResultException(500, null, message);
+        .defaultIfEmpty("")
+        .flatMap(result -> {
+          log.debug("响应结果: " + result);
+          T parse = JsonUtils.parse(result, reference);
+          if (parse.getSuccess() == null) {
+            ResultException exception = new ResultException(status, null, result);
             return Mono.error(exception);
-          });
+          }
+          if (statusCode.isError() || parse.isFailed()) {
+            ResultException exception = new ResultException(status, parse.getCode(), parse.getMessage());
+            return Mono.error(exception);
+          }
+          return Mono.just(parse);
+        })
+        .onErrorResume(throwable -> {
+          if (throwable instanceof VisibleException exception) {
+            return Mono.error(exception);
+          }
+          String message = throwable.getMessage();
+          ResultException exception = new ResultException(500, null, message);
+          return Mono.error(exception);
+        });
     };
   }
 
@@ -227,28 +240,28 @@ public final class WebClients {
       HttpStatusCode statusCode = resp.statusCode();
       int status = statusCode.value();
       return resp.bodyToMono(String.class)
-          .defaultIfEmpty("")
-          .flatMap(result -> {
-            log.debug("响应结果: " + result);
-            ListResult<T> parse = JsonUtils.parse(result, ListResult.class, clazz);
-            if (parse.getSuccess() == null) {
-              ResultException exception = new ResultException(status, null, result);
-              return Mono.error(exception);
-            }
-            if (statusCode.isError() || parse.isFailed()) {
-              ResultException exception = new ResultException(status, parse.getCode(), parse.getMessage());
-              return Mono.error(exception);
-            }
-            return Mono.just(parse);
-          })
-          .onErrorResume(throwable -> {
-            if (throwable instanceof VisibleException exception) {
-              return Mono.error(exception);
-            }
-            String message = throwable.getMessage();
-            ResultException exception = new ResultException(500, null, message);
+        .defaultIfEmpty("")
+        .flatMap(result -> {
+          log.debug("响应结果: " + result);
+          ListResult<T> parse = JsonUtils.parse(result, ListResult.class, clazz);
+          if (parse.getSuccess() == null) {
+            ResultException exception = new ResultException(status, null, result);
             return Mono.error(exception);
-          });
+          }
+          if (statusCode.isError() || parse.isFailed()) {
+            ResultException exception = new ResultException(status, parse.getCode(), parse.getMessage());
+            return Mono.error(exception);
+          }
+          return Mono.just(parse);
+        })
+        .onErrorResume(throwable -> {
+          if (throwable instanceof VisibleException exception) {
+            return Mono.error(exception);
+          }
+          String message = throwable.getMessage();
+          ResultException exception = new ResultException(500, null, message);
+          return Mono.error(exception);
+        });
     };
   }
 
@@ -259,28 +272,28 @@ public final class WebClients {
       HttpStatusCode statusCode = resp.statusCode();
       int status = statusCode.value();
       return resp.bodyToMono(String.class)
-          .defaultIfEmpty("")
-          .flatMap(result -> {
-            log.debug("响应结果: " + result);
-            PageResult<E> parse = JsonUtils.parse(result, PageResult.class, clazz);
-            if (parse.getSuccess() == null) {
-              ResultException exception = new ResultException(status, null, result);
-              return Mono.error(exception);
-            }
-            if (statusCode.isError() || parse.isFailed()) {
-              ResultException exception = new ResultException(status, parse.getCode(), parse.getMessage());
-              return Mono.error(exception);
-            }
-            return Mono.just(parse);
-          })
-          .onErrorResume(throwable -> {
-            if (throwable instanceof VisibleException exception) {
-              return Mono.error(exception);
-            }
-            String message = throwable.getMessage();
-            ResultException exception = new ResultException(500, null, message);
+        .defaultIfEmpty("")
+        .flatMap(result -> {
+          log.debug("响应结果: " + result);
+          PageResult<E> parse = JsonUtils.parse(result, PageResult.class, clazz);
+          if (parse.getSuccess() == null) {
+            ResultException exception = new ResultException(status, null, result);
             return Mono.error(exception);
-          });
+          }
+          if (statusCode.isError() || parse.isFailed()) {
+            ResultException exception = new ResultException(status, parse.getCode(), parse.getMessage());
+            return Mono.error(exception);
+          }
+          return Mono.just(parse);
+        })
+        .onErrorResume(throwable -> {
+          if (throwable instanceof VisibleException exception) {
+            return Mono.error(exception);
+          }
+          String message = throwable.getMessage();
+          ResultException exception = new ResultException(500, null, message);
+          return Mono.error(exception);
+        });
     };
   }
 

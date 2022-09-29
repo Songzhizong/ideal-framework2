@@ -5,17 +5,14 @@ import cn.idealframework2.autoconfigure.event.properties.EventProperties;
 import cn.idealframework2.autoconfigure.event.properties.EventRabbitProperties;
 import cn.idealframework2.autoconfigure.event.properties.SpringRabbitProperties;
 import cn.idealframework2.event.ReactiveEventPublisher;
-import cn.idealframework2.event.ReactiveTransactionalEventPublisher;
 import cn.idealframework2.event.coroutine.EventListenerManager;
 import cn.idealframework2.event.coroutine.RabbitEventListenerManager;
-import cn.idealframework2.event.impl.mongo.ReactiveMongoTemplateTransactionalEventPublisher;
 import cn.idealframework2.event.impl.rabbit.ReactorRabbitEventPublisher;
 import cn.idealframework2.starter.model.event.coroutine.CoroutineEventModel;
 import com.rabbitmq.client.Address;
 import com.rabbitmq.client.ConnectionFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import reactor.core.scheduler.Schedulers;
 import reactor.rabbitmq.*;
@@ -66,14 +63,6 @@ public class ReactiveEventAutoConfigure {
     EventRabbitProperties rabbit = properties.getRabbit();
     String exchange = rabbit.getExchange();
     return new ReactorRabbitEventPublisher(sender, exchange);
-  }
-
-  @Bean
-  public ReactiveTransactionalEventPublisher reactiveTransactionalEventPublisher(
-    @Nonnull ReactiveMongoTemplate template,
-    @Nonnull ReactiveEventPublisher publisher
-  ) {
-    return new ReactiveMongoTemplateTransactionalEventPublisher(template, publisher);
   }
 
   @Bean

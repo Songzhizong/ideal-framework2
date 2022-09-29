@@ -1,0 +1,13 @@
+  cn.idealframework2.autoconfigure.cache.BlockCacheAutoConfigure
+  cn.idealframework2.autoconfigure.cache.CacheProperties
+  cn.idealframework2.autoconfigure.cache.CoroutineCacheAutoConfigure
+  cn.idealframework2.autoconfigure.event.properties.EventProperties
+  cn.idealframework2.autoconfigure.event.properties.SpringRabbitProperties
+  cn.idealframework2.autoconfigure.event.ReactiveEventAutoConfigure
+  cn.idealframework2.autoconfigure.event.ReactiveMongoEventAutoConfigure
+  cn.idealframework2.autoconfigure.id.snowflake.FixedSnowflakeAutoConfigure
+  cn.idealframework2.autoconfigure.id.snowflake.RedisSnowflakeAutoConfigure
+  cn.idealframework2.autoconfigure.id.IdProperties
+  cn.idealframework2.autoconfigure.trace.ReactiveTraceAutoConfigure
+  cn.idealframework2.autoconfigure.trace.TraceAutoConfigure
+  cn.idealframework2.autoconfigure.trace.TraceProperties

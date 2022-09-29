@@ -13,6 +13,7 @@
 
   <modules>
     <module>ideal-starter-model-cache</module>
+    <module>ideal-starter-model-event</module>
     <module>ideal-starter-model-cache-coroutine</module>
     <module>ideal-starter-model-event-coroutine</module>
     <module>ideal-starter-model-trace-coroutine</module>

@@ -1,5 +1,6 @@
 package cn.idealframework2.event.impl.rabbit;
 
+import cn.idealframework2.event.Event;
 import cn.idealframework2.event.EventListener;
 
 import javax.annotation.Nonnull;
@@ -20,8 +21,8 @@ public interface EventListenerManager {
    * @param <E>      事件类型
    * @return 事件监听器
    */
-  <E> EventListener listen(@Nonnull String name,
-                           @Nonnull String topic,
-                           @Nonnull Class<E> clazz,
-                           @Nonnull Consumer<E> consumer);
+  <E extends Event> EventListener listen(@Nonnull String name,
+                                         @Nonnull String topic,
+                                         @Nonnull Class<E> clazz,
+                                         @Nonnull Consumer<E> consumer);
 }
