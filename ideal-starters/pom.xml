@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>ideal-framework2</artifactId>
+    <groupId>cn.idealframework2</groupId>
+    <version>3.0-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>ideal-starters</artifactId>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>ideal-starter</module>
+    <module>ideal-starter-cache</module>
+    <module>ideal-starter-models</module>
+    <module>ideal-starter-cache-coroutine</module>
+    <module>ideal-starter-event-coroutine</module>
+    <module>ideal-starter-trace-coroutine</module>
+  </modules>
+</project>
