@@ -15,7 +15,8 @@ public class RedisCacheBuilderFactory {
   @Nonnull
   private final StringRedisTemplate redisTemplate;
 
-  public RedisCacheBuilderFactory(@Nullable String prefix, @Nonnull StringRedisTemplate redisTemplate) {
+  public RedisCacheBuilderFactory(@Nullable String prefix,
+                                  @Nonnull StringRedisTemplate redisTemplate) {
     this.prefix = prefix;
     this.redisTemplate = redisTemplate;
   }

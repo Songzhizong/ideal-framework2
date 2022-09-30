@@ -17,6 +17,8 @@ import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.Collections;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -30,6 +32,7 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
   private static final Log log = LogFactory.getLog(RabbitEventListenerManager.class);
   private static final Duration idempotentTimeout = Duration.ofMinutes(10);
   private final ConcurrentMap<String, RabbitEventListener<?>> listenerMap = new ConcurrentHashMap<>();
+  private final Set<String> queues = Collections.newSetFromMap(new ConcurrentHashMap<>());
   /** 启用此配置则为监听器创建随机名称的队列, 并在程序关闭时删除队列 */
   private final boolean temporary;
   private final String queuePrefix;
@@ -102,12 +105,18 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
     } else {
       queue = new Queue(queueName, true, false, false);
     }
+    queues.add(queueName);
     RabbitEventListener<E> listener = new RabbitEventListener<>(
       clazz, queueName, cachePrefix, consumer, redisTemplate);
     listenerMap.put(queueName, listener);
     amqpAdmin.declareQueue(queue);
     amqpAdmin.declareBinding(BindingBuilder.bind(queue).to(exchange).with(topic));
     return listener;
+  }
+
+  @Nonnull
+  public Set<String> getQueues() {
+    return queues;
   }
 
   public static class RabbitEventListener<E extends Event> implements EventListener {

@@ -1,4 +1,4 @@
-package cn.idealframework2.example.cache.coroutine
+package cn.idealframework2.example.event.coroutine
 
 import cn.idealframework2.event.coroutine.EventListenerManager
 import cn.idealframework2.json.toJsonString

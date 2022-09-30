@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <artifactId>examples</artifactId>
@@ -8,12 +8,12 @@
     <version>3.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>event-block</artifactId>
+  <artifactId>cache-block</artifactId>
 
   <dependencies>
     <dependency>
       <groupId>cn.idealframework2</groupId>
-      <artifactId>ideal-starter-event</artifactId>
+      <artifactId>ideal-starter-cache</artifactId>
       <version>3.0-SNAPSHOT</version>
     </dependency>
     <dependency>
@@ -34,7 +34,7 @@
         <version>${spring.boot.version}</version>
         <configuration>
           <mainClass>
-            cn.idealframework2.example.event.block.BlockEventExampleApplication
+            cn.idealframework2.example.cache.block.BlockCacheExampleApplication
           </mainClass>
         </configuration>
         <executions>

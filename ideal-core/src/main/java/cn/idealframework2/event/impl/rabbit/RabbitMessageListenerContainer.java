@@ -10,7 +10,7 @@ import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
  */
 public class RabbitMessageListenerContainer extends SimpleMessageListenerContainer {
 
-  public RabbitMessageListenerContainer(RabbitEventListenerManager rabbitConsumer,
+  public RabbitMessageListenerContainer(RabbitEventListenerManager listenerManager,
                                         ConnectionFactory connectionFactory,
                                         int concurrentConsumers,
                                         int maxConcurrentConsumers,
@@ -23,7 +23,7 @@ public class RabbitMessageListenerContainer extends SimpleMessageListenerContain
       prefetchCount = 0;
     }
     this.setAcknowledgeMode(AcknowledgeMode.MANUAL);
-    this.setMessageListener(rabbitConsumer);
+    this.setMessageListener(listenerManager);
     this.setConcurrentConsumers(concurrentConsumers);
     this.setMaxConcurrentConsumers(maxConcurrentConsumers);
     this.setPrefetchCount(prefetchCount);

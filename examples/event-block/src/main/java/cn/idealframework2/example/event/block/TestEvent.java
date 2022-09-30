@@ -1,4 +1,4 @@
-package cn.idealframework2.example.cache.coroutine;
+package cn.idealframework2.example.event.block;
 
 import cn.idealframework2.event.BaseEvent;
 

@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="cache-block" type="SpringBootApplicationConfigurationType"
+                 factoryName="Spring Boot">
+    <option name="ACTIVE_PROFILES"/>
+    <module name="event-block"/>
+    <option name="SPRING_BOOT_MAIN_CLASS"
+            value="cn.idealframework2.example.event.block.BlockCacheExampleApplication"/>
+    <method v="2">
+      <option name="Make" enabled="true"/>
+    </method>
+  </configuration>
+</component>

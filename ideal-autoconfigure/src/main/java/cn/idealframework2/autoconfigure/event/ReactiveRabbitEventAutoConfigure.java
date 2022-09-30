@@ -13,6 +13,7 @@ import com.rabbitmq.client.Address;
 import com.rabbitmq.client.ConnectionFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import reactor.core.scheduler.Schedulers;
 import reactor.rabbitmq.*;
@@ -23,7 +24,7 @@ import javax.annotation.Nonnull;
  * @author 宋志宗 on 2022/8/13
  */
 @ConditionalOnClass(CoroutineEventModel.class)
-public class ReactiveEventAutoConfigure {
+public class ReactiveRabbitEventAutoConfigure {
 
   @Bean
   public ConnectionFactory connectionFactory(@Nonnull SpringRabbitProperties rabbitProperties) {
@@ -42,7 +43,7 @@ public class ReactiveEventAutoConfigure {
     SenderOptions senderOptions = new SenderOptions()
       .resourceManagementScheduler(Schedulers.boundedElastic())
       .connectionFactory(connectionFactory)
-      .connectionSupplier(cf -> cf.newConnection(addresses, "monitor-sender"));
+      .connectionSupplier(cf -> cf.newConnection(addresses, "event-sender"));
     return RabbitFlux.createSender(senderOptions);
   }
 
@@ -53,11 +54,12 @@ public class ReactiveEventAutoConfigure {
     ReceiverOptions receiverOptions = new ReceiverOptions()
       .connectionFactory(connectionFactory)
       .connectionSubscriptionScheduler(Schedulers.boundedElastic())
-      .connectionSupplier(cf -> cf.newConnection(addresses, "monitor-receiver"));
+      .connectionSupplier(cf -> cf.newConnection(addresses, "event-receiver"));
     return RabbitFlux.createReceiver(receiverOptions);
   }
 
   @Bean
+  @Primary
   public ReactiveEventPublisher reactiveEventPublisher(@Nonnull Sender sender,
                                                        @Nonnull EventProperties properties) {
     EventRabbitProperties rabbit = properties.getRabbit();

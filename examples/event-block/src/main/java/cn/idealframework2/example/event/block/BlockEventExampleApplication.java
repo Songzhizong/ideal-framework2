@@ -1,12 +1,15 @@
-package cn.idealframework2.example.cache.coroutine;
+package cn.idealframework2.example.event.block;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @author zzsong
+ */
 @SpringBootApplication
-public class CoroutineCacheExampleApplication {
+public class BlockEventExampleApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(CoroutineCacheExampleApplication.class, args);
+    SpringApplication.run(BlockEventExampleApplication.class, args);
   }
 }

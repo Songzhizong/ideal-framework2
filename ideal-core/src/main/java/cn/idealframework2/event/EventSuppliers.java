@@ -1,5 +1,7 @@
 package cn.idealframework2.event;
 
+import cn.idealframework2.event.impl.EventSuppliersImpl;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;

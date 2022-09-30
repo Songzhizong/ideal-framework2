@@ -14,7 +14,6 @@
   <version>3.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-
   <modules>
     <module>examples</module>
     <module>ideal-core</module>

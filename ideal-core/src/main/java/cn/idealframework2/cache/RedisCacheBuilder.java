@@ -22,10 +22,9 @@ public class RedisCacheBuilder<K, V> {
   private final StringRedisTemplate redisTemplate;
 
   private boolean multiLevel = false;
-  @Nullable
-  private Long memoryCacheSize = null;
-  @Nullable
-  private Duration memoryCacheTimeout = null;
+  private long memoryCacheSize = 1000;
+  @Nonnull
+  private Duration memoryCacheTimeout = Duration.ofSeconds(5);
   private boolean cacheNull = false;
   @Nonnull
   private Duration nullTimeout = Duration.ofSeconds(5);
@@ -46,6 +45,12 @@ public class RedisCacheBuilder<K, V> {
     this.prefix = prefix;
     this.valueSerializer = valueSerializer;
     this.redisTemplate = redisTemplate;
+  }
+
+  @Nonnull
+  public RedisCacheBuilder<K, V> keySerializer(@Nonnull KeySerializer<K> keySerializer) {
+    this.keySerializer = keySerializer;
+    return this;
   }
 
   /**
@@ -129,7 +134,7 @@ public class RedisCacheBuilder<K, V> {
     if (!multiLevel) {
       return directRedisCache;
     }
-    throw new UnsupportedOperationException("暂不支持多级缓存");
+    return new MultiLevelRedisCache<>(memoryCacheSize, memoryCacheTimeout, directRedisCache);
   }
 
   @Nonnull

@@ -43,7 +43,7 @@ public class DirectRedisCache<K, V> implements RedisCache<K, V> {
   /** 缓存最大过期时间, 如果这个值不为null, 则在默认过期时间和这个值之间取随机数作为缓存的过期时间 */
   @Nullable
   private final Long maxTimeoutSeconds;
-  private final KeySerializer<K> keySerializer;
+  protected final KeySerializer<K> keySerializer;
   private final ValueSerializer<V> valueSerializer;
   private final StringRedisTemplate redisTemplate;
 

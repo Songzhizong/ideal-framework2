@@ -14,5 +14,7 @@
   <modules>
     <module>event-block</module>
     <module>event-coroutine</module>
+    <module>cache-coroutine</module>
+    <module>cache-block</module>
   </modules>
 </project>

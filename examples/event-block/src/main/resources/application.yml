@@ -1,12 +1,26 @@
 spring:
   application:
     name: EXAMPLE-CACHE-BLOCK
+  data:
+    mongodb:
+      auto-index-creation: true
+      uri: mongodb://127.0.0.1:27011,127.0.0.1:27012,127.0.0.1:27013/ideal2-example?maxPoolSize=4
+      field-naming-strategy: org.springframework.data.mapping.model.SnakeCaseFieldNamingStrategy
+    redis:
+      host: 127.0.0.1
+      port: 6379
   rabbitmq:
     addresses: 127.0.0.1:5672
     virtual-host: example
     username: admin
     password: admin
 
+ideal-event:
+  transaction:
+    type: mongo
+    enabled: true
+  rabbit:
+    temporary: true
 
 logging:
   charset:

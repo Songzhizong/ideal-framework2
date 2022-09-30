@@ -1,5 +1,9 @@
 package cn.idealframework2.autoconfigure.event.properties;
 
+import cn.idealframework2.lang.StringUtils;
+
+import javax.annotation.Nonnull;
+
 /**
  * @author 宋志宗 on 2022/8/13
  */
@@ -19,6 +23,18 @@ public class EventRabbitProperties {
 
   /** 消费者数 */
   private int consumers = 16;
+
+  @Nonnull
+  public String formattedQueuePrefix() {
+    if (StringUtils.isBlank(queuePrefix)) {
+      return "";
+    }
+    String suffix = ".";
+    if (queuePrefix.equals(suffix)) {
+      return queuePrefix;
+    }
+    return queuePrefix + suffix;
+  }
 
   public String getExchange() {
     return exchange;
