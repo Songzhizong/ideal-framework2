@@ -31,11 +31,9 @@ public class StopWatchTest {
     StopWatch.TaskInfo taskInfo1 = taskInfo[0];
     log.info(taskInfo1.getTaskName() + " 耗时: " + taskInfo1.getTimeMillis() + "ms");
     Assert.assertEquals("任务一", taskInfo1.getTaskName());
-    Assert.assertEquals(5, taskInfo1.getTimeMillis());
     StopWatch.TaskInfo taskInfo2 = taskInfo[1];
     log.info(taskInfo2.getTaskName() + " 耗时: " + taskInfo2.getTimeMillis() + "ms");
     Assert.assertEquals("任务二", taskInfo2.getTaskName());
-    Assert.assertEquals(7, taskInfo2.getTimeMillis());
   }
 
   @Test
@@ -43,7 +41,7 @@ public class StopWatchTest {
     StopWatch sw = StopWatch.createStarted();
     TimeUnit.MILLISECONDS.sleep(5);
     long millis = sw.stopAndGetTimeMillis();
-    Assert.assertEquals(5, millis);
+    System.out.println(millis);
     Assert.assertFalse(sw.isRunning());
   }
 }

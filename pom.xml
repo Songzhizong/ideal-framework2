@@ -26,11 +26,11 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>17</java.version>
-    <kotlin.version>1.7.10</kotlin.version>
+    <kotlin.version>1.7.20</kotlin.version>
     <kotlinx-coroutines.version>1.6.4</kotlinx-coroutines.version>
     <spring.boot.version>3.0.0-M5</spring.boot.version>
-    <spring.cloud.version>2022.0.0-M4</spring.cloud.version>
-    <vertx.version>4.3.3</vertx.version>
+    <spring.cloud.version>2022.0.0-M5</spring.cloud.version>
+    <vertx.version>4.3.4</vertx.version>
     <commons-compress.version>1.21</commons-compress.version>
     <commons-io.version>2.11.0</commons-io.version>
     <commons-logging.version>1.2</commons-logging.version>
@@ -41,11 +41,10 @@
     <jsr305.version>3.0.2</jsr305.version>
     <lombok.version>1.18.24</lombok.version>
     <reactor-rabbitmq.version>1.5.5</reactor-rabbitmq.version>
-    <redisson.version>3.17.6</redisson.version>
-    <snakeyaml.version>1.32</snakeyaml.version>
+    <redisson.version>3.17.7</redisson.version>
+    <snakeyaml.version>1.33</snakeyaml.version>
     <zstd-jni.version>1.5.2-4</zstd-jni.version>
 
-    <docker-maven-plugin.version>1.2.2</docker-maven-plugin.version>
     <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
     <maven-deploy-plugin.version>3.0.0</maven-deploy-plugin.version>
     <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
@@ -200,11 +199,6 @@
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
           <version>${spring.boot.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>com.spotify</groupId>
-          <artifactId>docker-maven-plugin</artifactId>
-          <version>${docker-maven-plugin.version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
