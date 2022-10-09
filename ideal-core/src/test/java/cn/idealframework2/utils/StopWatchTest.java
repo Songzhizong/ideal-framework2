@@ -1,9 +1,9 @@
 package cn.idealframework2.utils;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * @author 宋志宗 on 2022/9/30
  */
 public class StopWatchTest {
-  private static final Log log = LogFactory.getLog(StopWatchTest.class);
+  private static final Logger log = LoggerFactory.getLogger(StopWatchTest.class);
 
 
   @Test

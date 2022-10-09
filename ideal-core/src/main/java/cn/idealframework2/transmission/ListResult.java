@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 /**
  * @author 宋志宗 on 2022/4/22
  */
+@SuppressWarnings("unused")
 public class ListResult<E> extends BasicResult {
   @Serial
   private static final long serialVersionUID = -7093873606301836395L;

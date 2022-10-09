@@ -1,6 +1,7 @@
 package cn.idealframework2.utils;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;
@@ -35,11 +36,7 @@ public class BasicThreadFactory implements ThreadFactory {
    * @param builder the {@code Builder} object
    */
   private BasicThreadFactory(@Nonnull final Builder builder) {
-    if (builder.wrappedFactory == null) {
-      wrappedFactory = Executors.defaultThreadFactory();
-    } else {
-      wrappedFactory = builder.wrappedFactory;
-    }
+    wrappedFactory = Objects.requireNonNullElseGet(builder.wrappedFactory, Executors::defaultThreadFactory);
 
     namingPattern = builder.namingPattern;
     priority = builder.priority;

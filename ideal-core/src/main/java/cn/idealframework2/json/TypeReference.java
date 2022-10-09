@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * @author 宋志宗 on 2021/8/5
  */
-@SuppressWarnings("AlibabaAbstractClassShouldStartWithAbstractNaming")
+@SuppressWarnings({"AlibabaAbstractClassShouldStartWithAbstractNaming", "unused"})
 public abstract class TypeReference<T> extends com.fasterxml.jackson.core.type.TypeReference<T> {
 
   public static final TypeReference<Map<String, String>> STRING_MAP_REFERENCE

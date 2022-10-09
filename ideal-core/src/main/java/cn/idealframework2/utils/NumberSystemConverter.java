@@ -8,6 +8,7 @@ import java.util.Stack;
  *
  * @author 宋志宗 on 2021/6/1
  */
+@SuppressWarnings("unused")
 public final class NumberSystemConverter {
   /** 26进制: 小写字母 */
   public static final int SYSTEM_26 = 26;
@@ -22,29 +23,29 @@ public final class NumberSystemConverter {
   /** 62进制: 数字 + 大小写字母 */
   public static final int SYSTEM_62 = 62;
   /** 最大62进制 */
-  private static final int max = 62;
+  private static final int MAX = 62;
   /** 26进制: 小写字母 */
-  private static final char[] chars26 = {
+  private static final char[] CHARS_26 = {
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
     'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
     'u', 'v', 'w', 'x', 'y', 'z'
   };
   /** 32进制: 不包含 I L O U 字符 */
-  private static final char[] chars32 = {
+  private static final char[] CHARS_32 = {
     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K',
     'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X',
     'Y', 'Z'
   };
   /** 36进制: 数字 + 小写字母 */
-  private static final char[] chars36 = {
+  private static final char[] CHARS_36 = {
     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
     'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
     'u', 'v', 'w', 'x', 'y', 'z'
   };
   /** 52进制: 大写字母 + 小写字母 */
-  private static final char[] chars52 = {
+  private static final char[] CHARS_52 = {
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
     'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
     'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D',
@@ -53,7 +54,7 @@ public final class NumberSystemConverter {
     'Y', 'Z'
   };
   /** 58进制: 不包含 0 O l I 字符 */
-  private static final char[] chars58 = {
+  private static final char[] CHARS_58 = {
     '1', '2', '3', '4', '5', '6', '7', '8', '9',
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
     'k', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
@@ -63,7 +64,7 @@ public final class NumberSystemConverter {
     'Y', 'Z'
   };
   /** 62进制: 数字 + 大小写字母 */
-  private static final char[] chars62 = {
+  private static final char[] CHARS_62 = {
     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
     'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
@@ -86,7 +87,7 @@ public final class NumberSystemConverter {
    */
   @Nonnull
   public static String tenSystemTo(long number, int targetSystem) {
-    Asserts.range(targetSystem, 2, max, "require: 2 < targetSystem < " + max);
+    Asserts.range(targetSystem, 2, MAX, "require: 2 < targetSystem < " + MAX);
     char[] charArray = getCharArray(targetSystem);
     long rest = number;
     Stack<Character> stack = new Stack<>();
@@ -110,7 +111,7 @@ public final class NumberSystemConverter {
    * @author 宋志宗 on 2021/6/1
    */
   public static long toTenSystem(@Nonnull String value, int originSystem) {
-    Asserts.range(originSystem, 2, max, "require: 2 < originSystem < " + max);
+    Asserts.range(originSystem, 2, MAX, "require: 2 < originSystem < " + MAX);
     char[] charArray = getCharArray(originSystem);
     long dst = 0L;
     char[] chars = value.toCharArray();
@@ -127,12 +128,12 @@ public final class NumberSystemConverter {
 
   private static char[] getCharArray(int system) {
     return switch (system) {
-      case 26 -> chars26;
-      case 32 -> chars32;
-      case 36 -> chars36;
-      case 52 -> chars52;
-      case 58 -> chars58;
-      default -> chars62;
+      case 26 -> CHARS_26;
+      case 32 -> CHARS_32;
+      case 36 -> CHARS_36;
+      case 52 -> CHARS_52;
+      case 58 -> CHARS_58;
+      default -> CHARS_62;
     };
   }
 }

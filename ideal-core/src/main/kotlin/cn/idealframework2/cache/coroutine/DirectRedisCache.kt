@@ -10,8 +10,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.reactor.awaitSingleOrNull
-import org.apache.commons.logging.Log
-import org.apache.commons.logging.LogFactory
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate
 import java.time.Duration
 import java.util.*
@@ -41,7 +41,7 @@ class DirectRedisCache<K : Any, V : Any>(
   private val redisTemplate: ReactiveStringRedisTemplate
 ) : RedisCache<K, V> {
   companion object {
-    private val log: Log = LogFactory.getLog(DirectRedisCache::class.java)
+    private val log: Logger = LoggerFactory.getLogger(DirectRedisCache::class.java)
   }
 
   private val uuid = UUID.randomUUID().toString().replace("-", "")

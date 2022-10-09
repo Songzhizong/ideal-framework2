@@ -13,6 +13,7 @@ import java.util.List;
  *
  * @author 宋志宗 on 2021/7/30
  */
+@SuppressWarnings("unused")
 public class Joiner {
   private final String separator;
   private final String prefix;

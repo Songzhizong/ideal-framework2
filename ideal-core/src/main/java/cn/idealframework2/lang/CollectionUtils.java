@@ -12,7 +12,7 @@ import java.util.function.Function;
 /**
  * @author 宋志宗 on 2021/7/9
  */
-@SuppressWarnings("DuplicatedCode")
+@SuppressWarnings({"DuplicatedCode", "unused"})
 public final class CollectionUtils {
 
   public static boolean isEmpty(@Nullable Collection<?> collection) {

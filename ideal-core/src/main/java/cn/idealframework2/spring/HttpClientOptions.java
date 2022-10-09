@@ -24,6 +24,7 @@ import java.time.Duration;
 /**
  * @author 宋志宗 on 2021/9/17
  */
+@SuppressWarnings("unused")
 public class HttpClientOptions {
 
   @Nonnull

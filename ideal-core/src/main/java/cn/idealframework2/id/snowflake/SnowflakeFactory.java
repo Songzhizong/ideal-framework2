@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 /**
  * @author 宋志宗 on 2021/9/13
  */
+@SuppressWarnings("unused")
 public interface SnowflakeFactory extends IDGeneratorFactory {
 
   /**

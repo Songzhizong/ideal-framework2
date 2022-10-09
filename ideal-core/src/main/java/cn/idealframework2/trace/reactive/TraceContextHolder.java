@@ -3,8 +3,8 @@ package cn.idealframework2.trace.reactive;
 import cn.idealframework2.exception.InternalServerException;
 import cn.idealframework2.trace.TraceConstants;
 import cn.idealframework2.trace.TraceContext;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Nonnull;
@@ -14,10 +14,7 @@ import java.util.Optional;
  * @author 宋志宗 on 2022/9/22
  */
 public final class TraceContextHolder {
-  private static final Log log = LogFactory.getLog(TraceContextHolder.class);
-
-  private TraceContextHolder() {
-  }
+  private static final Logger log = LoggerFactory.getLogger(TraceContextHolder.class);
 
   @Nonnull
   public static Mono<Optional<TraceContext>> current() {
@@ -34,5 +31,8 @@ public final class TraceContextHolder {
       log.error("从上下文获取到的TraceContext值实际类型为: " + className);
       return Mono.error(new InternalServerException("value not instanceof TraceContext"));
     });
+  }
+
+  private TraceContextHolder() {
   }
 }

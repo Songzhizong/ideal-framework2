@@ -6,6 +6,7 @@ import java.lang.reflect.Array;
 /**
  * @author 宋志宗 on 2021/8/5
  */
+@SuppressWarnings({"unused", "DuplicatedCode"})
 public class ArrayUtils {
   public static final int INDEX_NOT_FOUND = -1;
   public static final String[] EMPTY_STRING_ARRAY = new String[0];

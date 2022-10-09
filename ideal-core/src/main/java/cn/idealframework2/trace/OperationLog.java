@@ -1,5 +1,7 @@
 package cn.idealframework2.trace;
 
+import cn.idealframework2.lang.StringUtils;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -8,6 +10,7 @@ import javax.annotation.Nullable;
  *
  * @author 宋志宗 on 2022/9/23
  */
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public class OperationLog {
 
   @Nonnull
@@ -165,7 +168,10 @@ public class OperationLog {
     return userAgent;
   }
 
-  public OperationLog setUserAgent(@Nonnull String userAgent) {
+  public OperationLog setUserAgent(@Nullable String userAgent) {
+    if (StringUtils.isBlank(userAgent)) {
+      userAgent = "";
+    }
     this.userAgent = userAgent;
     return this;
   }
@@ -225,5 +231,27 @@ public class OperationLog {
   public OperationLog setOperationTime(long operationTime) {
     this.operationTime = operationTime;
     return this;
+  }
+
+  @Override
+  public String toString() {
+    return "OperationLog{" +
+      "traceId='" + traceId + '\'' +
+      ", system='" + system + '\'' +
+      ", platform='" + platform + '\'' +
+      ", tenantId='" + tenantId + '\'' +
+      ", name='" + name + '\'' +
+      ", details='" + details + '\'' +
+      ", path='" + path + '\'' +
+      ", userId='" + userId + '\'' +
+      ", originalIp='" + originalIp + '\'' +
+      ", userAgent='" + userAgent + '\'' +
+      ", success=" + success +
+      ", message='" + message + '\'' +
+      ", before='" + before + '\'' +
+      ", after='" + after + '\'' +
+      ", consuming=" + consuming +
+      ", operationTime=" + operationTime +
+      '}';
   }
 }

@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author 宋志宗 on 2022/2/21
  */
+@SuppressWarnings("unused")
 public final class DateTimeFormatters {
 
   private static final Locale LOCALE = Locale.SIMPLIFIED_CHINESE;

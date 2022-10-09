@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 /**
  * @author 宋志宗 on 2022/4/1
  */
+@SuppressWarnings("unused")
 @Document(MongoEventTemp.DOCUMENT)
 public class MongoEventTemp {
   public static final String DOCUMENT = "ideal_event_publish_temp";

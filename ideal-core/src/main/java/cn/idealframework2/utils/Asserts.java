@@ -2,8 +2,8 @@ package cn.idealframework2.utils;
 
 import cn.idealframework2.exception.BadRequestException;
 import cn.idealframework2.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,7 +18,7 @@ import java.util.function.Supplier;
  */
 @SuppressWarnings({"UnusedReturnValue", "unused"})
 public final class Asserts {
-  private static final Log log = LogFactory.getLog(Asserts.class);
+  private static final Logger log = LoggerFactory.getLogger(Asserts.class);
 
   @Nonnull
   public static CharSequence notBlank(@Nullable CharSequence charSequence,

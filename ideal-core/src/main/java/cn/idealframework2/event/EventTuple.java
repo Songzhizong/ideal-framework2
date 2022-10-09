@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * @author 宋志宗 on 2021/4/27
  */
+@SuppressWarnings("unused")
 public class EventTuple<V> implements EventSuppliers {
   /** 方法返回结果 */
   @Nonnull

@@ -15,7 +15,7 @@ public class TraceAutoConfigure implements SmartInitializingSingleton {
   @Nullable
   private final IDGeneratorFactory idGeneratorFactory;
 
-  public TraceAutoConfigure(@Autowired(required = false) @Nullable
+  public TraceAutoConfigure(@Nullable @Autowired(required = false)
                             IDGeneratorFactory idGeneratorFactory) {
     this.idGeneratorFactory = idGeneratorFactory;
   }

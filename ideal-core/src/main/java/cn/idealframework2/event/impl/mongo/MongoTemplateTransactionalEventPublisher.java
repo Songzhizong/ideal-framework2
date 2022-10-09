@@ -5,8 +5,8 @@ import cn.idealframework2.json.JsonUtils;
 import cn.idealframework2.lang.CollectionUtils;
 import cn.idealframework2.lang.Lists;
 import com.mongodb.client.result.DeleteResult;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  */
 public class MongoTemplateTransactionalEventPublisher
   implements TransactionalEventPublisher, ApplicationRunner, DisposableBean {
-  private static final Log log = LogFactory.getLog(MongoTemplateTransactionalEventPublisher.class);
+  private static final Logger log = LoggerFactory.getLogger(MongoTemplateTransactionalEventPublisher.class);
   private static final String LOCK_VALUE = UUID.randomUUID().toString();
   private final AtomicBoolean running = new AtomicBoolean(false);
   @SuppressWarnings("AlibabaThreadPoolCreation")

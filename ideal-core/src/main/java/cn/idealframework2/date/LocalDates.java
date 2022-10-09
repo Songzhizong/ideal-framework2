@@ -8,6 +8,7 @@ import java.util.Locale;
 /**
  * @author 宋志宗 on 2020/12/31
  */
+@SuppressWarnings("unused")
 public final class LocalDates {
   private LocalDates() {
   }

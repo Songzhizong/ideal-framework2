@@ -23,6 +23,7 @@ public interface TreeNode {
   @Nonnull
   static <E extends TreeNode> List<E> toTreeList(@Nonnull Collection<E> source) {
     int size = source.size();
+    //noinspection AlibabaUndefineMagicConstant
     if (size < 2) {
       return new ArrayList<>(source);
     }

@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author 宋志宗 on 2022/9/22
  */
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public class TraceContext {
   private transient final AtomicInteger spanIdGenerator = new AtomicInteger(0);
   private final long createMillis = System.currentTimeMillis();

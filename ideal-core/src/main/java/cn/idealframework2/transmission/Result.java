@@ -13,6 +13,7 @@ import java.util.function.Function;
 /**
  * @author 宋志宗 on 2021/8/24
  */
+@SuppressWarnings("unused")
 public class Result<T> extends BasicResult {
   @Serial
   private static final long serialVersionUID = -4328578094677050954L;

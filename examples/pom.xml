@@ -13,8 +13,10 @@
 
   <modules>
     <module>event-block</module>
+    <module>cache-block</module>
+    <module>trace-block</module>
     <module>event-coroutine</module>
     <module>cache-coroutine</module>
-    <module>cache-block</module>
+    <module>trace-coroutine</module>
   </modules>
 </project>

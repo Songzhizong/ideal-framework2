@@ -3,8 +3,8 @@ package cn.idealframework2.autoconfigure.id.snowflake;
 import cn.idealframework2.autoconfigure.id.IdProperties;
 import cn.idealframework2.id.IDGeneratorFactory;
 import cn.idealframework2.id.snowflake.SpringRedisSnowflakeFactory;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
   &&'${ideal-id.snowflake.factory:fixed}'.equalsIgnoreCase('redis')
   """)
 public class RedisSnowflakeAutoConfigure {
-  private static final Log log = LogFactory.getLog(RedisSnowflakeAutoConfigure.class);
+  private static final Logger log = LoggerFactory.getLogger(RedisSnowflakeAutoConfigure.class);
 
   @Value("${spring.application.name:}")
   private String applicationName;

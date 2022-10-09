@@ -10,6 +10,12 @@ import javax.annotation.Nonnull;
  */
 public interface OperationLogStore {
 
+  /**
+   * 保存操作日志
+   *
+   * @param operationLog 操作日志
+   * @return 执行结果
+   */
   @Nonnull
   Mono<Boolean> save(@Nonnull OperationLog operationLog);
 }

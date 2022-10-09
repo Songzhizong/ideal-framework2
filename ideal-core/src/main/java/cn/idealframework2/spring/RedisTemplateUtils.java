@@ -1,7 +1,7 @@
 package cn.idealframework2.spring;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.ReactiveRedisConnection;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -20,8 +20,9 @@ import java.util.Objects;
 /**
  * @author 宋志宗 on 2021/9/2
  */
+@SuppressWarnings("unused")
 public final class RedisTemplateUtils {
-  private static final Log log = LogFactory.getLog(RedisTemplateUtils.class);
+  private static final Logger log = LoggerFactory.getLogger(RedisTemplateUtils.class);
   private static final byte[] SCRIPT
     = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end"
     .getBytes(StandardCharsets.UTF_8);

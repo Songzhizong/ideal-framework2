@@ -23,8 +23,8 @@ import cn.idealframework2.transmission.ListResult;
 import cn.idealframework2.transmission.PageResult;
 import cn.idealframework2.transmission.Result;
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.ClientResponse;
@@ -41,16 +41,11 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
- * reactor http相关
- * <pre>
- *   - 整个程序中应尽量共用同一个 http client
- * </pre>
- *
  * @author 宋志宗 on 2021/9/17
  */
 @SuppressWarnings({"unused", "DuplicatedCode"})
 public final class WebClients {
-  private static final Log log = LogFactory.getLog(WebClients.class);
+  private static final Logger log = LoggerFactory.getLogger(WebClients.class);
 
   @Nonnull
   public static WebClient webClient() {

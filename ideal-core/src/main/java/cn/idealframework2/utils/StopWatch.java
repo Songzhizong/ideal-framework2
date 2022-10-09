@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author 宋志宗 on 2022/9/30
  */
+@SuppressWarnings("unused")
 public class StopWatch {
 
 

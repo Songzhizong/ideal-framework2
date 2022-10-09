@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 /**
  * @author 宋志宗 on 2021/4/20
  */
+@SuppressWarnings("unused")
 public class Sort {
   /** 排序字段名 */
   @Nullable

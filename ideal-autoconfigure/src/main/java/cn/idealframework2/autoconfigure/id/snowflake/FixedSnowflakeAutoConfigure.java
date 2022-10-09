@@ -3,8 +3,8 @@ package cn.idealframework2.autoconfigure.id.snowflake;
 import cn.idealframework2.autoconfigure.id.IdProperties;
 import cn.idealframework2.id.IDGeneratorFactory;
 import cn.idealframework2.id.snowflake.FixedSnowflakeFactory;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 
@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
   &&'${ideal-id.snowflake.factory:fixed}'.equalsIgnoreCase('fixed')
   """)
 public class FixedSnowflakeAutoConfigure {
-  private static final Log log = LogFactory.getLog(FixedSnowflakeAutoConfigure.class);
+  private static final Logger log = LoggerFactory.getLogger(FixedSnowflakeAutoConfigure.class);
 
   @Bean
   public IDGeneratorFactory idGeneratorFactory(@Nonnull IdProperties properties) {

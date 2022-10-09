@@ -39,7 +39,7 @@ public class ReactiveRabbitEventAutoConfigure {
   @Bean
   public Sender sender(@Nonnull ConnectionFactory connectionFactory,
                        @Nonnull SpringRabbitProperties rabbitProperties) {
-    Address[] addresses = rabbitProperties.getRabbitAddresses();
+    Address[] addresses = RabbitUtils.getRabbitAddresses(rabbitProperties);
     SenderOptions senderOptions = new SenderOptions()
       .resourceManagementScheduler(Schedulers.boundedElastic())
       .connectionFactory(connectionFactory)
@@ -50,7 +50,7 @@ public class ReactiveRabbitEventAutoConfigure {
   @Bean
   public Receiver receiver(@Nonnull ConnectionFactory connectionFactory,
                            @Nonnull SpringRabbitProperties rabbitProperties) {
-    Address[] addresses = rabbitProperties.getRabbitAddresses();
+    Address[] addresses = RabbitUtils.getRabbitAddresses(rabbitProperties);
     ReceiverOptions receiverOptions = new ReceiverOptions()
       .connectionFactory(connectionFactory)
       .connectionSubscriptionScheduler(Schedulers.boundedElastic())

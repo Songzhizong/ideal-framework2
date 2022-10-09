@@ -11,8 +11,8 @@ import java.util.Optional;
 /**
  * @author 宋志宗 on 2022/9/22
  */
+@SuppressWarnings("unused")
 public final class TraceExchangeUtils {
-  private static final String UNKNOWN = "UNKNOWN";
 
   private TraceExchangeUtils() {
   }

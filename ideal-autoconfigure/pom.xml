@@ -22,6 +22,16 @@
       <artifactId>spring-boot-autoconfigure</artifactId>
     </dependency>
     <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-configuration-processor</artifactId>
       <scope>provided</scope>
@@ -78,6 +88,12 @@
     <dependency>
       <groupId>cn.idealframework2</groupId>
       <artifactId>ideal-starter-model-event-coroutine</artifactId>
+      <version>3.0-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>cn.idealframework2</groupId>
+      <artifactId>ideal-starter-model-trace</artifactId>
       <version>3.0-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>

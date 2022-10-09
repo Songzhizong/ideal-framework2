@@ -6,6 +6,7 @@ import java.beans.Transient;
 /**
  * @author 宋志宗 on 2021/4/29
  */
+@SuppressWarnings("unused")
 public class Paging {
   private int pageNumber = 1;
   private int pageSize = 10;

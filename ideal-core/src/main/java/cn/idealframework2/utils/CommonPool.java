@@ -1,7 +1,7 @@
 package cn.idealframework2.utils;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -12,11 +12,12 @@ import java.util.concurrent.*;
 /**
  * @author 宋志宗 on 2022/9/24
  */
+@SuppressWarnings("unused")
 public enum CommonPool implements ExecutorService {
   /** instance */
   INSTANCE;
 
-  private static final Log log = LogFactory.getLog(CommonPool.class);
+  private static final Logger log = LoggerFactory.getLogger(CommonPool.class);
   @Nonnull
   private static final ThreadPoolExecutor EXECUTOR;
   @Nullable

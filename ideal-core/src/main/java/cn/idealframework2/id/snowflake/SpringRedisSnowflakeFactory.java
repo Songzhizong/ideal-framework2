@@ -1,8 +1,8 @@
 package cn.idealframework2.id.snowflake;
 
 import cn.idealframework2.utils.Asserts;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
@@ -16,8 +16,9 @@ import java.util.concurrent.*;
  *
  * @author 宋志宗 on 2020/10/21
  */
+@SuppressWarnings("unused")
 public class SpringRedisSnowflakeFactory implements SnowflakeFactory, SnowflakeMachineIdHolder {
-  private static final Log log = LogFactory.getLog(SpringRedisSnowflakeFactory.class);
+  private static final Logger log = LoggerFactory.getLogger(SpringRedisSnowflakeFactory.class);
   private final String value = UUID.randomUUID().toString();
   private final ConcurrentMap<String, Snowflake> generatorMap = new ConcurrentHashMap<>();
   private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();

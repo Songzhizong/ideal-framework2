@@ -1,8 +1,8 @@
 package cn.idealframework2.date;
 
 import cn.idealframework2.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,8 +18,9 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author 宋志宗 on 2021/6/3
  */
+@SuppressWarnings("unused")
 public class Dates {
-  private static final Log log = LogFactory.getLog(Dates.class);
+  private static final Logger log = LoggerFactory.getLogger(Dates.class);
 
   /**
    * 存放不同的日期模板格式的sdf的Map ThreadLocal为每个线程创建一个SimpleDateFormat局部变量,因此不存在线程安全问题

@@ -4,7 +4,7 @@ import cn.idealframework2.lang.StringUtils;
 import org.springframework.core.io.buffer.DefaultDataBuffer;
 import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
@@ -18,6 +18,7 @@ import java.util.Map;
 /**
  * @author 宋志宗 on 2021/9/18
  */
+@SuppressWarnings("unused")
 public final class ExchangeUtils {
   static final String TRACE_CONTEXT_ATTRIBUTE_NAME = "ideal.cloud.traceContext";
   static final String LOG_PREFIX_ATTRIBUTE_NAME = "ideal.cloud.traceLogPrefix";
@@ -28,7 +29,7 @@ public final class ExchangeUtils {
 
   @Nonnull
   public static Mono<Void> writeResponse(@Nonnull ServerWebExchange exchange,
-                                         @Nonnull HttpStatus httpStatus,
+                                         @Nonnull HttpStatusCode httpStatus,
                                          @Nullable HttpHeaders httpHeaders,
                                          @Nonnull byte[] body) {
     ServerHttpResponse response = exchange.getResponse();
@@ -53,6 +54,7 @@ public final class ExchangeUtils {
    * @author 宋志宗 on 2022/5/6
    */
   @Nonnull
+  @SuppressWarnings("DuplicatedCode")
   public static String getRemoteAddress(@Nonnull ServerWebExchange exchange) {
     ServerHttpRequest request = exchange.getRequest();
     HttpHeaders headers = request.getHeaders();
@@ -70,13 +72,13 @@ public final class ExchangeUtils {
     }
     InetSocketAddress remoteAddress = request.getRemoteAddress();
     if (remoteAddress == null) {
-      return UNKNOWN;
+      return "";
     }
     String hostName = remoteAddress.getHostName();
     if (StringUtils.isNotBlank(hostName)) {
       return hostName;
     }
-    return UNKNOWN;
+    return "";
   }
 
   @Nullable

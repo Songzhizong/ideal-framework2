@@ -13,6 +13,7 @@ import java.time.Duration;
 /**
  * @author 宋志宗 on 2022/9/29
  */
+@SuppressWarnings("unused")
 public class RedisCacheBuilder<K, V> {
   @Nullable
   private final String prefix;

@@ -15,6 +15,7 @@
     <module>ideal-starter</module>
     <module>ideal-starter-cache</module>
     <module>ideal-starter-event</module>
+    <module>ideal-starter-trace</module>
     <module>ideal-starter-models</module>
     <module>ideal-starter-cache-coroutine</module>
     <module>ideal-starter-event-coroutine</module>

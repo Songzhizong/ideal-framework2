@@ -14,6 +14,7 @@ import java.lang.annotation.*;
 public @interface Operation {
 
   /** 操作名称 = name */
+  @Nonnull
   String value() default "";
 
   /** 操作名称 = value */

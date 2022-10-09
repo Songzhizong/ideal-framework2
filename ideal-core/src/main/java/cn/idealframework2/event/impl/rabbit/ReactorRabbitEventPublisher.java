@@ -5,8 +5,8 @@ import cn.idealframework2.event.EventSupplier;
 import cn.idealframework2.event.ReactiveEventPublisher;
 import cn.idealframework2.json.JsonUtils;
 import com.rabbitmq.client.AMQP;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.rabbitmq.ExchangeSpecification;
@@ -21,7 +21,7 @@ import java.util.Collection;
  * @author 宋志宗 on 2022/4/2
  */
 public class ReactorRabbitEventPublisher implements ReactiveEventPublisher {
-  private static final Log log = LogFactory.getLog(ReactorRabbitEventPublisher.class);
+  private static final Logger log = LoggerFactory.getLogger(ReactorRabbitEventPublisher.class);
   private static final int DELIVERY_MODE_PERSISTENT = 2;
   private final Sender sender;
   private final String exchange;

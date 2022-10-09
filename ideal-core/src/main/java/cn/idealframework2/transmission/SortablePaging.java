@@ -7,6 +7,7 @@ import java.util.*;
 /**
  * @author 宋志宗 on 2021/4/20
  */
+@SuppressWarnings("unused")
 public class SortablePaging extends Paging {
   @Nullable
   private List<Sort> pageSorts;

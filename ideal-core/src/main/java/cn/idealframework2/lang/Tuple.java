@@ -5,6 +5,7 @@ import javax.annotation.Nonnull;
 /**
  * @author 宋志宗 on 2021/7/8
  */
+@SuppressWarnings("unused")
 public class Tuple<F, S> {
   private F first;
   private S second;

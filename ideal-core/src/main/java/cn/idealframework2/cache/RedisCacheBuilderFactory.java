@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 /**
  * @author 宋志宗 on 2022/9/29
  */
+@SuppressWarnings("unused")
 public class RedisCacheBuilderFactory {
   @Nullable
   private final String prefix;

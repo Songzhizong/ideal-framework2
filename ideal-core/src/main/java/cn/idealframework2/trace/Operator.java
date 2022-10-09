@@ -3,16 +3,22 @@ package cn.idealframework2.trace;
 import javax.annotation.Nonnull;
 
 /**
+ * 操作人信息
+ *
  * @author 宋志宗 on 2022/9/23
  */
+@SuppressWarnings("unused")
 public class Operator {
 
+  /** 平台编码 */
   @Nonnull
   private String platform = "";
 
+  /** 租户id */
   @Nonnull
   private String tenantId = "";
 
+  /** 用户id */
   @Nonnull
   private String userId = "";
 

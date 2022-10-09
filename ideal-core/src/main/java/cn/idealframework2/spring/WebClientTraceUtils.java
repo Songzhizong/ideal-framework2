@@ -10,6 +10,7 @@ import java.util.function.Consumer;
 /**
  * @author 宋志宗 on 2021/7/4
  */
+@SuppressWarnings("unused")
 public final class WebClientTraceUtils {
 
   private WebClientTraceUtils() {

@@ -4,8 +4,8 @@ import cn.idealframework2.cache.serialize.KeySerializer;
 import cn.idealframework2.cache.serialize.ValueSerializer;
 import cn.idealframework2.lang.StringUtils;
 import cn.idealframework2.spring.RedisTemplateUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
@@ -22,7 +22,7 @@ import java.util.function.Function;
  * @author 宋志宗 on 2022/9/29
  */
 public class DirectRedisCache<K, V> implements RedisCache<K, V> {
-  private static final Log log = LogFactory.getLog(DirectRedisCache.class);
+  private static final Logger log = LoggerFactory.getLogger(DirectRedisCache.class);
   private final String lockValue = UUID.randomUUID().toString().replace("-", "");
   /** 缓存前缀 */
   private final String cachePrefix;

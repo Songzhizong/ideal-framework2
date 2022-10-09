@@ -19,6 +19,7 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  * @author 宋志宗 on 2020/9/2
  */
+@SuppressWarnings("unused")
 public class Snowflake implements IDGenerator {
 
   /** 默认起始时间戳 2019-09-03 09:46:37 */

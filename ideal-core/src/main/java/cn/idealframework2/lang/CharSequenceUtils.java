@@ -3,6 +3,7 @@ package cn.idealframework2.lang;
 /**
  * @author 宋志宗 on 2021/8/5
  */
+@SuppressWarnings("unused")
 public class CharSequenceUtils {
 
   static final int TO_STRING_LIMIT = 16;

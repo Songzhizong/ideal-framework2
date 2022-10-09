@@ -6,8 +6,8 @@ import cn.idealframework2.json.JsonUtils;
 import cn.idealframework2.lang.StringUtils;
 import cn.idealframework2.spring.RedisTemplateUtils;
 import com.rabbitmq.client.Channel;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.listener.api.ChannelAwareMessageListener;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -29,8 +29,8 @@ import java.util.function.Consumer;
  * @author 宋志宗 on 2022/9/29
  */
 public class RabbitEventListenerManager implements ChannelAwareMessageListener, EventListenerManager {
-  private static final Log log = LogFactory.getLog(RabbitEventListenerManager.class);
-  private static final Duration idempotentTimeout = Duration.ofMinutes(10);
+  private static final Logger log = LoggerFactory.getLogger(RabbitEventListenerManager.class);
+  private static final Duration IDEMPOTENT_TIMEOUT = Duration.ofMinutes(10);
   private final ConcurrentMap<String, RabbitEventListener<?>> listenerMap = new ConcurrentHashMap<>();
   private final Set<String> queues = Collections.newSetFromMap(new ConcurrentHashMap<>());
   /** 启用此配置则为监听器创建随机名称的队列, 并在程序关闭时删除队列 */
@@ -150,7 +150,7 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
       }
       String uuid = event.getUuid();
       String key = cachePrefix + "event_idempotent:" + queueName + ":" + uuid;
-      Boolean tryLock = redisTemplate.opsForValue().setIfAbsent(key, lockValue, idempotentTimeout);
+      Boolean tryLock = redisTemplate.opsForValue().setIfAbsent(key, lockValue, IDEMPOTENT_TIMEOUT);
       if (tryLock == null || !tryLock) {
         return;
       }

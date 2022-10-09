@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 /**
  * @author 宋志宗 on 2022/9/20
  */
+@SuppressWarnings("unused")
 public final class IpUtils {
   private static final String IPV4_REGEX = "((25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))";
   private static final Pattern IPV4_PATTERN = Pattern.compile(IPV4_REGEX);

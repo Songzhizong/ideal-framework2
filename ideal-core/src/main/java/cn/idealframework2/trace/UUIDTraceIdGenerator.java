@@ -7,6 +7,7 @@ import java.util.UUID;
  * @author 宋志宗 on 2022/9/22
  */
 public enum UUIDTraceIdGenerator implements TraceIdGenerator {
+  /** 对象实例 */
   INSTANCE;
 
   @Nonnull

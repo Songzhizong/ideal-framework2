@@ -7,7 +7,11 @@ import javax.annotation.Nonnull;
  */
 public interface TraceIdGenerator {
 
-  /** 生成traceId */
+  /**
+   * 生成traceId
+   *
+   * @return traceId
+   */
   @Nonnull
   String generate();
 

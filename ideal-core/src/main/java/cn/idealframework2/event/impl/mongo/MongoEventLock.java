@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 /**
  * @author 宋志宗 on 2022/8/13
  */
+@SuppressWarnings("unused")
 @Document(MongoEventLock.DOCUMENT)
 @CompoundIndexes({
   @CompoundIndex(name = "uk_lock", def = "{lock:1}", unique = true),
