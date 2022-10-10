@@ -16,3 +16,12 @@
   cn.idealframework2.autoconfigure.trace.WebMvcTraceAutoConfigure
   cn.idealframework2.autoconfigure.trace.TraceAutoConfigure
   cn.idealframework2.autoconfigure.trace.TraceProperties
+  cn.idealframework2.autoconfigure.web.webflux.CustomWebFluxConfigurer
+  cn.idealframework2.autoconfigure.web.webflux.GeneralWebExceptionHandler
+  cn.idealframework2.autoconfigure.web.webflux.SpringMongoWebExceptionHandler
+  cn.idealframework2.autoconfigure.web.webflux.SpringTxWebExceptionHandler
+  cn.idealframework2.autoconfigure.web.webmvc.CustomWebMvcConfigurer
+  cn.idealframework2.autoconfigure.web.webmvc.GeneralExceptionHandlerAdvice
+  cn.idealframework2.autoconfigure.web.webmvc.NettyExceptionHandlerAdvice
+  cn.idealframework2.autoconfigure.web.webmvc.SpringJdbcExceptionHandlerAdvice
+  cn.idealframework2.autoconfigure.web.WebProperties

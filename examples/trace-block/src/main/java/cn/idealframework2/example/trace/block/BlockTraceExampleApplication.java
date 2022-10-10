@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Nonnull;
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -53,17 +54,17 @@ public class BlockTraceExampleApplication {
 
   @Operation("测试1")
   @GetMapping("/trace/1")
-  public Result<Void> t1() throws InterruptedException {
+  public Result<LocalDateTime> t1() throws InterruptedException {
     TimeUnit.SECONDS.sleep(1);
-    return Result.success();
+    return Result.success(LocalDateTime.now());
   }
 
   @Operation("测试2")
   @GetMapping("/trace/2")
-  public Result<Void> t2() throws InterruptedException {
+  public Result<LocalDateTime> t2() throws InterruptedException {
     TimeUnit.SECONDS.sleep(1);
     @SuppressWarnings({"NumericOverflow", "divzero"})
     int a = 1 / 0;
-    return Result.success();
+    return Result.success(LocalDateTime.now());
   }
 }
