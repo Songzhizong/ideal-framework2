@@ -29,7 +29,6 @@ import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.util.MimeType;
 import org.springframework.util.unit.DataSize;
-import org.springframework.web.reactive.config.EnableWebFlux;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -48,7 +47,7 @@ import java.util.Map;
  *
  * @author 宋志宗 on 2021/7/4
  */
-@EnableWebFlux
+//@EnableWebFlux
 @ConditionalOnClass({WebFluxConfigurer.class})
 public class CustomWebFluxConfigurer implements WebFluxConfigurer {
   private final WebProperties webProperties;

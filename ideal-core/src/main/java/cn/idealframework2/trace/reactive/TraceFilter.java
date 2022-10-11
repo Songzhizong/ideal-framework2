@@ -178,7 +178,9 @@ public class TraceFilter implements Ordered, WebFilter {
       operationLog.setSuccess(success);
       operationLog.setMessage(message);
       if (operationLogStore != null) {
-        operationLogStore.save(operationLog).subscribe();
+        operationLogStore.save(operationLog)
+          .contextWrite(ctx -> ctx.put(TraceConstants.CTX_KEY, traceContext))
+          .subscribe();
       }
     }
   }
