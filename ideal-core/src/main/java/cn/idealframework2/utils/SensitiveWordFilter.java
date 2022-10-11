@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * 敏感词过滤器
@@ -83,8 +82,13 @@ public class SensitiveWordFilter {
   public static SensitiveWordFilter createFromInputStream(@Nonnull InputStream inputStream) {
     try (InputStreamReader isr = new InputStreamReader(inputStream);
          BufferedReader br = new BufferedReader(isr)) {
-      Set<String> set = br.lines().map(String::trim)
-        .filter(StringUtils::isNotBlank).collect(Collectors.toUnmodifiableSet());
+      Set<String> set = new HashSet<>();
+      br.lines().forEach(line -> {
+        String trim = line.trim();
+        if (StringUtils.isNotBlank(trim)) {
+          set.add(trim);
+        }
+      });
       return new SensitiveWordFilter(set);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -98,18 +102,16 @@ public class SensitiveWordFilter {
     Map<String, Integer> sensitiveWordFrequency = new HashMap<>(16);
     StringBuilder desensitizeBuffer = new StringBuilder(text);
     HashMap<Integer, Integer> hash = new HashMap<>(sensitiveWords.size());
-    String temp;
-    for (String s : sensitiveWords) {
-      temp = s;
-      int findIndexSize = 0;
-      for (int start; (start = desensitizeBuffer.indexOf(temp, findIndexSize)) > -1; ) {
+    for (String sensitiveWord : sensitiveWords) {
+      int endIndex = 0;
+      for (int startIndex; (startIndex = desensitizeBuffer.indexOf(sensitiveWord, endIndex)) > -1; ) {
         //从已找到的后面开始找
-        findIndexSize = start + temp.length();
+        endIndex = startIndex + sensitiveWord.length();
         //起始位置
-        Integer mapStart = hash.get(start);
+        Integer mapStart = hash.get(startIndex);
         //满足1个，即可更新map
-        if (mapStart == null || findIndexSize > mapStart) {
-          hash.put(start, findIndexSize);
+        if (mapStart == null || endIndex > mapStart) {
+          hash.put(startIndex, endIndex);
         }
       }
     }
@@ -131,12 +133,16 @@ public class SensitiveWordFilter {
   }
 
   public static class Task {
+    /** 原始文本 */
     @Nonnull
     private final String original;
+    /** 脱敏后的文本 */
     @Nonnull
     private final String desensitize;
+    /** 命中的敏感词 */
     @Nonnull
     private final Set<String> sensitiveWords;
+    /** 各敏感词出现频次 */
     @Nonnull
     private final Map<String, Integer> sensitiveWordFrequency;
 
