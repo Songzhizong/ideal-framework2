@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -34,8 +33,8 @@ import java.util.stream.Collectors;
 /**
  * @author 宋志宗 on 2022/10/10
  */
-@SuppressWarnings({"DuplicatedCode", "DefaultAnnotationParam"})
-@Order(Ordered.LOWEST_PRECEDENCE)
+@SuppressWarnings({"DuplicatedCode"})
+@Order(-100)
 @ControllerAdvice
 @ConditionalOnClass({WebMvcConfigurer.class})
 @ConditionalOnExpression("${ideal-web.enable-unified-exception-handler:true}")

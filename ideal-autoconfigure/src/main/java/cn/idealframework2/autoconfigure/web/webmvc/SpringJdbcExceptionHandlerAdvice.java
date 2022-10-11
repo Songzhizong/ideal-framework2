@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
@@ -26,7 +25,7 @@ import java.sql.SQLException;
  * @author 宋志宗 on 2022/10/10
  */
 @SuppressWarnings("DuplicatedCode")
-@Order(Ordered.LOWEST_PRECEDENCE - 1)
+@Order(-101)
 @ControllerAdvice
 @ConditionalOnClass({
   WebMvcConfigurer.class,

@@ -21,7 +21,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -38,7 +37,6 @@ import java.util.stream.Collectors;
 /**
  * @author 宋志宗 on 2022/10/10
  */
-@Component
 @ConditionalOnClass({WebFluxConfigurer.class})
 @ConditionalOnExpression("${ideal-web.enable-unified-exception-handler:true}")
 public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHandler {
@@ -51,7 +49,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
 
   @Override
   public int getOrder() {
-    return -1;
+    return -100;
   }
 
   @Nonnull

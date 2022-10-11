@@ -95,7 +95,7 @@ public class CustomWebFluxConfigurer implements WebFluxConfigurer {
       if (messageConverter.isIgnoreNull()) {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
       }
-      configurer.defaultCodecs().jackson2JsonEncoder(new CustomJackson2JsonEncoder(objectMapper));
+      configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(objectMapper));
       configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(objectMapper));
     }
     configurer.defaultCodecs().maxInMemorySize(Math.toIntExact(codecMaxInMemorySize.toBytes()));

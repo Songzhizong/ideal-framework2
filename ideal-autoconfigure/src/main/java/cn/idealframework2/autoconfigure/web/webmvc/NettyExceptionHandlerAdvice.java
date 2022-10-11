@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,7 @@ import javax.annotation.Nonnull;
  * @author 宋志宗 on 2022/10/10
  */
 @SuppressWarnings("DuplicatedCode")
-@Order(Ordered.LOWEST_PRECEDENCE - 2)
+@Order(-101)
 @ControllerAdvice
 @ConditionalOnClass({WebMvcConfigurer.class, ReadTimeoutException.class})
 @ConditionalOnExpression("${ideal-web.enable-unified-exception-handler:true}")

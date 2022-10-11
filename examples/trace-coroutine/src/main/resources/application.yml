@@ -1,6 +1,6 @@
 spring:
   application:
-    name: EXAMPLE-TRACE-BLOCK
+    name: EXAMPLE-TRACE-COROUTINE
   codec:
     max-in-memory-size: 10MB
 

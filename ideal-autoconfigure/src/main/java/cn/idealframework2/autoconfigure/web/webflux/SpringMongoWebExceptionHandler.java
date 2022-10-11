@@ -41,7 +41,7 @@ public class SpringMongoWebExceptionHandler implements Ordered, ErrorWebExceptio
 
   @Override
   public int getOrder() {
-    return -3;
+    return -101;
   }
 
   @Nonnull
@@ -81,7 +81,7 @@ public class SpringMongoWebExceptionHandler implements Ordered, ErrorWebExceptio
 
     //noinspection DuplicatedCode
     if (res == null) {
-      return Mono.empty();
+      return Mono.error(throwable);
     }
     String jsonString = JsonUtils.toJsonString(res);
     byte[] bytes = jsonString.getBytes(StandardCharsets.UTF_8);

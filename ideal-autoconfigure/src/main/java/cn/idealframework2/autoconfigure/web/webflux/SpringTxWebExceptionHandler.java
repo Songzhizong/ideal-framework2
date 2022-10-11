@@ -41,7 +41,7 @@ public class SpringTxWebExceptionHandler implements Ordered, ErrorWebExceptionHa
 
   @Override
   public int getOrder() {
-    return -2;
+    return -101;
   }
 
   @Nonnull
@@ -65,7 +65,7 @@ public class SpringTxWebExceptionHandler implements Ordered, ErrorWebExceptionHa
 
     //noinspection DuplicatedCode
     if (res == null) {
-      return Mono.empty();
+      return Mono.error(throwable);
     }
     String jsonString = JsonUtils.toJsonString(res);
     byte[] bytes = jsonString.getBytes(StandardCharsets.UTF_8);
