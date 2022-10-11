@@ -5,28 +5,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 敏感词过滤器
  *
  * @author 宋志宗 on 2022/10/11
  */
-public class SensitiveWatch {
-  private static final Logger log = LoggerFactory.getLogger(SensitiveWatch.class);
+public class SensitiveWordFilter {
+  private static final Logger log = LoggerFactory.getLogger(SensitiveWordFilter.class);
+  private static final SensitiveWordFilter DEFAULT_INSTANCE = createFromResource("sensitive_words.txt");
   @Nonnull
-  private static List<String> sensitiveWords = Collections.emptyList();
-  @Nonnull
-  private final String replaceStr;
-  @Nonnull
-  private final List<Task> taskList = new ArrayList<>();
-  @Nullable
-  private Task currentTask = null;
+  private final Set<String> sensitiveWords;
 
-  private SensitiveWatch(@Nonnull String replaceStr) {
-    this.replaceStr = replaceStr;
+  private SensitiveWordFilter(@Nonnull Set<String> sensitiveWords) {
+    this.sensitiveWords = sensitiveWords;
+  }
+
+  @Nonnull
+  public static SensitiveWordFilter getDefaultInstance() {
+    return DEFAULT_INSTANCE;
   }
 
   /**
@@ -34,7 +37,8 @@ public class SensitiveWatch {
    *
    * @param fileName 项目资源目录下的敏感词库文件名称
    */
-  public static void initFromResource(@Nonnull String fileName) {
+  @Nonnull
+  public static SensitiveWordFilter createFromResource(@Nonnull String fileName) {
     InputStream resourceAsStream = Thread.currentThread()
       .getContextClassLoader().getResourceAsStream(fileName);
     if (resourceAsStream == null) {
@@ -42,7 +46,7 @@ public class SensitiveWatch {
       throw new RuntimeException("敏感词库文件不存在");
     }
     try (resourceAsStream) {
-      init(resourceAsStream);
+      return createFromInputStream(resourceAsStream);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -53,7 +57,8 @@ public class SensitiveWatch {
    *
    * @param file 敏感词库文件
    */
-  public static void initFromFile(@Nonnull File file) {
+  @Nonnull
+  public static SensitiveWordFilter createFromFile(@Nonnull File file) {
     if (!file.exists()) {
       log.error("传入的敏感词库文件不存在");
       throw new RuntimeException("敏感词库文件不存在");
@@ -63,7 +68,7 @@ public class SensitiveWatch {
       throw new RuntimeException("传入的敏感词库非文件类型");
     }
     try (FileInputStream fileInputStream = new FileInputStream(file)) {
-      init(fileInputStream);
+      return createFromInputStream(fileInputStream);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -74,22 +79,21 @@ public class SensitiveWatch {
    *
    * @param inputStream 敏感词库文件输入流
    */
-  public static void init(@Nonnull InputStream inputStream) {
+  @Nonnull
+  public static SensitiveWordFilter createFromInputStream(@Nonnull InputStream inputStream) {
     try (InputStreamReader isr = new InputStreamReader(inputStream);
          BufferedReader br = new BufferedReader(isr)) {
-      sensitiveWords = br.lines().map(String::trim).filter(StringUtils::isNotBlank).toList();
+      Set<String> set = br.lines().map(String::trim)
+        .filter(StringUtils::isNotBlank).collect(Collectors.toUnmodifiableSet());
+      return new SensitiveWordFilter(set);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }
 
   @Nonnull
-  public static SensitiveWatch create() {
-    return new SensitiveWatch("*");
-  }
-
-  @Nonnull
-  public Task filter(@Nonnull String text) {
+  public Task watch(@Nonnull String text) {
+    String replaceStr = "*";
     Set<String> sensitiveWordSet = new HashSet<>(16);
     Map<String, Integer> sensitiveWordFrequency = new HashMap<>(16);
     StringBuilder desensitizeBuffer = new StringBuilder(text);
@@ -123,25 +127,7 @@ public class SensitiveWatch {
       desensitizeBuffer.replace(startIndex, endIndex, replace);
     });
     String desensitize = desensitizeBuffer.toString();
-    Task task = new Task(text, desensitize, sensitiveWordSet, sensitiveWordFrequency);
-    this.currentTask = task;
-    taskList.add(task);
-    return task;
-  }
-
-  @Nonnull
-  public String getReplaceStr() {
-    return replaceStr;
-  }
-
-  @Nullable
-  public Task getCurrentTask() {
-    return currentTask;
-  }
-
-  @Nonnull
-  public List<Task> getTaskList() {
-    return taskList;
+    return new Task(text, desensitize, sensitiveWordSet, sensitiveWordFrequency);
   }
 
   public static class Task {
