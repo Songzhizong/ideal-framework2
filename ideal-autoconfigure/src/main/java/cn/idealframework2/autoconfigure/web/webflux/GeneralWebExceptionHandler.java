@@ -61,12 +61,10 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
     HttpStatusCode httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     Result<Object> res = null;
     String logPrefix = "";
-    String traceId = null;
     Optional<TraceContext> optional = TraceExchangeUtils.getTraceContext(exchange);
     if (optional.isPresent()) {
       TraceContext context = optional.get();
       logPrefix = context.getLogPrefix();
-      traceId = context.getTraceId();
     }
 
     if (throwable instanceof VisibleException exception) {
@@ -188,7 +186,6 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
       log.warn("{}未针对处理的异常: ", logPrefix, throwable);
       res = Result.failure(message);
     }
-    res.setTraceId(traceId);
     String jsonString = JsonUtils.toJsonString(res);
     byte[] bytes = jsonString.getBytes(StandardCharsets.UTF_8);
     return ExchangeUtils.writeResponse(exchange, httpStatus, HTTP_HEADERS, bytes);

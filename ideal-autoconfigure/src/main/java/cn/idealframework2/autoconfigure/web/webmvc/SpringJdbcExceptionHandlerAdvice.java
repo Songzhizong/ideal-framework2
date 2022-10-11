@@ -1,6 +1,5 @@
 package cn.idealframework2.autoconfigure.web.webmvc;
 
-import cn.idealframework2.trace.block.TraceContextHolder;
 import cn.idealframework2.transmission.BasicResult;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
@@ -69,7 +68,6 @@ public class SpringJdbcExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
-    TraceContextHolder.current().ifPresent(context -> res.setTraceId(context.getTraceId()));
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.BAD_REQUEST);
   }
 
@@ -83,7 +81,6 @@ public class SpringJdbcExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage("Object optimistic locking failure.");
-    TraceContextHolder.current().ifPresent(context -> res.setTraceId(context.getTraceId()));
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.CONFLICT);
   }
 
@@ -106,7 +103,6 @@ public class SpringJdbcExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
-    TraceContextHolder.current().ifPresent(context -> res.setTraceId(context.getTraceId()));
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.BAD_REQUEST);
   }
 }

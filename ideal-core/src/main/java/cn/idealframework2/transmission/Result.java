@@ -125,7 +125,6 @@ public class Result<T> extends BasicResult {
   @Nonnull
   public <R> Result<R> convert(@Nullable Function<T, R> function) {
     Result<R> retRes = new Result<>();
-    retRes.setTraceId(this.getTraceId());
     retRes.setSuccess(this.isSuccessful());
     retRes.setCode(this.getCode());
     retRes.setMessage(this.getMessage());

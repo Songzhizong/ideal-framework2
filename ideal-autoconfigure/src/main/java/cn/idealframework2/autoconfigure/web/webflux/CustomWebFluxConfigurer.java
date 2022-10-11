@@ -124,9 +124,7 @@ public class CustomWebFluxConfigurer implements WebFluxConfigurer {
                   if (opt.isEmpty()) {
                     return body;
                   }
-                  BasicResult result = (BasicResult) body;
-                  result.setTraceId(opt.get().getTraceId());
-                  return result;
+                  return (BasicResult) body;
                 });
             }
             return Mono.just(body);

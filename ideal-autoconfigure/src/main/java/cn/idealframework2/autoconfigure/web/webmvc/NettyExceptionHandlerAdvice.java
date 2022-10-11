@@ -1,6 +1,5 @@
 package cn.idealframework2.autoconfigure.web.webmvc;
 
-import cn.idealframework2.trace.block.TraceContextHolder;
 import cn.idealframework2.transmission.BasicResult;
 import io.netty.handler.timeout.ReadTimeoutException;
 import org.slf4j.Logger;
@@ -44,7 +43,6 @@ public class NettyExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage("请求超时");
-    TraceContextHolder.current().ifPresent(context -> res.setTraceId(context.getTraceId()));
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

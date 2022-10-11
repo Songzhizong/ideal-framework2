@@ -3,7 +3,6 @@ package cn.idealframework2.autoconfigure.web.webmvc;
 import cn.idealframework2.exception.VisibleException;
 import cn.idealframework2.json.JsonFormatException;
 import cn.idealframework2.json.JsonParseException;
-import cn.idealframework2.trace.block.TraceContextHolder;
 import cn.idealframework2.transmission.BasicResult;
 import cn.idealframework2.transmission.Result;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
@@ -56,7 +55,6 @@ public class GeneralExceptionHandlerAdvice {
     int httpStatus = ex.getHttpStatus();
     log.info(message);
     Result<Object> body = Result.exception(ex);
-    TraceContextHolder.current().ifPresent(context -> body.setTraceId(context.getTraceId()));
     return new ResponseEntity<>(body, RESPONSE_HEADERS, HttpStatusCode.valueOf(httpStatus));
   }
 
@@ -65,7 +63,6 @@ public class GeneralExceptionHandlerAdvice {
   public ResponseEntity<Object> jsonFormatExceptionHandler(@Nonnull JsonFormatException ex) {
     log.info("JsonFormatException: ", ex);
     Result<Object> body = Result.exception(ex);
-    TraceContextHolder.current().ifPresent(context -> body.setTraceId(context.getTraceId()));
     return new ResponseEntity<>(body, RESPONSE_HEADERS, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
@@ -74,7 +71,6 @@ public class GeneralExceptionHandlerAdvice {
   public ResponseEntity<Object> jsonParseExceptionHandler(@Nonnull JsonParseException ex) {
     log.info("JsonParseException: ", ex);
     Result<Object> body = Result.exception(ex);
-    TraceContextHolder.current().ifPresent(context -> body.setTraceId(context.getTraceId()));
     return new ResponseEntity<>(body, RESPONSE_HEADERS, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
@@ -91,7 +87,6 @@ public class GeneralExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
-    TraceContextHolder.current().ifPresent(context -> res.setTraceId(context.getTraceId()));
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.BAD_REQUEST);
   }
 
@@ -108,7 +103,6 @@ public class GeneralExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
-    TraceContextHolder.current().ifPresent(context -> res.setTraceId(context.getTraceId()));
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.BAD_REQUEST);
   }
 
@@ -135,7 +129,6 @@ public class GeneralExceptionHandlerAdvice {
     if (originalMessage.startsWith(prefix)) {
       res.setMessage("枚举类型值为空时请传null,而非空白字符串");
     }
-    TraceContextHolder.current().ifPresent(context -> res.setTraceId(context.getTraceId()));
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.BAD_REQUEST);
   }
 
@@ -151,7 +144,6 @@ public class GeneralExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
-    TraceContextHolder.current().ifPresent(context -> res.setTraceId(context.getTraceId()));
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.BAD_REQUEST);
   }
 
@@ -167,7 +159,6 @@ public class GeneralExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
-    TraceContextHolder.current().ifPresent(context -> res.setTraceId(context.getTraceId()));
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.BAD_REQUEST);
   }
 
@@ -183,7 +174,6 @@ public class GeneralExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
-    TraceContextHolder.current().ifPresent(context -> res.setTraceId(context.getTraceId()));
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.METHOD_NOT_ALLOWED);
   }
 
@@ -199,7 +189,6 @@ public class GeneralExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
-    TraceContextHolder.current().ifPresent(context -> res.setTraceId(context.getTraceId()));
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.BAD_REQUEST);
   }
 
@@ -215,7 +204,6 @@ public class GeneralExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
-    TraceContextHolder.current().ifPresent(context -> res.setTraceId(context.getTraceId()));
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
   }
 
@@ -234,7 +222,6 @@ public class GeneralExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
-    TraceContextHolder.current().ifPresent(context -> res.setTraceId(context.getTraceId()));
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

@@ -51,12 +51,10 @@ public class SpringTxWebExceptionHandler implements Ordered, ErrorWebExceptionHa
     HttpStatusCode httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     Result<Object> res = null;
     String logPrefix = "";
-    String traceId = null;
     Optional<TraceContext> optional = TraceExchangeUtils.getTraceContext(exchange);
     if (optional.isPresent()) {
       TraceContext context = optional.get();
       logPrefix = context.getLogPrefix();
-      traceId = context.getTraceId();
     }
 
     if (throwable instanceof DuplicateKeyException exception) {
@@ -69,7 +67,6 @@ public class SpringTxWebExceptionHandler implements Ordered, ErrorWebExceptionHa
     if (res == null) {
       return Mono.empty();
     }
-    res.setTraceId(traceId);
     String jsonString = JsonUtils.toJsonString(res);
     byte[] bytes = jsonString.getBytes(StandardCharsets.UTF_8);
     return ExchangeUtils.writeResponse(exchange, httpStatus, HTTP_HEADERS, bytes);

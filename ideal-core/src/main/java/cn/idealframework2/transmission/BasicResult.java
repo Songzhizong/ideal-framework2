@@ -18,10 +18,6 @@ public class BasicResult implements Serializable {
   private static final long serialVersionUID = 1658084050565123764L;
 
   @Nullable
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String traceId = null;
-
-  @Nullable
   private Boolean success = null;
 
   @Nullable
@@ -51,15 +47,6 @@ public class BasicResult implements Serializable {
       message = "";
     }
     this.message = message;
-  }
-
-  @Nullable
-  public String getTraceId() {
-    return traceId;
-  }
-
-  public void setTraceId(@Nullable String traceId) {
-    this.traceId = traceId;
   }
 
   @Nullable
