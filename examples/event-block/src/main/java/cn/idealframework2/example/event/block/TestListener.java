@@ -1,7 +1,7 @@
 package cn.idealframework2.example.event.block;
 
 import cn.idealframework2.event.EventListener;
-import cn.idealframework2.event.impl.rabbit.EventListenerManager;
+import cn.idealframework2.event.EventListenerManager;
 import cn.idealframework2.json.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

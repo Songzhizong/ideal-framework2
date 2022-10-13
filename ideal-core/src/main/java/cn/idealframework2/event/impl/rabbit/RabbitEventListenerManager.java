@@ -2,21 +2,20 @@ package cn.idealframework2.event.impl.rabbit;
 
 import cn.idealframework2.event.Event;
 import cn.idealframework2.event.EventListener;
+import cn.idealframework2.event.EventListenerManager;
+import cn.idealframework2.idempotent.IdempotentHandler;
 import cn.idealframework2.json.JsonUtils;
 import cn.idealframework2.lang.StringUtils;
-import cn.idealframework2.spring.RedisTemplateUtils;
 import com.rabbitmq.client.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.listener.api.ChannelAwareMessageListener;
-import org.springframework.data.redis.core.StringRedisTemplate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.time.Duration;
 import java.util.Collections;
 import java.util.Set;
 import java.util.UUID;
@@ -30,29 +29,25 @@ import java.util.function.Consumer;
  */
 public class RabbitEventListenerManager implements ChannelAwareMessageListener, EventListenerManager {
   private static final Logger log = LoggerFactory.getLogger(RabbitEventListenerManager.class);
-  private static final Duration IDEMPOTENT_TIMEOUT = Duration.ofMinutes(10);
   private final ConcurrentMap<String, RabbitEventListener<?>> listenerMap = new ConcurrentHashMap<>();
   private final Set<String> queues = Collections.newSetFromMap(new ConcurrentHashMap<>());
   /** 启用此配置则为监听器创建随机名称的队列, 并在程序关闭时删除队列 */
   private final boolean temporary;
   private final String queuePrefix;
-  private final String cachePrefix;
   private final AmqpAdmin amqpAdmin;
   private final TopicExchange exchange;
-  private final StringRedisTemplate redisTemplate;
+  private final IdempotentHandler idempotentHandler;
 
   public RabbitEventListenerManager(boolean temporary,
                                     @Nonnull String exchange,
                                     @Nonnull String queuePrefix,
-                                    @Nonnull String cachePrefix,
                                     @Nonnull AmqpAdmin amqpAdmin,
-                                    @Nonnull StringRedisTemplate redisTemplate) {
+                                    @Nonnull IdempotentHandler idempotentHandler) {
     this.temporary = temporary;
     this.queuePrefix = queuePrefix;
-    this.cachePrefix = cachePrefix;
     this.amqpAdmin = amqpAdmin;
-    this.redisTemplate = redisTemplate;
     this.exchange = new TopicExchange(exchange);
+    this.idempotentHandler = idempotentHandler;
   }
 
   @Override
@@ -107,7 +102,7 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
     }
     queues.add(queueName);
     RabbitEventListener<E> listener = new RabbitEventListener<>(
-      clazz, queueName, cachePrefix, consumer, redisTemplate);
+      clazz, queueName, consumer, idempotentHandler);
     listenerMap.put(queueName, listener);
     amqpAdmin.declareQueue(queue);
     amqpAdmin.declareBinding(BindingBuilder.bind(queue).to(exchange).with(topic));
@@ -120,23 +115,19 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
   }
 
   public static class RabbitEventListener<E extends Event> implements EventListener {
-    private final String lockValue = UUID.randomUUID().toString().replace("-", "");
     private final Class<E> clazz;
     private final String queueName;
-    private final String cachePrefix;
     private final Consumer<E> consumer;
-    private final StringRedisTemplate redisTemplate;
+    private final IdempotentHandler idempotentHandler;
 
     public RabbitEventListener(@Nonnull Class<E> clazz,
                                @Nonnull String queueName,
-                               @Nonnull String cachePrefix,
                                @Nonnull Consumer<E> consumer,
-                               @Nonnull StringRedisTemplate redisTemplate) {
+                               @Nonnull IdempotentHandler idempotentHandler) {
       this.clazz = clazz;
       this.queueName = queueName;
-      this.cachePrefix = cachePrefix;
       this.consumer = consumer;
-      this.redisTemplate = redisTemplate;
+      this.idempotentHandler = idempotentHandler;
     }
 
     public void accept(@Nonnull String message) {
@@ -144,20 +135,20 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
       try {
         event = JsonUtils.parse(message, clazz);
       } catch (Exception e) {
-        log.error("将消息返序列化为 " + clazz.getName() +
+        log.error("将消息反序列化为 " + clazz.getName() +
           " 出现异常, message = " + message + " e:", e);
         return;
       }
       String uuid = event.getUuid();
-      String key = cachePrefix + "event_idempotent:" + queueName + ":" + uuid;
-      Boolean tryLock = redisTemplate.opsForValue().setIfAbsent(key, lockValue, IDEMPOTENT_TIMEOUT);
-      if (tryLock == null || !tryLock) {
+      String key = queueName + ":" + uuid;
+      boolean tryLock = idempotentHandler.idempotent(key);
+      if (!tryLock) {
         return;
       }
       try {
         consumer.accept(event);
       } catch (Exception e) {
-        RedisTemplateUtils.unlock(redisTemplate, key, lockValue);
+        idempotentHandler.release(key);
         throw e;
       }
     }

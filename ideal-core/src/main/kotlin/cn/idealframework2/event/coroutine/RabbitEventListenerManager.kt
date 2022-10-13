@@ -2,21 +2,18 @@ package cn.idealframework2.event.coroutine
 
 import cn.idealframework2.event.Event
 import cn.idealframework2.event.EventListener
+import cn.idealframework2.idempotent.coroutine.IdempotentHandler
 import cn.idealframework2.json.JsonUtils
-import cn.idealframework2.spring.RedisTemplateUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.reactor.awaitSingleOrNull
 import kotlinx.coroutines.reactor.mono
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.DisposableBean
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
-import org.springframework.data.redis.core.ReactiveStringRedisTemplate
 import reactor.core.Disposable
 import reactor.rabbitmq.*
-import java.time.Duration
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
@@ -30,15 +27,13 @@ class RabbitEventListenerManager(
   private val exchange: String,
   private val temporary: Boolean,
   private val queuePrefix: String,
-  private val cachePrefix: String,
   private val sender: Sender,
   private val receiver: Receiver,
-  private val redisTemplate: ReactiveStringRedisTemplate,
+  private val idempotentHandler: IdempotentHandler,
 ) : EventListenerManager {
   companion object {
     private val log: Logger = LoggerFactory.getLogger(RabbitEventListener::class.java)
     private val registry = ConcurrentHashMap<String, RabbitEventListener<*>>()
-    private val timeout = Duration.ofMinutes(10)
   }
 
   @Suppress("UNCHECKED_CAST")
@@ -58,11 +53,11 @@ class RabbitEventListenerManager(
         name,
         temporary,
         queuePrefix,
-        cachePrefix,
         sender,
         receiver,
-        redisTemplate,
-        clazz, block
+        idempotentHandler,
+        clazz,
+        block
       )
     } as RabbitEventListener<T>
     if (exist) {
@@ -79,14 +74,12 @@ class RabbitEventListenerManager(
     name: String,
     temporary: Boolean,
     queuePrefix: String,
-    private val cachePrefix: String,
     sender: Sender,
     private val receiver: Receiver,
-    private val redisTemplate: ReactiveStringRedisTemplate,
+    private val idempotentHandler: IdempotentHandler,
     private val clazz: Class<T>,
     private val block: suspend CoroutineScope.(T) -> Unit
   ) : EventListener, DisposableBean, ApplicationRunner {
-    private val lockValue = UUID.randomUUID().toString()
     private val finalQueueName: String
     private var disposable: Disposable? = null
 
@@ -120,18 +113,17 @@ class RabbitEventListenerManager(
                 return@mono
               }
               val uuid = message.uuid
-              val key = "${cachePrefix}event_idempotent:$finalQueueName:$uuid"
-              val tryLock = redisTemplate.opsForValue().setIfAbsent(key, lockValue, timeout)
-                .awaitSingleOrNull()
+              val key = "$finalQueueName:$uuid"
+              val tryLock = idempotentHandler.idempotent("$finalQueueName:$uuid")
               try {
-                if (tryLock == true) {
+                if (tryLock) {
                   block.invoke(this, message)
                 }
               } catch (e: Exception) {
                 ack = false
                 try {
                   if (uuid.isNotBlank()) {
-                    RedisTemplateUtils.unlock(redisTemplate, key, lockValue).awaitSingleOrNull()
+                    idempotentHandler.release(key)
                   }
                   log.warn("处理出现异常: ", e)
                   delay(1000)

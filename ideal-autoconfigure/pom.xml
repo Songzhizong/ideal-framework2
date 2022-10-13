@@ -108,5 +108,17 @@
       <version>3.0-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>cn.idealframework2</groupId>
+      <artifactId>ideal-starter-model-idempotent</artifactId>
+      <version>3.0-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>cn.idealframework2</groupId>
+      <artifactId>ideal-starter-model-idempotent-coroutine</artifactId>
+      <version>3.0-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 </project>

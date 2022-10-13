@@ -20,5 +20,7 @@
     <module>ideal-starter-cache-coroutine</module>
     <module>ideal-starter-event-coroutine</module>
     <module>ideal-starter-trace-coroutine</module>
+    <module>ideal-starter-idempotent</module>
+    <module>ideal-starter-idempotent-coroutine</module>
   </modules>
 </project>

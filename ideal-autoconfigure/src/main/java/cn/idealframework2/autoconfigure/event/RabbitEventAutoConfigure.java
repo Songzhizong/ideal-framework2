@@ -1,12 +1,13 @@
 package cn.idealframework2.autoconfigure.event;
 
-import cn.idealframework2.autoconfigure.cache.CacheProperties;
 import cn.idealframework2.autoconfigure.event.properties.EventProperties;
 import cn.idealframework2.autoconfigure.event.properties.EventRabbitProperties;
 import cn.idealframework2.event.EventPublisher;
 import cn.idealframework2.event.impl.rabbit.AmqpEventPublisher;
 import cn.idealframework2.event.impl.rabbit.RabbitEventListenerManager;
 import cn.idealframework2.event.impl.rabbit.RabbitMessageListenerContainer;
+import cn.idealframework2.idempotent.IdempotentHandler;
+import cn.idealframework2.idempotent.IdempotentHandlerFactory;
 import cn.idealframework2.starter.model.event.EventModel;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -14,9 +15,9 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
-import org.springframework.data.redis.core.StringRedisTemplate;
 
 import javax.annotation.Nonnull;
+import java.time.Duration;
 
 /**
  * @author 宋志宗 on 2022/9/30
@@ -36,15 +37,17 @@ public class RabbitEventAutoConfigure {
 
   @Bean
   public RabbitEventListenerManager rabbitEventListenerManager(@Nonnull EventProperties eventProperties,
-                                                               @Nonnull CacheProperties cacheProperties,
                                                                @Nonnull AmqpAdmin amqpAdmin,
-                                                               @Nonnull StringRedisTemplate redisTemplate) {
+                                                               @Nonnull IdempotentHandlerFactory idempotentHandlerFactory) {
     EventRabbitProperties rabbit = eventProperties.getRabbit();
     boolean temporary = rabbit.isTemporary();
     String exchange = rabbit.getExchange();
     String queuePrefix = rabbit.formattedQueuePrefix();
-    String cachePrefix = cacheProperties.formattedPrefix();
-    return new RabbitEventListenerManager(temporary, exchange, queuePrefix, cachePrefix, amqpAdmin, redisTemplate);
+    Duration timeout = eventProperties.getIdempotent().getTimeout();
+    IdempotentHandler idempotentHandler
+      = idempotentHandlerFactory.create("event", timeout);
+    return new RabbitEventListenerManager(
+      temporary, exchange, queuePrefix, amqpAdmin, idempotentHandler);
   }
 
   @Bean

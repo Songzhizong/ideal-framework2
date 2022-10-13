@@ -1,7 +1,4 @@
-package cn.idealframework2.event.impl.rabbit;
-
-import cn.idealframework2.event.Event;
-import cn.idealframework2.event.EventListener;
+package cn.idealframework2.event;
 
 import javax.annotation.Nonnull;
 import java.util.function.Consumer;
