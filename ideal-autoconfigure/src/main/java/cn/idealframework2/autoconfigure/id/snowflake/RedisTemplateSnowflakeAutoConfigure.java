@@ -2,7 +2,7 @@ package cn.idealframework2.autoconfigure.id.snowflake;
 
 import cn.idealframework2.autoconfigure.id.IdProperties;
 import cn.idealframework2.id.IDGeneratorFactory;
-import cn.idealframework2.id.snowflake.SpringRedisSnowflakeFactory;
+import cn.idealframework2.id.snowflake.RedisTemplateSnowflakeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,8 +19,8 @@ import javax.annotation.Nonnull;
   '${ideal-id.type:snowflake}'.equalsIgnoreCase('snowflake')
   &&'${ideal-id.snowflake.factory:fixed}'.equalsIgnoreCase('redis')
   """)
-public class RedisSnowflakeAutoConfigure {
-  private static final Logger log = LoggerFactory.getLogger(RedisSnowflakeAutoConfigure.class);
+public class RedisTemplateSnowflakeAutoConfigure {
+  private static final Logger log = LoggerFactory.getLogger(RedisTemplateSnowflakeAutoConfigure.class);
 
   @Value("${spring.application.name:}")
   private String applicationName;
@@ -28,9 +28,9 @@ public class RedisSnowflakeAutoConfigure {
   @Bean
   public IDGeneratorFactory idGeneratorFactory(@Nonnull IdProperties properties,
                                                @Nonnull StringRedisTemplate stringRedisTemplate) {
-    log.info("use SpringRedisSnowFlakeFactory");
+    log.info("SpringRedisSnowFlakeFactory将适用redis作为机器码注册中心进行机器码计算");
     SnowflakeProperties snowflake = properties.getSnowflake();
     int dataCenterId = snowflake.getDataCenterId();
-    return new SpringRedisSnowflakeFactory(dataCenterId, 600, 30, applicationName, stringRedisTemplate);
+    return new RedisTemplateSnowflakeFactory(dataCenterId, 600, 30, applicationName, stringRedisTemplate);
   }
 }

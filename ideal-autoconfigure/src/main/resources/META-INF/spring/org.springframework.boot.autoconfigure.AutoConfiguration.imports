@@ -9,7 +9,7 @@
   cn.idealframework2.autoconfigure.event.RabbitEventRunner
   cn.idealframework2.autoconfigure.event.ReactiveMongoEventAutoConfigure
   cn.idealframework2.autoconfigure.id.snowflake.FixedSnowflakeAutoConfigure
-  cn.idealframework2.autoconfigure.id.snowflake.RedisSnowflakeAutoConfigure
+  cn.idealframework2.autoconfigure.id.snowflake.RedisTemplateSnowflakeAutoConfigure
   cn.idealframework2.autoconfigure.id.IdProperties
   cn.idealframework2.autoconfigure.trace.TraceWebMvcConfigurer
   cn.idealframework2.autoconfigure.trace.WebFluxTraceAutoConfigure

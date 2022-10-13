@@ -19,7 +19,7 @@ class TestListener(
   }
 
   @Bean("idealframework2.example.event.coroutine.TestEvent")
-  fun lis() = eventListenerManager.listen(
+  fun listener() = eventListenerManager.listen(
     "idealframework2.example.event.coroutine.TestEvent",
     TestEvent.TOPIC,
     TestEvent::class.java

@@ -23,6 +23,7 @@ public class PublishController {
     this.transactionalEventPublisher = transactionalEventPublisher;
   }
 
+  /** 普通发布 */
   @GetMapping("/publish")
   public Result<TestEvent> publish() {
     TestEvent event = new TestEvent();
@@ -32,6 +33,7 @@ public class PublishController {
     return Result.success(event);
   }
 
+  /** 事务发布 */
   @GetMapping("/transactional_publish")
   public Result<TestEvent> transactionalPublish() {
     TestEvent event = new TestEvent();

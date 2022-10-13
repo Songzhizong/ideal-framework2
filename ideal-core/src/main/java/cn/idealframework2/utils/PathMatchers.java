@@ -7,6 +7,7 @@ import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPatternParser;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.time.Duration;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -22,6 +23,45 @@ public final class PathMatchers {
     .maximumSize(10000).build();
 
   private PathMatchers() {
+  }
+
+  /**
+   * Does the given {@code path} represent a pattern that can be matched
+   * by an implementation of this interface?
+   * <p>If the return value is {@code false}, then the {@link #match}
+   * method does not have to be used because direct equality comparisons
+   * on the static path Strings will lead to the same result.
+   *
+   * @param path the path to check
+   * @return {@code true} if the given {@code path} represents a pattern
+   */
+  public static boolean isPattern(@Nullable String path) {
+    if (!mayPattern(path)) {
+      return false;
+    }
+    PathPatternParser.defaultInstance.parse(path);
+    return true;
+  }
+
+  private static boolean mayPattern(@Nullable String path) {
+    if (path == null) {
+      return false;
+    }
+    boolean uriVar = false;
+    for (int i = 0; i < path.length(); i++) {
+      char c = path.charAt(i);
+      if (c == '*' || c == '?') {
+        return true;
+      }
+      if (c == '{') {
+        uriVar = true;
+        continue;
+      }
+      if (c == '}' && uriVar) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**

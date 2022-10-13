@@ -23,7 +23,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Snowflake implements IDGenerator {
 
   /** 默认起始时间戳 2019-09-03 09:46:37 */
-  static final long DEFAULT_START_TIMESTAMP = 1567475197889L;
+  private static final long DEFAULT_START_TIMESTAMP = 1567475197889L;
 
   /** 起始时间戳 */
   private static long startTimestamp = DEFAULT_START_TIMESTAMP;

@@ -22,7 +22,7 @@ public class FixedSnowflakeAutoConfigure {
 
   @Bean
   public IDGeneratorFactory idGeneratorFactory(@Nonnull IdProperties properties) {
-    log.info("use FixedSnowFlakeFactory");
+    log.warn("当前选择的FixedSnowFlakeFactory如果未合理分配机器码将会出现不同节点产生相同id的问题");
     SnowflakeProperties snowflake = properties.getSnowflake();
     int dataCenterId = snowflake.getDataCenterId();
     int machineId = snowflake.getMachineId();

@@ -17,8 +17,8 @@ import java.util.concurrent.*;
  * @author 宋志宗 on 2020/10/21
  */
 @SuppressWarnings("unused")
-public class SpringRedisSnowflakeFactory implements SnowflakeFactory, SnowflakeMachineIdHolder {
-  private static final Logger log = LoggerFactory.getLogger(SpringRedisSnowflakeFactory.class);
+public class RedisTemplateSnowflakeFactory implements SnowflakeFactory, SnowflakeMachineIdHolder {
+  private static final Logger log = LoggerFactory.getLogger(RedisTemplateSnowflakeFactory.class);
   private final String value = UUID.randomUUID().toString();
   private final ConcurrentMap<String, Snowflake> generatorMap = new ConcurrentHashMap<>();
   private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
@@ -35,7 +35,7 @@ public class SpringRedisSnowflakeFactory implements SnowflakeFactory, SnowflakeM
    * @param applicationName 应用名称
    * @param redisTemplate   {@link StringRedisTemplate}
    */
-  public SpringRedisSnowflakeFactory(
+  public RedisTemplateSnowflakeFactory(
     @Nonnull String applicationName,
     @Nonnull StringRedisTemplate redisTemplate) {
     this(0, applicationName, redisTemplate);
@@ -46,7 +46,7 @@ public class SpringRedisSnowflakeFactory implements SnowflakeFactory, SnowflakeM
    * @param applicationName 应用名称
    * @param redisTemplate   {@link StringRedisTemplate}
    */
-  public SpringRedisSnowflakeFactory(
+  public RedisTemplateSnowflakeFactory(
     long dataCenterId,
     @Nonnull String applicationName,
     @Nonnull StringRedisTemplate redisTemplate) {
@@ -61,7 +61,7 @@ public class SpringRedisSnowflakeFactory implements SnowflakeFactory, SnowflakeM
    * @param applicationName        应用名称
    * @param redisTemplate          {@link StringRedisTemplate}
    */
-  public SpringRedisSnowflakeFactory(
+  public RedisTemplateSnowflakeFactory(
     long dataCenterId,
     long expireSeconds,
     long renewalIntervalSeconds,

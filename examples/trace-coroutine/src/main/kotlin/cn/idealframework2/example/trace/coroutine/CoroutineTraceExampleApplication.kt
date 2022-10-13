@@ -51,7 +51,6 @@ class CoroutineTraceExampleApplication {
         log.info("{}operation log: {}", logPrefix, JsonUtils.toJsonString(operationLog))
         true
       }
-
     }
   }
 

@@ -7,17 +7,21 @@ import javax.annotation.Nonnull;
  */
 public class SnowflakeProperties {
   @Nonnull
-  private Factory factory = Factory.fixed;
+  private Factory factory = Factory.FIXED;
 
+  /** 数据中心id, 无论任何类型都需要自行指定 */
   private int dataCenterId = 0;
 
+  /** 机器id, 仅适用于fixed类型 */
   private int machineId = 0;
 
   public enum Factory {
-    /** 固定值 */
-    fixed,
-    /** redis作为注册中心计算 */
-    redis
+    /** 机器码采用固定值 */
+    FIXED,
+    /** redis作为机器码注册中心计算 */
+    REDIS,
+    /** 关系型数据库作为机器码注册中心 */
+    JDBC,
   }
 
   @Nonnull
