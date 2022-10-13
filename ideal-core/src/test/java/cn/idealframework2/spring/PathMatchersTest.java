@@ -1,4 +1,4 @@
-package cn.idealframework2.utils;
+package cn.idealframework2.spring;
 
 import org.junit.Assert;
 import org.junit.Test;

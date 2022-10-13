@@ -1,4 +1,4 @@
-package cn.idealframework2.utils;
+package cn.idealframework2.spring;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
