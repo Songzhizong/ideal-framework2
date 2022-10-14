@@ -46,7 +46,7 @@ public class CacheProperties {
     if (StringUtils.isBlank(prefix)) {
       return key;
     }
-    return prefix + CacheUtils.CACHE_CONNECTOR + key;
+    return prefix + key;
   }
 
   @Nonnull
