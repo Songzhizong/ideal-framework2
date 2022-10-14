@@ -11,6 +11,7 @@
   cn.idealframework2.autoconfigure.id.snowflake.FixedSnowflakeAutoConfigure
   cn.idealframework2.autoconfigure.id.snowflake.RedisTemplateSnowflakeAutoConfigure
   cn.idealframework2.autoconfigure.id.IdProperties
+  cn.idealframework2.autoconfigure.id.JpaIDGeneratorInitializing
   cn.idealframework2.autoconfigure.trace.TraceWebMvcConfigurer
   cn.idealframework2.autoconfigure.trace.WebFluxTraceAutoConfigure
   cn.idealframework2.autoconfigure.trace.WebMvcTraceAutoConfigure
