@@ -87,7 +87,7 @@ public final class NumberSystemConverter {
    */
   @Nonnull
   public static String tenSystemTo(long number, int targetSystem) {
-    Asserts.range(targetSystem, 2, MAX, "require: 2 < targetSystem < " + MAX);
+    Asserts.range(targetSystem, 2, MAX, "require: 2 <= targetSystem <= " + MAX);
     char[] charArray = getCharArray(targetSystem);
     long rest = number;
     Stack<Character> stack = new Stack<>();

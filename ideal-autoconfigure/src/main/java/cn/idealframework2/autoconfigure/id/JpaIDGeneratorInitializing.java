@@ -1,8 +1,8 @@
 package cn.idealframework2.autoconfigure.id;
 
+import cn.idealframework2.data.hibernate.JpaIDGenerator;
 import cn.idealframework2.id.IDGenerator;
 import cn.idealframework2.id.IDGeneratorFactory;
-import cn.idealframework2.id.JpaIDGenerator;
 import org.hibernate.id.IdentityGenerator;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.beans.factory.annotation.Autowired;

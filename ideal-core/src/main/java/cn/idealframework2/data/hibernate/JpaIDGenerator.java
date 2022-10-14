@@ -1,5 +1,6 @@
-package cn.idealframework2.id;
+package cn.idealframework2.data.hibernate;
 
+import cn.idealframework2.id.IDGenerator;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentityGenerator;
 

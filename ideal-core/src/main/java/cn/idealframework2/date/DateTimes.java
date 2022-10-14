@@ -166,7 +166,6 @@ public final class DateTimes {
    * @return 时分秒字符串: 1小时25分钟31.136秒
    */
   @Nonnull
-  @Deprecated
   public static String calculateTimeDifference(long start, long end) {
     if (start == end) {
       return "0";
