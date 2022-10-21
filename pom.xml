@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.0.0-M5</version>
+    <version>3.0.0-RC1</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>cn.idealframework2</groupId>
@@ -28,7 +28,7 @@
     <java.version>17</java.version>
     <kotlin.version>1.7.20</kotlin.version>
     <kotlinx-coroutines.version>1.6.4</kotlinx-coroutines.version>
-    <spring.boot.version>3.0.0-M5</spring.boot.version>
+    <spring.boot.version>3.0.0-RC1</spring.boot.version>
     <spring.cloud.version>2022.0.0-M5</spring.cloud.version>
     <vertx.version>4.3.4</vertx.version>
     <commons-compress.version>1.21</commons-compress.version>
@@ -37,13 +37,13 @@
     <easyexcel.version>3.1.1</easyexcel.version>
     <easypoi.version>4.4.0</easypoi.version>
     <guava.version>31.1-jre</guava.version>
-    <jackson.version.databind>2.14.0-rc1</jackson.version.databind>
+    <jackson.version>2.14.0-rc2</jackson.version>
     <jsr305.version>3.0.2</jsr305.version>
     <lombok.version>1.18.24</lombok.version>
     <reactor-rabbitmq.version>1.5.5</reactor-rabbitmq.version>
     <redisson.version>3.17.7</redisson.version>
     <snakeyaml.version>1.33</snakeyaml.version>
-    <zstd-jni.version>1.5.2-4</zstd-jni.version>
+    <zstd-jni.version>1.5.2-5</zstd-jni.version>
     <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
     <maven-deploy-plugin.version>3.0.0</maven-deploy-plugin.version>
     <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
@@ -52,12 +52,15 @@
 
   <dependencyManagement>
     <dependencies>
+      <!--   jackson   -->
       <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>${jackson.version.databind}</version>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>${jackson.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
-      <!-- kotlin -->
+      <!--   kotlin   -->
       <dependency>
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-bom</artifactId>
@@ -72,6 +75,7 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <!--   spring-cloud   -->
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-dependencies</artifactId>
@@ -79,6 +83,7 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <!--   vertx   -->
       <dependency>
         <groupId>io.vertx</groupId>
         <artifactId>vertx-stack-depchain</artifactId>
@@ -86,6 +91,7 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <!--   commons   -->
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
