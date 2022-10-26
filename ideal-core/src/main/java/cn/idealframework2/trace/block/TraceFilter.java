@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.core.Ordered;
 
 import javax.annotation.Nonnull;
@@ -48,6 +49,9 @@ public class TraceFilter implements Ordered, Filter {
     }
     TraceContextHolder.set(traceContext);
     httpServletRequest.setAttribute(TraceConstants.CTX_KEY, traceContext);
+    MDC.put(TraceConstants.TRACE_ID_HEADER_NAME, traceContext.getTraceId());
+    MDC.put(TraceConstants.SPAN_ID_HEADER_NAME, traceContext.getSpanId());
+    MDC.put(TraceConstants.LOG_PREFIX_KEY, traceContext.getLogPrefix());
     String method = httpServletRequest.getMethod();
     log.info("{} {}", method, requestPath);
     if (response instanceof HttpServletResponse httpServletResponse) {
