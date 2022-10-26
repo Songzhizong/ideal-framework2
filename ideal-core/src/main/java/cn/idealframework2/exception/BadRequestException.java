@@ -11,6 +11,6 @@ public class BadRequestException extends VisibleException {
   private static final long serialVersionUID = -6281199227602676282L;
 
   public BadRequestException(@Nonnull String message) {
-    super(400, null, message);
+    super(400, 400, null, message);
   }
 }

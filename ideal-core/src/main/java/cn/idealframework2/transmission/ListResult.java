@@ -57,6 +57,7 @@ public class ListResult<E> extends BasicResult {
     ListResult<U> res = new ListResult<>();
     res.setSuccess(true);
     res.setCode(this.getCode());
+    res.setBizCode(this.getBizCode());
     res.setMessage(this.getMessage());
     List<E> data = this.getData();
     if (data.size() > 0) {

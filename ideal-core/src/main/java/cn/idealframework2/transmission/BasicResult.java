@@ -17,12 +17,22 @@ public class BasicResult implements Serializable {
   @Serial
   private static final long serialVersionUID = 1658084050565123764L;
 
+  /** 是否成功 */
   @Nullable
   private Boolean success = null;
 
+  /**
+   * 响应编码
+   * <p>
+   * 为了向前兼容暂时保留
+   */
+  @Deprecated
+  private int code = 200;
+
+  /** 用于描述具体业务信息的编码 */
   @Nullable
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String code = null;
+  private String bizCode;
 
   @Nonnull
   private String message = "success";
@@ -42,13 +52,6 @@ public class BasicResult implements Serializable {
     return !isSuccessful();
   }
 
-  public void setMessage(@Nullable String message) {
-    if (StringUtils.isBlank(message)) {
-      message = "";
-    }
-    this.message = message;
-  }
-
   @Nullable
   public Boolean getSuccess() {
     return success;
@@ -58,17 +61,34 @@ public class BasicResult implements Serializable {
     this.success = success;
   }
 
-  @Nullable
-  public String getCode() {
+  @Deprecated
+  public int getCode() {
     return code;
   }
 
-  public void setCode(@Nullable String code) {
+  @Deprecated
+  public void setCode(int code) {
     this.code = code;
+  }
+
+  @Nullable
+  public String getBizCode() {
+    return bizCode;
+  }
+
+  public void setBizCode(@Nullable String bizCode) {
+    this.bizCode = bizCode;
   }
 
   @Nonnull
   public String getMessage() {
     return message;
+  }
+
+  public void setMessage(@Nullable String message) {
+    if (StringUtils.isBlank(message)) {
+      message = "";
+    }
+    this.message = message;
   }
 }

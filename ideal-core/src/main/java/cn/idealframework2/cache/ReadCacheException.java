@@ -10,6 +10,6 @@ import javax.annotation.Nonnull;
 public class ReadCacheException extends VisibleException {
 
   public ReadCacheException(@Nonnull String message) {
-    super(500, null, message);
+    super(500, 500, null, message);
   }
 }

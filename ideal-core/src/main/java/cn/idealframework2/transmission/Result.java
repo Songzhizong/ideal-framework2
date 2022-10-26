@@ -1,5 +1,6 @@
 package cn.idealframework2.transmission;
 
+import cn.idealframework2.exception.ResultException;
 import cn.idealframework2.exception.VisibleException;
 import cn.idealframework2.json.JsonUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -27,7 +28,7 @@ public class Result<T> extends BasicResult {
   }
 
   @Nonnull
-  public static <T> Result<T> create(boolean success, @Nullable String code,
+  public static <T> Result<T> create(boolean success, int code,
                                      @Nullable String message, @Nullable T data) {
     Result<T> res = new Result<>();
     res.setSuccess(success);
@@ -70,7 +71,7 @@ public class Result<T> extends BasicResult {
   }
 
   @Nonnull
-  public static <T> Result<T> failure(@Nullable String code, @Nullable String message) {
+  public static <T> Result<T> failure(int code, @Nullable String message) {
     Result<T> res = new Result<>();
     res.setSuccess(false);
     res.setCode(code);
@@ -98,7 +99,7 @@ public class Result<T> extends BasicResult {
   }
 
   /**
-   * 如果断言响应结果不可能为空可以调用此方法获取响应数据, 如果为空则会抛出{@link NullPointerException}
+   * 如果断言响应结果不可能为空可以调用此方法获取响应数据, 如果为空则会抛出{@link ResultException}
    *
    * @return 响应数据
    * @author 宋志宗 on 2021/4/14
@@ -108,7 +109,7 @@ public class Result<T> extends BasicResult {
   public T requiredData() {
     T data = getData();
     if (data == null) {
-      throw new NullPointerException("data is null");
+      throw new ResultException(500, 500, "result.data.null", "data is null");
     }
     return data;
   }
@@ -127,6 +128,7 @@ public class Result<T> extends BasicResult {
     Result<R> retRes = new Result<>();
     retRes.setSuccess(this.isSuccessful());
     retRes.setCode(this.getCode());
+    retRes.setBizCode(this.getBizCode());
     retRes.setMessage(this.getMessage());
     if (this.getData() != null && function != null) {
       retRes.setData(function.apply(this.getData()));

@@ -48,12 +48,13 @@ public class GeneralExceptionHandlerAdvice {
 
   @Nonnull
   @ExceptionHandler(VisibleException.class)
-  public ResponseEntity<Object> visibleRuntimeExceptionHandler(
+  public ResponseEntity<Object> visibleExceptionHandler(
     @Nonnull VisibleException ex) {
     String message = ex.getMessage();
     int httpStatus = ex.getHttpStatus();
     log.info(message);
     Result<Object> body = Result.exception(ex);
+    body.setBizCode(ex.getBizCode());
     return new ResponseEntity<>(body, RESPONSE_HEADERS, HttpStatusCode.valueOf(httpStatus));
   }
 

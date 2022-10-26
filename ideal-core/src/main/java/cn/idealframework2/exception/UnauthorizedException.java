@@ -11,10 +11,10 @@ public class UnauthorizedException extends VisibleException {
   private static final long serialVersionUID = -6281199227602676282L;
 
   public UnauthorizedException() {
-    super(401, null, "Unauthorized");
+    super(401, 401, null, "Unauthorized");
   }
 
   public UnauthorizedException(@Nonnull String message) {
-    super(401, null, message);
+    super(401, 401, null, message);
   }
 }

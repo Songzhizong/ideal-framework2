@@ -15,8 +15,10 @@ public class VisibleException extends RuntimeException {
 
   private final int httpStatus;
 
+  private final int code;
+
   @Nullable
-  private final String code;
+  private final String bizCode;
 
   @Nonnull
   private final String message;
@@ -24,10 +26,11 @@ public class VisibleException extends RuntimeException {
   @Nullable
   private Object data;
 
-  public VisibleException(int httpStatus, @Nullable String code, @Nonnull String message) {
+  public VisibleException(int httpStatus, int code, @Nullable String bizCode, @Nonnull String message) {
     super(message);
     this.httpStatus = httpStatus;
     this.code = code;
+    this.bizCode = bizCode;
     this.message = message;
   }
 
@@ -35,9 +38,13 @@ public class VisibleException extends RuntimeException {
     return httpStatus;
   }
 
-  @Nullable
-  public String getCode() {
+  public int getCode() {
     return code;
+  }
+
+  @Nullable
+  public String getBizCode() {
+    return bizCode;
   }
 
   @Override

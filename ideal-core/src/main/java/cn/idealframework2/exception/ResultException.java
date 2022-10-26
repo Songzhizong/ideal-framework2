@@ -11,7 +11,7 @@ public class ResultException extends VisibleException {
   @Serial
   private static final long serialVersionUID = -6281199227602676282L;
 
-  public ResultException(int httpStatus, @Nullable String code, @Nonnull String message) {
-    super(httpStatus, code, message);
+  public ResultException(int httpStatus, int code, @Nullable String bizCode, @Nonnull String message) {
+    super(httpStatus, code, bizCode, message);
   }
 }

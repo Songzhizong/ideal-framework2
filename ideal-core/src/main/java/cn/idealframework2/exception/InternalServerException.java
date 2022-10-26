@@ -11,6 +11,6 @@ public class InternalServerException extends VisibleException {
   private static final long serialVersionUID = -6281199227602676282L;
 
   public InternalServerException(@Nonnull String message) {
-    super(500, null, message);
+    super(500, 500, null, message);
   }
 }

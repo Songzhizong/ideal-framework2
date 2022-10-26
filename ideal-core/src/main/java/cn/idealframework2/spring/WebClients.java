@@ -176,11 +176,11 @@ public final class WebClients {
           log.debug("响应结果: " + result);
           Result<T> parse = JsonUtils.parse(result, Result.class, clazz);
           if (parse.getSuccess() == null) {
-            ResultException exception = new ResultException(status, null, result);
+            ResultException exception = new ResultException(status, status, null, result);
             return Mono.error(exception);
           }
           if (statusCode.isError() || parse.isFailed()) {
-            ResultException exception = new ResultException(status, parse.getCode(), parse.getMessage());
+            ResultException exception = new ResultException(status, parse.getCode(), parse.getBizCode(), parse.getMessage());
             return Mono.error(exception);
           }
           return Mono.just(parse);
@@ -190,7 +190,7 @@ public final class WebClients {
             return Mono.error(exception);
           }
           String message = throwable.getMessage();
-          ResultException exception = new ResultException(500, null, message);
+          ResultException exception = new ResultException(500, 500, null, message);
           return Mono.error(exception);
         });
     };
@@ -208,11 +208,13 @@ public final class WebClients {
           log.debug("响应结果: " + result);
           T parse = JsonUtils.parse(result, reference);
           if (parse.getSuccess() == null) {
-            ResultException exception = new ResultException(status, null, result);
+            ResultException exception
+              = new ResultException(status, status, null, result);
             return Mono.error(exception);
           }
           if (statusCode.isError() || parse.isFailed()) {
-            ResultException exception = new ResultException(status, parse.getCode(), parse.getMessage());
+            ResultException exception
+              = new ResultException(status, parse.getCode(), parse.getBizCode(), parse.getMessage());
             return Mono.error(exception);
           }
           return Mono.just(parse);
@@ -222,7 +224,7 @@ public final class WebClients {
             return Mono.error(exception);
           }
           String message = throwable.getMessage();
-          ResultException exception = new ResultException(500, null, message);
+          ResultException exception = new ResultException(500, 500, null, message);
           return Mono.error(exception);
         });
     };
@@ -240,11 +242,11 @@ public final class WebClients {
           log.debug("响应结果: " + result);
           ListResult<T> parse = JsonUtils.parse(result, ListResult.class, clazz);
           if (parse.getSuccess() == null) {
-            ResultException exception = new ResultException(status, null, result);
+            ResultException exception = new ResultException(status, status, null, result);
             return Mono.error(exception);
           }
           if (statusCode.isError() || parse.isFailed()) {
-            ResultException exception = new ResultException(status, parse.getCode(), parse.getMessage());
+            ResultException exception = new ResultException(status, parse.getCode(), parse.getBizCode(), parse.getMessage());
             return Mono.error(exception);
           }
           return Mono.just(parse);
@@ -254,7 +256,7 @@ public final class WebClients {
             return Mono.error(exception);
           }
           String message = throwable.getMessage();
-          ResultException exception = new ResultException(500, null, message);
+          ResultException exception = new ResultException(500, 500, null, message);
           return Mono.error(exception);
         });
     };
@@ -272,11 +274,11 @@ public final class WebClients {
           log.debug("响应结果: " + result);
           PageResult<E> parse = JsonUtils.parse(result, PageResult.class, clazz);
           if (parse.getSuccess() == null) {
-            ResultException exception = new ResultException(status, null, result);
+            ResultException exception = new ResultException(status, status, null, result);
             return Mono.error(exception);
           }
           if (statusCode.isError() || parse.isFailed()) {
-            ResultException exception = new ResultException(status, parse.getCode(), parse.getMessage());
+            ResultException exception = new ResultException(status, parse.getCode(), parse.getBizCode(), parse.getMessage());
             return Mono.error(exception);
           }
           return Mono.just(parse);
@@ -286,7 +288,7 @@ public final class WebClients {
             return Mono.error(exception);
           }
           String message = throwable.getMessage();
-          ResultException exception = new ResultException(500, null, message);
+          ResultException exception = new ResultException(500, 500, null, message);
           return Mono.error(exception);
         });
     };

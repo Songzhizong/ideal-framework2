@@ -12,14 +12,14 @@ public class ForbiddenException extends VisibleException {
   private static final long serialVersionUID = -6281199227602676282L;
 
   public ForbiddenException() {
-    super(403, null, "Forbidden");
+    super(403, 403, null, "Forbidden");
   }
 
   public ForbiddenException(@Nonnull String message) {
-    super(403, null, message);
+    super(403, 403, null, message);
   }
 
-  public ForbiddenException(@Nullable String code, @Nonnull String message) {
-    super(403, code, message);
+  public ForbiddenException(@Nullable String bizCode, @Nonnull String message) {
+    super(403, 403, bizCode, message);
   }
 }

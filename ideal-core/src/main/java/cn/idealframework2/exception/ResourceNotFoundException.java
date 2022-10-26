@@ -12,7 +12,7 @@ public class ResourceNotFoundException extends VisibleException {
   private static final long serialVersionUID = -6281199227602676282L;
 
   public ResourceNotFoundException(@Nonnull String message) {
-    super(404, null, message);
+    super(404, 404, null, message);
   }
 
   public static void throwIfNull(@Nullable Object o, @Nonnull String message) {
