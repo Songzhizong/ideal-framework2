@@ -40,6 +40,7 @@
     <jackson.version>2.14.0-rc2</jackson.version>
     <jsr305.version>3.0.2</jsr305.version>
     <lombok.version>1.18.24</lombok.version>
+    <kotlin-logging.version>3.0.2</kotlin-logging.version>
     <reactor-rabbitmq.version>1.5.5</reactor-rabbitmq.version>
     <redisson.version>3.17.7</redisson.version>
     <snakeyaml.version>1.33</snakeyaml.version>
@@ -126,6 +127,11 @@
         <groupId>com.google.code.findbugs</groupId>
         <artifactId>jsr305</artifactId>
         <version>${jsr305.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.microutils</groupId>
+        <artifactId>kotlin-logging</artifactId>
+        <version>${kotlin-logging.version}</version>
       </dependency>
       <dependency>
         <groupId>org.projectlombok</groupId>
