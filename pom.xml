@@ -29,7 +29,7 @@
     <kotlin.version>1.7.20</kotlin.version>
     <kotlinx-coroutines.version>1.6.4</kotlinx-coroutines.version>
     <spring.boot.version>3.0.0-RC1</spring.boot.version>
-    <spring.cloud.version>2022.0.0-M5</spring.cloud.version>
+    <spring.cloud.version>2022.0.0-RC1</spring.cloud.version>
     <vertx.version>4.3.4</vertx.version>
     <commons-compress.version>1.21</commons-compress.version>
     <commons-io.version>2.11.0</commons-io.version>
