@@ -66,6 +66,7 @@ public class Result<T> extends BasicResult {
   public static <T> Result<T> failure(@Nullable String message) {
     Result<T> res = new Result<>();
     res.setSuccess(false);
+    res.setCode(400);
     res.setMessage(message);
     return res;
   }
@@ -86,6 +87,7 @@ public class Result<T> extends BasicResult {
     }
     Result<T> res = new Result<>();
     res.setSuccess(false);
+    res.setCode(500);
     res.setMessage(t.getMessage());
     return res;
   }
@@ -94,6 +96,7 @@ public class Result<T> extends BasicResult {
   public static <T> Result<T> exception(@Nullable String message) {
     Result<T> res = new Result<>();
     res.setSuccess(false);
+    res.setCode(500);
     res.setMessage(message);
     return res;
   }

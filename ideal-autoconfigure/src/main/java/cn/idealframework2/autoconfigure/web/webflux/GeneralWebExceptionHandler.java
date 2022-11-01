@@ -172,6 +172,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
       httpStatus = exception.getStatusCode();
       String message = exception.getMessage();
       res = Result.failure(message);
+      res.setCode(httpStatus.value());
       String uri = exchange.getRequest().getURI().getPath();
       log.info("{}{} {}", logPrefix, message, uri, throwable);
     }
