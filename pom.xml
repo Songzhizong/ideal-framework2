@@ -31,16 +31,16 @@
     <spring.boot.version>3.0.0-RC1</spring.boot.version>
     <spring.cloud.version>2022.0.0-RC1</spring.cloud.version>
     <vertx.version>4.3.4</vertx.version>
-    <commons-compress.version>1.21</commons-compress.version>
+    <commons-compress.version>1.22</commons-compress.version>
     <commons-io.version>2.11.0</commons-io.version>
     <commons-net.version>3.8.0</commons-net.version>
-    <easyexcel.version>3.1.1</easyexcel.version>
+    <easyexcel.version>3.1.2</easyexcel.version>
     <easypoi.version>4.4.0</easypoi.version>
     <guava.version>31.1-jre</guava.version>
-    <jackson.version>2.14.0-rc2</jackson.version>
+    <jackson.version>2.14.0-rc3</jackson.version>
     <jsr305.version>3.0.2</jsr305.version>
     <lombok.version>1.18.24</lombok.version>
-    <kotlin-logging.version>3.0.2</kotlin-logging.version>
+    <kotlin-logging.version>3.0.4</kotlin-logging.version>
     <reactor-rabbitmq.version>1.5.5</reactor-rabbitmq.version>
     <redisson.version>3.17.7</redisson.version>
     <snakeyaml.version>1.33</snakeyaml.version>

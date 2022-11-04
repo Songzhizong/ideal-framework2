@@ -24,14 +24,14 @@ public class ReactorRabbitEventPublisher implements ReactiveEventPublisher {
   private static final Logger log = LoggerFactory.getLogger(ReactorRabbitEventPublisher.class);
   private static final int DELIVERY_MODE_PERSISTENT = 2;
   private final Sender sender;
-  private final String exchange;
+  private final String defaultExchange;
 
-  public ReactorRabbitEventPublisher(@Nonnull Sender sender, @Nonnull String exchange) {
+  public ReactorRabbitEventPublisher(@Nonnull Sender sender, @Nonnull String defaultExchange) {
     this.sender = sender;
-    this.exchange = exchange;
-    ExchangeSpecification topic = ExchangeSpecification.exchange(exchange).type("topic").durable(true);
+    this.defaultExchange = defaultExchange;
+    ExchangeSpecification topic = ExchangeSpecification.exchange(defaultExchange).type("topic").durable(true);
     sender.declareExchange(topic).block();
-    log.info("declare exchange: " + exchange);
+    log.info("declare exchange: " + defaultExchange);
   }
 
   @Nonnull
@@ -49,7 +49,7 @@ public class ReactorRabbitEventPublisher implements ReactiveEventPublisher {
         AMQP.BasicProperties.Builder builder = new AMQP.BasicProperties.Builder()
           .deliveryMode(DELIVERY_MODE_PERSISTENT);
         AMQP.BasicProperties properties = builder.build();
-        return new OutboundMessage(exchange, topic, properties, originalBytes);
+        return new OutboundMessage(defaultExchange, topic, properties, originalBytes);
       });
     return sender.sendWithPublishConfirms(messages).collectList().map(l -> true);
   }

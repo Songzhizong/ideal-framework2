@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
  */
 public class EventRabbitProperties {
 
-  /** 交换区 */
+  /** 默认交换区 */
   private String exchange = "event.exchange";
 
   /** 消费队列前缀 */
