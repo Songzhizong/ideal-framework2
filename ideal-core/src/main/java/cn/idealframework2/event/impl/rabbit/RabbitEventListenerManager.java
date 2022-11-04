@@ -30,23 +30,24 @@ import java.util.function.Consumer;
 public class RabbitEventListenerManager implements ChannelAwareMessageListener, EventListenerManager {
   private static final Logger log = LoggerFactory.getLogger(RabbitEventListenerManager.class);
   private final ConcurrentMap<String, RabbitEventListener<?>> listenerMap = new ConcurrentHashMap<>();
+  private final ConcurrentMap<String, TopicExchange> exchangeMap = new ConcurrentHashMap<>();
   private final Set<String> queues = Collections.newSetFromMap(new ConcurrentHashMap<>());
   /** 启用此配置则为监听器创建随机名称的队列, 并在程序关闭时删除队列 */
   private final boolean temporary;
   private final String queuePrefix;
   private final AmqpAdmin amqpAdmin;
-  private final TopicExchange exchange;
+  private final TopicExchange defaultExchange;
   private final IdempotentHandler idempotentHandler;
 
   public RabbitEventListenerManager(boolean temporary,
-                                    @Nonnull String exchange,
+                                    @Nonnull String defaultExchange,
                                     @Nonnull String queuePrefix,
                                     @Nonnull AmqpAdmin amqpAdmin,
                                     @Nonnull IdempotentHandler idempotentHandler) {
     this.temporary = temporary;
     this.queuePrefix = queuePrefix;
     this.amqpAdmin = amqpAdmin;
-    this.exchange = new TopicExchange(exchange);
+    this.defaultExchange = new TopicExchange(defaultExchange);
     this.idempotentHandler = idempotentHandler;
   }
 
@@ -89,9 +90,20 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
 
   @Override
   public <E extends Event> EventListener listen(@Nonnull String name,
-                                                @Nonnull String topic,
                                                 @Nonnull Class<E> clazz,
                                                 @Nonnull Consumer<E> consumer) {
+    cn.idealframework2.event.annotation.Event annotation = clazz.getAnnotation(cn.idealframework2.event.annotation.Event.class);
+    if (annotation == null) {
+      throw new RuntimeException("event 实现类:" + clazz.getName() + " 缺少 @cn.idealframework2.event.annotation.Event 注解");
+    }
+    String exchangeName = annotation.exchange();
+    TopicExchange exchange;
+    if (StringUtils.isBlank(exchangeName)) {
+      exchange = defaultExchange;
+    } else {
+      exchange = exchangeMap.computeIfAbsent(exchangeName, TopicExchange::new);
+    }
+    String topic = annotation.topic();
     Queue queue;
     String queueName = queuePrefix + name;
     if (temporary) {

@@ -4,6 +4,7 @@ import cn.idealframework2.event.Event
 import cn.idealframework2.event.EventListener
 import cn.idealframework2.idempotent.coroutine.IdempotentHandler
 import cn.idealframework2.json.JsonUtils
+import cn.idealframework2.lang.StringUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.reactor.mono
@@ -24,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap
  * @author 宋志宗 on 2022/4/2
  */
 class RabbitEventListenerManager(
-  private val exchange: String,
+  private val defaultExchange: String,
   private val temporary: Boolean,
   private val queuePrefix: String,
   private val sender: Sender,
@@ -37,14 +38,21 @@ class RabbitEventListenerManager(
   }
 
   @Suppress("UNCHECKED_CAST")
-  override fun <T : Event> listen(
+  override fun <E : Event> listen(
     name: String,
-    topic: String,
-    clazz: Class<T>,
-    block: suspend CoroutineScope.(T) -> Unit
-  ): RabbitEventListener<T> {
+    clazz: Class<E>,
+    block: suspend CoroutineScope.(E) -> Unit
+  ): RabbitEventListener<E> {
     var exist = true
     val eventListener = registry.computeIfAbsent(name) {
+      val annotation = clazz.getAnnotation(cn.idealframework2.event.annotation.Event::class.java)
+        ?: throw RuntimeException("event 实现类: ${clazz.name} 缺少 @cn.idealframework2.event.annotation.Event 注解")
+      var exchange = annotation.exchange
+      if (StringUtils.isBlank(exchange)) {
+        exchange = defaultExchange
+      }
+      val topic: String = annotation.topic
+
       log.info("register event listener: {}  ->  {}", name, topic)
       exist = false
       RabbitEventListener(
@@ -59,7 +67,7 @@ class RabbitEventListenerManager(
         clazz,
         block
       )
-    } as RabbitEventListener<T>
+    } as RabbitEventListener<E>
     if (exist) {
       val message = "监听器名称: $name 被重复注册"
       log.error(message)
@@ -68,7 +76,7 @@ class RabbitEventListenerManager(
     return eventListener
   }
 
-  class RabbitEventListener<T : Event>(
+  class RabbitEventListener<E : Event>(
     exchange: String,
     topic: String,
     name: String,
@@ -77,8 +85,8 @@ class RabbitEventListenerManager(
     sender: Sender,
     private val receiver: Receiver,
     private val idempotentHandler: IdempotentHandler,
-    private val clazz: Class<T>,
-    private val block: suspend CoroutineScope.(T) -> Unit
+    private val clazz: Class<E>,
+    private val block: suspend CoroutineScope.(E) -> Unit
   ) : EventListener, DisposableBean, ApplicationRunner {
     private val finalQueueName: String
     private var disposable: Disposable? = null

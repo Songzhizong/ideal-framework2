@@ -39,10 +39,10 @@ public class ReactiveMongoTemplateTransactionalEventPublisher
   @SuppressWarnings("AlibabaThreadPoolCreation")
   private final ExecutorService executor = Executors.newSingleThreadExecutor();
   private final ReactiveMongoTemplate reactiveMongoTemplate;
-  private final ReactiveEventPublisher reactiveEventPublisher;
+  private final ReactiveDirectEventPublisher reactiveEventPublisher;
 
   public ReactiveMongoTemplateTransactionalEventPublisher(@Nonnull ReactiveMongoTemplate reactiveMongoTemplate,
-                                                          @Nonnull ReactiveEventPublisher reactiveEventPublisher) {
+                                                          @Nonnull ReactiveDirectEventPublisher reactiveEventPublisher) {
     this.reactiveMongoTemplate = reactiveMongoTemplate;
     this.reactiveEventPublisher = reactiveEventPublisher;
   }
@@ -57,9 +57,18 @@ public class ReactiveMongoTemplateTransactionalEventPublisher
     long currentTimeMillis = System.currentTimeMillis();
     List<MongoEventTemp> collect = suppliers.stream().map(s -> {
       Event event = s.get();
+      Class<? extends Event> clazz = event.getClass();
+      cn.idealframework2.event.annotation.Event annotation = clazz.getAnnotation(cn.idealframework2.event.annotation.Event.class);
+      if (annotation == null) {
+        throw new RuntimeException("event 实现类:" + clazz.getName() + " 缺少 @cn.idealframework2.event.annotation.Event 注解");
+      }
+      String exchange = annotation.exchange();
+      String topic = annotation.topic();
       String jsonString = JsonUtils.toJsonString(event);
       MongoEventTemp temp = new MongoEventTemp();
       temp.setEventInfo(jsonString);
+      temp.setTopic(topic);
+      temp.setExchange(exchange);
       temp.setTimestamp(currentTimeMillis);
       return temp;
     }).toList();
@@ -98,11 +107,17 @@ public class ReactiveMongoTemplateTransactionalEventPublisher
             continue;
           }
           sleep = temps.size() < limit;
-          List<EventSupplier> collect = temps.stream()
-            .map(t -> JsonUtils.parse(t.getEventInfo(), GeneralEvent.class))
+          List<DirectEventSupplier> collect = temps.stream()
+            .map(t -> {
+              String eventInfo = t.getEventInfo();
+              String topic = t.getTopic();
+              String exchange = t.getExchange();
+              GeneralEvent event = JsonUtils.parse(eventInfo, GeneralEvent.class);
+              return new DirectEventSupplier(event, topic, exchange);
+            })
             .collect(Collectors.toList());
           CountDownLatch countDownLatch = new CountDownLatch(1);
-          reactiveEventPublisher.publish(collect)
+          reactiveEventPublisher.directPublish(collect)
             .retryWhen(Retry.fixedDelay(5, Duration.ofSeconds(5)))
             .doFinally(f -> countDownLatch.countDown())
             .subscribe();

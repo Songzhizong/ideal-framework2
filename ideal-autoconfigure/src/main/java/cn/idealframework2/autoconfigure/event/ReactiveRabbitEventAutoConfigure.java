@@ -3,7 +3,7 @@ package cn.idealframework2.autoconfigure.event;
 import cn.idealframework2.autoconfigure.event.properties.EventProperties;
 import cn.idealframework2.autoconfigure.event.properties.EventRabbitProperties;
 import cn.idealframework2.autoconfigure.event.properties.SpringRabbitProperties;
-import cn.idealframework2.event.ReactiveEventPublisher;
+import cn.idealframework2.event.ReactiveDirectEventPublisher;
 import cn.idealframework2.event.coroutine.EventListenerManager;
 import cn.idealframework2.event.coroutine.RabbitEventListenerManager;
 import cn.idealframework2.event.impl.rabbit.ReactorRabbitEventPublisher;
@@ -61,8 +61,8 @@ public class ReactiveRabbitEventAutoConfigure {
 
   @Bean
   @Primary
-  public ReactiveEventPublisher reactiveEventPublisher(@Nonnull Sender sender,
-                                                       @Nonnull EventProperties properties) {
+  public ReactiveDirectEventPublisher directReactiveEventPublisher(@Nonnull Sender sender,
+                                                                   @Nonnull EventProperties properties) {
     EventRabbitProperties rabbit = properties.getRabbit();
     String exchange = rabbit.getExchange();
     return new ReactorRabbitEventPublisher(sender, exchange);

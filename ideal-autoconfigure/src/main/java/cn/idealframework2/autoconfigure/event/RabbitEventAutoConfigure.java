@@ -2,7 +2,7 @@ package cn.idealframework2.autoconfigure.event;
 
 import cn.idealframework2.autoconfigure.event.properties.EventProperties;
 import cn.idealframework2.autoconfigure.event.properties.EventRabbitProperties;
-import cn.idealframework2.event.EventPublisher;
+import cn.idealframework2.event.DirectEventPublisher;
 import cn.idealframework2.event.impl.rabbit.AmqpEventPublisher;
 import cn.idealframework2.event.impl.rabbit.RabbitEventListenerManager;
 import cn.idealframework2.event.impl.rabbit.RabbitMessageListenerContainer;
@@ -27,9 +27,9 @@ public class RabbitEventAutoConfigure {
 
   @Bean
   @Primary
-  public EventPublisher eventPublisher(@Nonnull EventProperties properties,
-                                       @Nonnull AmqpAdmin amqpAdmin,
-                                       @Nonnull AmqpTemplate amqpTemplate) {
+  public DirectEventPublisher directEventPublisher(@Nonnull EventProperties properties,
+                                                   @Nonnull AmqpAdmin amqpAdmin,
+                                                   @Nonnull AmqpTemplate amqpTemplate) {
     EventRabbitProperties rabbit = properties.getRabbit();
     String exchange = rabbit.getExchange();
     return new AmqpEventPublisher(exchange, amqpAdmin, amqpTemplate);

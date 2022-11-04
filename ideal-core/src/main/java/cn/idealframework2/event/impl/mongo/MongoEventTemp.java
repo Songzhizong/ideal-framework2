@@ -20,6 +20,12 @@ public class MongoEventTemp {
   @Nonnull
   private String eventInfo = "";
 
+  @Nonnull
+  private String topic = "";
+
+  @Nonnull
+  private String exchange = "";
+
   private long timestamp;
 
   public ObjectId getId() {
@@ -37,6 +43,24 @@ public class MongoEventTemp {
 
   public void setEventInfo(@Nonnull String eventInfo) {
     this.eventInfo = eventInfo;
+  }
+
+  @Nonnull
+  public String getTopic() {
+    return topic;
+  }
+
+  public void setTopic(@Nonnull String topic) {
+    this.topic = topic;
+  }
+
+  @Nonnull
+  public String getExchange() {
+    return exchange;
+  }
+
+  public void setExchange(@Nonnull String exchange) {
+    this.exchange = exchange;
   }
 
   public long getTimestamp() {

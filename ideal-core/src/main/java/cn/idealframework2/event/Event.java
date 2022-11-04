@@ -16,15 +16,6 @@ public interface Event extends EventSupplier {
   String getUuid();
 
   /**
-   * 返回事件的主题
-   *
-   * @return 事件类型
-   * @author 宋志宗 on 2021/4/22
-   */
-  @Nonnull
-  String getTopic();
-
-  /**
    * 获取时间产生的时间
    *
    * @return 事件产生事件, 单位毫秒

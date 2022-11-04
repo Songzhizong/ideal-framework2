@@ -1,6 +1,6 @@
 package cn.idealframework2.autoconfigure.event;
 
-import cn.idealframework2.event.EventPublisher;
+import cn.idealframework2.event.DirectEventPublisher;
 import cn.idealframework2.event.TransactionalEventPublisher;
 import cn.idealframework2.event.impl.mongo.MongoTemplateTransactionalEventPublisher;
 import cn.idealframework2.starter.model.event.EventModel;
@@ -22,7 +22,7 @@ public class MongoEventAutoConfigure {
 
   @Bean
   public TransactionalEventPublisher transactionalEventPublisher(@Nonnull MongoTemplate mongoTemplate,
-                                                                 @Nonnull EventPublisher eventPublisher) {
-    return new MongoTemplateTransactionalEventPublisher(mongoTemplate, eventPublisher);
+                                                                 @Nonnull DirectEventPublisher directEventPublisher) {
+    return new MongoTemplateTransactionalEventPublisher(mongoTemplate, directEventPublisher);
   }
 }

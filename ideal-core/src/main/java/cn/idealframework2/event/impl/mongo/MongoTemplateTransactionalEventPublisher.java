@@ -36,10 +36,10 @@ public class MongoTemplateTransactionalEventPublisher
   @SuppressWarnings("AlibabaThreadPoolCreation")
   private final ExecutorService executor = Executors.newSingleThreadExecutor();
   private final MongoTemplate mongoTemplate;
-  private final EventPublisher eventPublisher;
+  private final DirectEventPublisher eventPublisher;
 
   public MongoTemplateTransactionalEventPublisher(@Nonnull MongoTemplate mongoTemplate,
-                                                  @Nonnull EventPublisher eventPublisher) {
+                                                  @Nonnull DirectEventPublisher eventPublisher) {
     this.mongoTemplate = mongoTemplate;
     this.eventPublisher = eventPublisher;
   }
@@ -53,9 +53,19 @@ public class MongoTemplateTransactionalEventPublisher
     long currentTimeMillis = System.currentTimeMillis();
     List<MongoEventTemp> collect = suppliers.stream().map(s -> {
       Event event = s.get();
+      Class<? extends Event> clazz = event.getClass();
+      cn.idealframework2.event.annotation.Event annotation = clazz.getAnnotation(cn.idealframework2.event.annotation.Event.class);
+      if (annotation == null) {
+        throw new RuntimeException("event 实现类:" + clazz.getName() + " 缺少 @cn.idealframework2.event.annotation.Event 注解");
+      }
+      String exchange = annotation.exchange();
+      String topic = annotation.topic();
+
       String jsonString = JsonUtils.toJsonString(event);
       MongoEventTemp temp = new MongoEventTemp();
       temp.setEventInfo(jsonString);
+      temp.setTopic(topic);
+      temp.setExchange(exchange);
       temp.setTimestamp(currentTimeMillis);
       return temp;
     }).toList();
@@ -87,10 +97,16 @@ public class MongoTemplateTransactionalEventPublisher
             continue;
           }
           sleep = temps.size() < limit;
-          List<EventSupplier> collect = temps.stream()
-            .map(t -> JsonUtils.parse(t.getEventInfo(), GeneralEvent.class))
+          List<DirectEventSupplier> collect = temps.stream()
+            .map(t -> {
+              String eventInfo = t.getEventInfo();
+              String topic = t.getTopic();
+              String exchange = t.getExchange();
+              GeneralEvent event = JsonUtils.parse(eventInfo, GeneralEvent.class);
+              return new DirectEventSupplier(event, topic, exchange);
+            })
             .collect(Collectors.toList());
-          eventPublisher.publish(collect);
+          eventPublisher.directPublish(collect);
           mongoTemplate.remove(query, MongoEventTemp.class);
         } catch (Exception e) {
           log.info("发布消息出现异常: ", e);

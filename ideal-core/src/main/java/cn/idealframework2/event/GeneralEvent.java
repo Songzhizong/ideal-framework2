@@ -1,7 +1,6 @@
 package cn.idealframework2.event;
 
 import javax.annotation.Nonnull;
-import java.beans.Transient;
 import java.io.Serial;
 import java.util.LinkedHashMap;
 
@@ -20,17 +19,6 @@ public class GeneralEvent extends LinkedHashMap<String, Object> implements Event
       return "";
     }
     return uuid.toString();
-  }
-
-  @Nonnull
-  @Override
-  @Transient
-  public String getTopic() {
-    Object topic = this.get("topic");
-    if (topic == null) {
-      return "";
-    }
-    return topic.toString();
   }
 
   @Override

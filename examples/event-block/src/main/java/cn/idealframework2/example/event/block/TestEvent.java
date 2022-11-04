@@ -1,15 +1,15 @@
 package cn.idealframework2.example.event.block;
 
 import cn.idealframework2.event.BaseEvent;
+import cn.idealframework2.event.annotation.Event;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
  * @author 宋志宗 on 2022/9/30
  */
+@Event(topic = "idealframework2.example.test")
 public class TestEvent extends BaseEvent {
-  public static final String TOPIC = "idealframework2.example.test";
 
   @Nullable
   private Long id;
@@ -17,20 +17,13 @@ public class TestEvent extends BaseEvent {
   @Nullable
   private String name;
 
-  @Nonnull
-  @Override
-  public String getTopic() {
-    return TOPIC;
-  }
-
   @Nullable
   public Long getId() {
     return id;
   }
 
-  public TestEvent setId(@Nullable Long id) {
+  public void setId(@Nullable Long id) {
     this.id = id;
-    return this;
   }
 
   @Nullable
@@ -38,8 +31,7 @@ public class TestEvent extends BaseEvent {
     return name;
   }
 
-  public TestEvent setName(@Nullable String name) {
+  public void setName(@Nullable String name) {
     this.name = name;
-    return this;
   }
 }

@@ -12,14 +12,12 @@ public interface EventListenerManager {
    * 监听事件
    *
    * @param name     监听器的全局唯一名称
-   * @param topic    事件主题
    * @param clazz    事件类型
    * @param consumer 处理逻辑
    * @param <E>      事件类型
    * @return 事件监听器
    */
   <E extends Event> EventListener listen(@Nonnull String name,
-                                         @Nonnull String topic,
                                          @Nonnull Class<E> clazz,
                                          @Nonnull Consumer<E> consumer);
 }

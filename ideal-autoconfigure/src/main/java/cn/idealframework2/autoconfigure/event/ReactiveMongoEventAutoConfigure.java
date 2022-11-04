@@ -1,6 +1,6 @@
 package cn.idealframework2.autoconfigure.event;
 
-import cn.idealframework2.event.ReactiveEventPublisher;
+import cn.idealframework2.event.ReactiveDirectEventPublisher;
 import cn.idealframework2.event.ReactiveTransactionalEventPublisher;
 import cn.idealframework2.event.impl.mongo.ReactiveMongoTemplateTransactionalEventPublisher;
 import cn.idealframework2.starter.model.event.coroutine.CoroutineEventModel;
@@ -24,8 +24,8 @@ public class ReactiveMongoEventAutoConfigure {
   @Bean
   public ReactiveTransactionalEventPublisher reactiveTransactionalEventPublisher(
     @Nonnull ReactiveMongoTemplate template,
-    @Nonnull ReactiveEventPublisher publisher
+    @Nonnull ReactiveDirectEventPublisher directReactiveEventPublisher
   ) {
-    return new ReactiveMongoTemplateTransactionalEventPublisher(template, publisher);
+    return new ReactiveMongoTemplateTransactionalEventPublisher(template, directReactiveEventPublisher);
   }
 }

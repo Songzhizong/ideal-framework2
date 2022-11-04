@@ -22,8 +22,9 @@ public class TestListener {
 
   @Bean("idealframework2.example.event.block.TestEvent")
   public EventListener eventListener() {
-    return eventListenerManager.listen("idealframework2.example.event.block.TestEvent",
-      TestEvent.TOPIC, TestEvent.class, testEvent -> {
+    return eventListenerManager.listen(
+      "idealframework2.example.event.block.TestEvent",
+      TestEvent.class, testEvent -> {
         String jsonString = JsonUtils.toJsonString(testEvent);
         log.info("监听到测试事件: {}", jsonString);
       });
