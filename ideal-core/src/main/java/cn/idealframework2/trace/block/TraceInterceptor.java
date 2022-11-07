@@ -13,6 +13,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -25,7 +26,9 @@ public class TraceInterceptor implements HandlerInterceptor {
   @Nonnull
   private final String system;
   @Nonnull
-  private final Set<String> excludePatterns;
+  private final Set<String> excludePaths = new HashSet<>();
+  @Nonnull
+  private final Set<String> excludePatterns = new HashSet<>();
   @Nullable
   private final OperatorHolder operatorHolder;
   @Nullable
@@ -36,9 +39,15 @@ public class TraceInterceptor implements HandlerInterceptor {
                           @Nullable OperatorHolder operatorHolder,
                           @Nullable OperationLogStore operationLogStore) {
     this.system = system;
-    this.excludePatterns = excludePatterns;
     this.operatorHolder = operatorHolder;
     this.operationLogStore = operationLogStore;
+    for (String excludePattern : excludePatterns) {
+      if (PathMatchers.isPattern(excludePattern)) {
+        this.excludePatterns.add(excludePattern);
+      } else {
+        excludePaths.add(excludePattern);
+      }
+    }
   }
 
 
@@ -48,6 +57,9 @@ public class TraceInterceptor implements HandlerInterceptor {
                            @Nonnull HttpServletResponse response,
                            @Nonnull Object handler) {
     String requestPath = request.getRequestURI();
+    if (excludePaths.contains(requestPath)) {
+      return true;
+    }
     for (String excludePattern : excludePatterns) {
       if (PathMatchers.match(excludePattern, requestPath)) {
         return true;

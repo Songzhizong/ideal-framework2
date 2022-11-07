@@ -21,6 +21,7 @@ import reactor.core.publisher.Mono;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -33,7 +34,9 @@ public class TraceFilter implements Ordered, WebFilter {
   @Nonnull
   private final String system;
   @Nonnull
-  private final Set<String> excludePatterns;
+  private final Set<String> excludePaths = new HashSet<>();
+  @Nonnull
+  private final Set<String> excludePatterns = new HashSet<>();
   @Nullable
   private final OperatorHolder operatorHolder;
   @Nullable
@@ -47,10 +50,16 @@ public class TraceFilter implements Ordered, WebFilter {
                      @Nullable OperationLogStore operationLogStore,
                      @Nonnull RequestMappingHandlerMapping handlerMapping) {
     this.system = system;
-    this.excludePatterns = excludePatterns;
     this.operatorHolder = operatorHolder;
     this.operationLogStore = operationLogStore;
     this.handlerMapping = handlerMapping;
+    for (String excludePattern : excludePatterns) {
+      if (PathMatchers.isPattern(excludePattern)) {
+        this.excludePatterns.add(excludePattern);
+      } else {
+        excludePaths.add(excludePattern);
+      }
+    }
   }
 
   @Override
@@ -64,6 +73,9 @@ public class TraceFilter implements Ordered, WebFilter {
   public Mono<Void> filter(@Nonnull ServerWebExchange exchange, @Nonnull WebFilterChain chain) {
     ServerHttpRequest request = exchange.getRequest();
     String requestPath = request.getURI().getPath();
+    if (excludePaths.contains(requestPath)) {
+      return chain.filter(exchange);
+    }
     for (String excludePattern : excludePatterns) {
       if (PathMatchers.match(excludePattern, requestPath)) {
         return chain.filter(exchange);
