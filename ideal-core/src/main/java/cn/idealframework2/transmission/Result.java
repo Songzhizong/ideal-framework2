@@ -28,11 +28,13 @@ public class Result<T> extends BasicResult {
   }
 
   @Nonnull
-  public static <T> Result<T> create(boolean success, int code,
-                                     @Nullable String message, @Nullable T data) {
+  public static <T> Result<T> create(boolean success,
+                                     @Nonnull String code,
+                                     @Nullable String message,
+                                     @Nullable T data) {
     Result<T> res = new Result<>();
     res.setSuccess(success);
-    res.setCode(code);
+    res.setBizCode(code);
     res.setMessage(message);
     res.setData(data);
     return res;
@@ -72,10 +74,10 @@ public class Result<T> extends BasicResult {
   }
 
   @Nonnull
-  public static <T> Result<T> failure(int code, @Nullable String message) {
+  public static <T> Result<T> failure(@Nonnull String code, @Nullable String message) {
     Result<T> res = new Result<>();
     res.setSuccess(false);
-    res.setCode(code);
+    res.setBizCode(code);
     res.setMessage(message);
     return res;
   }
@@ -83,7 +85,12 @@ public class Result<T> extends BasicResult {
   @Nonnull
   public static <T> Result<T> exception(@Nonnull Throwable t) {
     if (t instanceof VisibleException exception) {
-      return failure(exception.getCode(), exception.getMessage());
+      Result<T> res = new Result<>();
+      res.setSuccess(false);
+      res.setCode(exception.getCode());
+      res.setBizCode(exception.getBizCode());
+      res.setMessage(t.getMessage());
+      return res;
     }
     Result<T> res = new Result<>();
     res.setSuccess(false);
