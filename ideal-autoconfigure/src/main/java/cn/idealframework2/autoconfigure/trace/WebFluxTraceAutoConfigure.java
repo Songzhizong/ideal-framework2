@@ -15,6 +15,7 @@ import org.springframework.web.server.WebFilter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Set;
 
 /**
  * @author 宋志宗 on 2022/9/22
@@ -34,9 +35,10 @@ public class WebFluxTraceAutoConfigure {
                                         @Nonnull @Qualifier("requestMappingHandlerMapping")
                                         RequestMappingHandlerMapping handlerMapping) {
     String system = properties.getSystem();
+    Set<String> excludePatterns = properties.getExcludePatterns();
     if (StringUtils.isBlank(system) && StringUtils.isNotBlank(applicationName)) {
       system = applicationName;
     }
-    return new TraceFilter(system, operatorHolder, operationLogStore, handlerMapping);
+    return new TraceFilter(system, excludePatterns, operatorHolder, operationLogStore, handlerMapping);
   }
 }

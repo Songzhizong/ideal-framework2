@@ -1,6 +1,7 @@
 package cn.idealframework2.trace.block;
 
 import cn.idealframework2.lang.StringUtils;
+import cn.idealframework2.spring.PathMatchers;
 import cn.idealframework2.trace.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Set;
 
 /**
  * @author 宋志宗 on 2022/10/9
@@ -22,15 +24,19 @@ public class TraceInterceptor implements HandlerInterceptor {
 
   @Nonnull
   private final String system;
+  @Nonnull
+  private final Set<String> excludePatterns;
   @Nullable
   private final OperatorHolder operatorHolder;
   @Nullable
   private final OperationLogStore operationLogStore;
 
   public TraceInterceptor(@Nonnull String system,
+                          @Nonnull Set<String> excludePatterns,
                           @Nullable OperatorHolder operatorHolder,
                           @Nullable OperationLogStore operationLogStore) {
     this.system = system;
+    this.excludePatterns = excludePatterns;
     this.operatorHolder = operatorHolder;
     this.operationLogStore = operationLogStore;
   }
@@ -41,6 +47,12 @@ public class TraceInterceptor implements HandlerInterceptor {
   public boolean preHandle(@Nonnull HttpServletRequest request,
                            @Nonnull HttpServletResponse response,
                            @Nonnull Object handler) {
+    String requestPath = request.getRequestURI();
+    for (String excludePattern : excludePatterns) {
+      if (PathMatchers.match(excludePattern, requestPath)) {
+        return true;
+      }
+    }
     if (operatorHolder == null) {
       return true;
     }
@@ -66,7 +78,6 @@ public class TraceInterceptor implements HandlerInterceptor {
     if (StringUtils.isBlank(name)) {
       name = handlerMethod.getMethod().getName();
     }
-    String requestPath = request.getRequestURI();
     String userAgent = request.getHeader(HttpHeaders.USER_AGENT);
     OperationLog operationLog = new OperationLog();
     operationLog.setTraceId(context.getTraceId());

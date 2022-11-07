@@ -3,6 +3,7 @@ package cn.idealframework2.trace.reactive;
 import cn.idealframework2.lang.StringUtils;
 import cn.idealframework2.lang.Tuple;
 import cn.idealframework2.spring.ExchangeUtils;
+import cn.idealframework2.spring.PathMatchers;
 import cn.idealframework2.trace.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import reactor.core.publisher.Mono;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -30,6 +32,8 @@ public class TraceFilter implements Ordered, WebFilter {
   private static final Logger log = LoggerFactory.getLogger(TraceFilter.class);
   @Nonnull
   private final String system;
+  @Nonnull
+  private final Set<String> excludePatterns;
   @Nullable
   private final OperatorHolder operatorHolder;
   @Nullable
@@ -38,10 +42,12 @@ public class TraceFilter implements Ordered, WebFilter {
   private final RequestMappingHandlerMapping handlerMapping;
 
   public TraceFilter(@Nonnull String system,
+                     @Nonnull Set<String> excludePatterns,
                      @Nullable OperatorHolder operatorHolder,
                      @Nullable OperationLogStore operationLogStore,
                      @Nonnull RequestMappingHandlerMapping handlerMapping) {
     this.system = system;
+    this.excludePatterns = excludePatterns;
     this.operatorHolder = operatorHolder;
     this.operationLogStore = operationLogStore;
     this.handlerMapping = handlerMapping;
@@ -58,6 +64,11 @@ public class TraceFilter implements Ordered, WebFilter {
   public Mono<Void> filter(@Nonnull ServerWebExchange exchange, @Nonnull WebFilterChain chain) {
     ServerHttpRequest request = exchange.getRequest();
     String requestPath = request.getURI().getPath();
+    for (String excludePattern : excludePatterns) {
+      if (PathMatchers.match(excludePattern, requestPath)) {
+        return chain.filter(exchange);
+      }
+    }
     HttpHeaders headers = request.getHeaders();
     final String traceId = headers.getFirst(TraceConstants.TRACE_ID_HEADER_NAME);
     final String spanId = headers.getFirst(TraceConstants.SPAN_ID_HEADER_NAME);

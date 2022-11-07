@@ -17,6 +17,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Set;
 
 /**
  * @author 宋志宗 on 2022/10/9
@@ -49,6 +50,7 @@ public class WebMvcTraceAutoConfigure {
     if (StringUtils.isBlank(system) && StringUtils.isNotBlank(applicationName)) {
       system = applicationName;
     }
-    return new TraceInterceptor(system, operatorHolder, operationLogStore);
+    Set<String> excludePatterns = properties.getExcludePatterns();
+    return new TraceInterceptor(system, excludePatterns, operatorHolder, operationLogStore);
   }
 }
