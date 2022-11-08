@@ -8,7 +8,7 @@ import kotlinx.coroutines.CoroutineScope
  *
  * @author 宋志宗 on 2022/4/6
  */
-interface EventListenerManager {
+interface EventListenerRegistry {
 
   /**
    * 监听事件
@@ -18,7 +18,7 @@ interface EventListenerManager {
    * @param block 处理逻辑
    * @author 宋志宗 on 2022/4/8
    */
-  fun <E : Event> listen(
+  fun <E : Event> register(
     name: String,
     clazz: Class<E>,
     block: suspend CoroutineScope.(E) -> Unit

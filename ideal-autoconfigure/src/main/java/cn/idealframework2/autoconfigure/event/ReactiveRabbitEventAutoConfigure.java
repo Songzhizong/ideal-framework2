@@ -4,8 +4,8 @@ import cn.idealframework2.autoconfigure.event.properties.EventProperties;
 import cn.idealframework2.autoconfigure.event.properties.EventRabbitProperties;
 import cn.idealframework2.autoconfigure.event.properties.SpringRabbitProperties;
 import cn.idealframework2.event.ReactiveDirectEventPublisher;
-import cn.idealframework2.event.coroutine.EventListenerManager;
-import cn.idealframework2.event.coroutine.RabbitEventListenerManager;
+import cn.idealframework2.event.coroutine.EventListenerRegistry;
+import cn.idealframework2.event.coroutine.RabbitEventListenerRegistry;
 import cn.idealframework2.event.impl.rabbit.ReactorRabbitEventPublisher;
 import cn.idealframework2.idempotent.coroutine.IdempotentHandler;
 import cn.idealframework2.idempotent.coroutine.IdempotentHandlerFactory;
@@ -72,11 +72,11 @@ public class ReactiveRabbitEventAutoConfigure {
   }
 
   @Bean
-  public EventListenerManager eventListenerManager(@Nonnull EventProperties eventProperties,
-                                                   @Nonnull Sender sender,
-                                                   @Nonnull Receiver receiver,
-                                                   @Nonnull ConfigurableApplicationContext applicationContext,
-                                                   @Nonnull IdempotentHandlerFactory idempotentHandlerFactory) {
+  public EventListenerRegistry eventListenerManager(@Nonnull EventProperties eventProperties,
+                                                    @Nonnull Sender sender,
+                                                    @Nonnull Receiver receiver,
+                                                    @Nonnull ConfigurableApplicationContext applicationContext,
+                                                    @Nonnull IdempotentHandlerFactory idempotentHandlerFactory) {
     EventRabbitProperties rabbit = eventProperties.getRabbit();
     String exchange = rabbit.getExchange();
     boolean temporary = rabbit.isTemporary();
@@ -86,7 +86,7 @@ public class ReactiveRabbitEventAutoConfigure {
       idempotentHandlerFactory.create("event", timeout);
     AutowireCapableBeanFactory beanFactory = applicationContext.getAutowireCapableBeanFactory();
     SingletonBeanRegistry singletonBeanRegistry = (SingletonBeanRegistry) beanFactory;
-    return new RabbitEventListenerManager(
+    return new RabbitEventListenerRegistry(
       exchange, temporary, queuePrefix, sender, receiver, idempotentHandler, singletonBeanRegistry);
   }
 }

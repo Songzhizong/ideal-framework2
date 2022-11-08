@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap
  *
  * @author 宋志宗 on 2022/4/2
  */
-class RabbitEventListenerManager(
+class RabbitEventListenerRegistry(
   private val defaultExchange: String,
   private val temporary: Boolean,
   private val queuePrefix: String,
@@ -33,14 +33,14 @@ class RabbitEventListenerManager(
   private val receiver: Receiver,
   private val idempotentHandler: IdempotentHandler,
   private val singletonBeanRegistry: SingletonBeanRegistry
-) : EventListenerManager {
+) : EventListenerRegistry {
   companion object {
     private val log: Logger = LoggerFactory.getLogger(RabbitEventListener::class.java)
     private val registry = ConcurrentHashMap<String, RabbitEventListener<*>>()
   }
 
   @Suppress("UNCHECKED_CAST")
-  override fun <E : Event> listen(
+  override fun <E : Event> register(
     name: String,
     clazz: Class<E>,
     block: suspend CoroutineScope.(E) -> Unit
