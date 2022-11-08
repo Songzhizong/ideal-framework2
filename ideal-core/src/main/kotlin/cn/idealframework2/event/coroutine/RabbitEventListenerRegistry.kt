@@ -11,9 +11,11 @@ import kotlinx.coroutines.reactor.mono
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.DisposableBean
+import org.springframework.beans.factory.SmartInitializingSingleton
 import org.springframework.beans.factory.config.SingletonBeanRegistry
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
+import org.springframework.context.ApplicationContext
 import reactor.core.Disposable
 import reactor.rabbitmq.*
 import java.util.*
@@ -32,8 +34,9 @@ class RabbitEventListenerRegistry(
   private val sender: Sender,
   private val receiver: Receiver,
   private val idempotentHandler: IdempotentHandler,
+  private val applicationContext: ApplicationContext,
   private val singletonBeanRegistry: SingletonBeanRegistry
-) : EventListenerRegistry {
+) : EventListenerRegistry, SmartInitializingSingleton {
   companion object {
     private val log: Logger = LoggerFactory.getLogger(RabbitEventListener::class.java)
     private val registry = ConcurrentHashMap<String, RabbitEventListener<*>>()
@@ -167,5 +170,10 @@ class RabbitEventListenerRegistry(
     override fun run(args: ApplicationArguments?) {
       this.start()
     }
+  }
+
+  override fun afterSingletonsInstantiated() {
+    applicationContext.getBeansOfType(EventListenerRegistrar::class.java)
+      .forEach { (_, r) -> r.register(this) }
   }
 }

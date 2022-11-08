@@ -1,8 +1,8 @@
 package cn.idealframework2.event.impl.rabbit;
 
-import cn.idealframework2.EventListenerRegistrar;
 import cn.idealframework2.event.Event;
 import cn.idealframework2.event.EventListener;
+import cn.idealframework2.event.EventListenerRegistrar;
 import cn.idealframework2.event.EventListenerRegistry;
 import cn.idealframework2.idempotent.IdempotentHandler;
 import cn.idealframework2.json.JsonUtils;

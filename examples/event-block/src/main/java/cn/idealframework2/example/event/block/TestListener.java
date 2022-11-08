@@ -1,6 +1,6 @@
 package cn.idealframework2.example.event.block;
 
-import cn.idealframework2.EventListenerRegistrar;
+import cn.idealframework2.event.EventListenerRegistrar;
 import cn.idealframework2.event.EventListenerRegistry;
 import cn.idealframework2.json.JsonUtils;
 import org.slf4j.Logger;
