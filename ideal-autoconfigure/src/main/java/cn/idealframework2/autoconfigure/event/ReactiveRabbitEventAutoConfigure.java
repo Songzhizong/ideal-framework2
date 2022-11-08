@@ -12,7 +12,10 @@ import cn.idealframework2.idempotent.coroutine.IdempotentHandlerFactory;
 import cn.idealframework2.starter.model.event.coroutine.CoroutineEventModel;
 import com.rabbitmq.client.Address;
 import com.rabbitmq.client.ConnectionFactory;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.beans.factory.config.SingletonBeanRegistry;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import reactor.core.scheduler.Schedulers;
@@ -72,6 +75,7 @@ public class ReactiveRabbitEventAutoConfigure {
   public EventListenerManager eventListenerManager(@Nonnull EventProperties eventProperties,
                                                    @Nonnull Sender sender,
                                                    @Nonnull Receiver receiver,
+                                                   @Nonnull ConfigurableApplicationContext applicationContext,
                                                    @Nonnull IdempotentHandlerFactory idempotentHandlerFactory) {
     EventRabbitProperties rabbit = eventProperties.getRabbit();
     String exchange = rabbit.getExchange();
@@ -80,7 +84,9 @@ public class ReactiveRabbitEventAutoConfigure {
     Duration timeout = eventProperties.getIdempotent().getTimeout();
     IdempotentHandler idempotentHandler =
       idempotentHandlerFactory.create("event", timeout);
+    AutowireCapableBeanFactory beanFactory = applicationContext.getAutowireCapableBeanFactory();
+    SingletonBeanRegistry singletonBeanRegistry = (SingletonBeanRegistry) beanFactory;
     return new RabbitEventListenerManager(
-      exchange, temporary, queuePrefix, sender, receiver, idempotentHandler);
+      exchange, temporary, queuePrefix, sender, receiver, idempotentHandler, singletonBeanRegistry);
   }
 }

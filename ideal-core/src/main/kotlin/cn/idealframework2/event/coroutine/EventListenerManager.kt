@@ -1,7 +1,6 @@
 package cn.idealframework2.event.coroutine
 
 import cn.idealframework2.event.Event
-import cn.idealframework2.event.EventListener
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -23,5 +22,5 @@ interface EventListenerManager {
     name: String,
     clazz: Class<E>,
     block: suspend CoroutineScope.(E) -> Unit
-  ): EventListener
+  )
 }

@@ -2,9 +2,9 @@ package cn.idealframework2.example.event.coroutine
 
 import cn.idealframework2.event.coroutine.EventListenerManager
 import cn.idealframework2.json.toJsonString
+import jakarta.annotation.PostConstruct
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 /**
@@ -18,7 +18,7 @@ class TestListener(
     private val log: Logger = LoggerFactory.getLogger(TestListener::class.java)
   }
 
-  @Bean("idealframework2.example.event.coroutine.TestEvent")
+  @PostConstruct
   fun listener() = eventListenerManager.listen(
     "idealframework2.example.event.coroutine.TestEvent",
     TestEvent::class.java

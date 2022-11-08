@@ -12,7 +12,10 @@ import cn.idealframework2.starter.model.event.EventModel;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.beans.factory.config.SingletonBeanRegistry;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
@@ -38,6 +41,7 @@ public class RabbitEventAutoConfigure {
   @Bean
   public RabbitEventListenerManager rabbitEventListenerManager(@Nonnull EventProperties eventProperties,
                                                                @Nonnull AmqpAdmin amqpAdmin,
+                                                               @Nonnull ConfigurableApplicationContext applicationContext,
                                                                @Nonnull IdempotentHandlerFactory idempotentHandlerFactory) {
     EventRabbitProperties rabbit = eventProperties.getRabbit();
     boolean temporary = rabbit.isTemporary();
@@ -46,8 +50,10 @@ public class RabbitEventAutoConfigure {
     Duration timeout = eventProperties.getIdempotent().getTimeout();
     IdempotentHandler idempotentHandler
       = idempotentHandlerFactory.create("event", timeout);
+    AutowireCapableBeanFactory beanFactory = applicationContext.getAutowireCapableBeanFactory();
+    SingletonBeanRegistry singletonBeanRegistry = (SingletonBeanRegistry) beanFactory;
     return new RabbitEventListenerManager(
-      temporary, exchange, queuePrefix, amqpAdmin, idempotentHandler);
+      temporary, exchange, queuePrefix, amqpAdmin, idempotentHandler, applicationContext, singletonBeanRegistry);
   }
 
   @Bean

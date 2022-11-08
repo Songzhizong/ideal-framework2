@@ -1,8 +1,9 @@
 package cn.idealframework2.event.impl.rabbit;
 
+import cn.idealframework2.EventListenerRegistrar;
 import cn.idealframework2.event.Event;
 import cn.idealframework2.event.EventListener;
-import cn.idealframework2.event.EventListenerManager;
+import cn.idealframework2.event.EventListenerRegistry;
 import cn.idealframework2.idempotent.IdempotentHandler;
 import cn.idealframework2.json.JsonUtils;
 import cn.idealframework2.lang.StringUtils;
@@ -11,12 +12,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.listener.api.ChannelAwareMessageListener;
+import org.springframework.beans.factory.SmartInitializingSingleton;
+import org.springframework.beans.factory.config.SingletonBeanRegistry;
+import org.springframework.context.ApplicationContext;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,7 +32,7 @@ import java.util.function.Consumer;
 /**
  * @author 宋志宗 on 2022/9/29
  */
-public class RabbitEventListenerManager implements ChannelAwareMessageListener, EventListenerManager {
+public class RabbitEventListenerManager implements ChannelAwareMessageListener, EventListenerRegistry, SmartInitializingSingleton {
   private static final Logger log = LoggerFactory.getLogger(RabbitEventListenerManager.class);
   private final ConcurrentMap<String, RabbitEventListener<?>> listenerMap = new ConcurrentHashMap<>();
   private final ConcurrentMap<String, TopicExchange> exchangeMap = new ConcurrentHashMap<>();
@@ -38,17 +43,23 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
   private final AmqpAdmin amqpAdmin;
   private final TopicExchange defaultExchange;
   private final IdempotentHandler idempotentHandler;
+  private final ApplicationContext applicationContext;
+  private final SingletonBeanRegistry singletonBeanRegistry;
 
   public RabbitEventListenerManager(boolean temporary,
                                     @Nonnull String defaultExchange,
                                     @Nonnull String queuePrefix,
                                     @Nonnull AmqpAdmin amqpAdmin,
-                                    @Nonnull IdempotentHandler idempotentHandler) {
+                                    @Nonnull IdempotentHandler idempotentHandler,
+                                    @Nonnull ApplicationContext applicationContext,
+                                    @Nonnull SingletonBeanRegistry singletonBeanRegistry) {
     this.temporary = temporary;
     this.queuePrefix = queuePrefix;
     this.amqpAdmin = amqpAdmin;
     this.defaultExchange = new TopicExchange(defaultExchange);
     this.idempotentHandler = idempotentHandler;
+    this.applicationContext = applicationContext;
+    this.singletonBeanRegistry = singletonBeanRegistry;
   }
 
   @Override
@@ -89,9 +100,9 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
   }
 
   @Override
-  public <E extends Event> EventListener listen(@Nonnull String name,
-                                                @Nonnull Class<E> clazz,
-                                                @Nonnull Consumer<E> consumer) {
+  public <E extends Event> void register(@Nonnull String name,
+                                         @Nonnull Class<E> clazz,
+                                         @Nonnull Consumer<E> consumer) {
     cn.idealframework2.event.annotation.Event annotation = clazz.getAnnotation(cn.idealframework2.event.annotation.Event.class);
     if (annotation == null) {
       throw new RuntimeException("event 实现类:" + clazz.getName() + " 缺少 @cn.idealframework2.event.annotation.Event 注解");
@@ -118,12 +129,18 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
     listenerMap.put(queueName, listener);
     amqpAdmin.declareQueue(queue);
     amqpAdmin.declareBinding(BindingBuilder.bind(queue).to(exchange).with(topic));
-    return listener;
+    singletonBeanRegistry.registerSingleton(name, listener);
   }
 
   @Nonnull
   public Set<String> getQueues() {
     return queues;
+  }
+
+  @Override
+  public void afterSingletonsInstantiated() {
+    Map<String, EventListenerRegistrar> beansOfType = applicationContext.getBeansOfType(EventListenerRegistrar.class);
+    beansOfType.forEach((n, r) -> r.register(this));
   }
 
   public static class RabbitEventListener<E extends Event> implements EventListener {

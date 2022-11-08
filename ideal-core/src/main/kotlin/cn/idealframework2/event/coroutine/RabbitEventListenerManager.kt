@@ -11,6 +11,7 @@ import kotlinx.coroutines.reactor.mono
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.DisposableBean
+import org.springframework.beans.factory.config.SingletonBeanRegistry
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import reactor.core.Disposable
@@ -31,6 +32,7 @@ class RabbitEventListenerManager(
   private val sender: Sender,
   private val receiver: Receiver,
   private val idempotentHandler: IdempotentHandler,
+  private val singletonBeanRegistry: SingletonBeanRegistry
 ) : EventListenerManager {
   companion object {
     private val log: Logger = LoggerFactory.getLogger(RabbitEventListener::class.java)
@@ -42,7 +44,7 @@ class RabbitEventListenerManager(
     name: String,
     clazz: Class<E>,
     block: suspend CoroutineScope.(E) -> Unit
-  ): RabbitEventListener<E> {
+  ) {
     var exist = true
     val eventListener = registry.computeIfAbsent(name) {
       val annotation = clazz.getAnnotation(cn.idealframework2.event.annotation.Event::class.java)
@@ -73,13 +75,13 @@ class RabbitEventListenerManager(
       log.error(message)
       throw RuntimeException(message)
     }
-    return eventListener
+    singletonBeanRegistry.registerSingleton(name, eventListener)
   }
 
   class RabbitEventListener<E : Event>(
     exchange: String,
     topic: String,
-    name: String,
+    private val name: String,
     temporary: Boolean,
     queuePrefix: String,
     sender: Sender,
@@ -148,6 +150,7 @@ class RabbitEventListenerManager(
             }
           }
         }.subscribe()
+      log.info("start rabbit event listener: {}", name)
     }
 
     private fun stop() {
