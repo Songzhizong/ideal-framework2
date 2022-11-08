@@ -87,6 +87,6 @@ public class ReactiveRabbitEventAutoConfigure {
     AutowireCapableBeanFactory beanFactory = applicationContext.getAutowireCapableBeanFactory();
     SingletonBeanRegistry singletonBeanRegistry = (SingletonBeanRegistry) beanFactory;
     return new RabbitEventListenerRegistry(
-      exchange, temporary, queuePrefix, sender, receiver, idempotentHandler, singletonBeanRegistry);
+      exchange, temporary, queuePrefix, sender, receiver, idempotentHandler, applicationContext, singletonBeanRegistry);
   }
 }
