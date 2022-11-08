@@ -17,7 +17,7 @@ public class TestListener implements EventListenerRegistrar {
   private static final Logger log = LoggerFactory.getLogger(TestEvent.class);
 
   @Override
-  public void register(@Nonnull EventListenerRegistry registry) {
+  public void registerEventListener(@Nonnull EventListenerRegistry registry) {
 
     registry.register(
       "idealframework2.example.event.block.TestEvent",

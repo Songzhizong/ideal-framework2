@@ -140,7 +140,7 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
   @Override
   public void afterSingletonsInstantiated() {
     Map<String, EventListenerRegistrar> beansOfType = applicationContext.getBeansOfType(EventListenerRegistrar.class);
-    beansOfType.forEach((n, r) -> r.register(this));
+    beansOfType.forEach((n, r) -> r.registerEventListener(this));
   }
 
   public static class RabbitEventListener<E extends Event> implements EventListener {

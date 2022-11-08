@@ -153,7 +153,6 @@ class RabbitEventListenerRegistry(
             }
           }
         }.subscribe()
-      log.info("start rabbit event listener: {}", name)
     }
 
     private fun stop() {
@@ -174,6 +173,6 @@ class RabbitEventListenerRegistry(
 
   override fun afterSingletonsInstantiated() {
     applicationContext.getBeansOfType(EventListenerRegistrar::class.java)
-      .forEach { (_, r) -> r.register(this) }
+      .forEach { (_, r) -> r.registerEventListener(this) }
   }
 }

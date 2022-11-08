@@ -13,5 +13,5 @@ public interface EventListenerRegistrar {
    * @param registry 事件监听注册中心
    * @author 宋志宗 on 2022/11/8
    */
-  void register(@Nonnull EventListenerRegistry registry);
+  void registerEventListener(@Nonnull EventListenerRegistry registry);
 }
