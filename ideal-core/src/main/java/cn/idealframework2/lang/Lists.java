@@ -4,7 +4,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * @author 宋志宗 on 2021/4/27
@@ -432,7 +431,7 @@ public final class Lists {
     if (list == null) {
       return new ArrayList<>();
     }
-    return list.stream().distinct().collect(Collectors.toList());
+    return new ArrayList<>(new LinkedHashSet<>(list));
   }
 
   /**
@@ -444,8 +443,8 @@ public final class Lists {
    * @author 宋志宗 on 2021/9/27
    */
   @Nonnull
-  public static <E, D> List<E> distinct(@Nullable List<E> list,
-                                        @Nonnull Function<E, D> function) {
+  public static <E, D> List<E> distinctBy(@Nullable List<E> list,
+                                          @Nonnull Function<E, D> function) {
     if (list == null) {
       return new ArrayList<>();
     }

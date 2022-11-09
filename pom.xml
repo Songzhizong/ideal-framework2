@@ -26,7 +26,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>17</java.version>
-    <kotlin.version>1.7.20</kotlin.version>
+    <kotlin.version>1.7.21</kotlin.version>
     <kotlinx-coroutines.version>1.6.4</kotlinx-coroutines.version>
     <spring.boot.version>3.0.0-RC1</spring.boot.version>
     <spring.cloud.version>2022.0.0-RC1</spring.cloud.version>
