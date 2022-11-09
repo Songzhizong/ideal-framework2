@@ -4,6 +4,7 @@ import cn.idealframework2.event.DirectEventSupplier;
 import cn.idealframework2.event.Event;
 import cn.idealframework2.event.ReactiveDirectEventPublisher;
 import cn.idealframework2.json.JsonUtils;
+import cn.idealframework2.lang.CollectionUtils;
 import cn.idealframework2.lang.StringUtils;
 import com.rabbitmq.client.AMQP;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import reactor.rabbitmq.OutboundMessage;
 import reactor.rabbitmq.Sender;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
@@ -37,7 +39,10 @@ public class ReactorRabbitEventPublisher implements ReactiveDirectEventPublisher
 
   @Nonnull
   @Override
-  public Mono<Boolean> directPublish(@Nonnull Collection<DirectEventSupplier> suppliers) {
+  public Mono<Boolean> directPublish(@Nullable Collection<DirectEventSupplier> suppliers) {
+    if (CollectionUtils.isEmpty(suppliers)) {
+      return Mono.just(true);
+    }
     Flux<OutboundMessage> messages = Flux.fromIterable(suppliers)
       .map(supplier -> {
         Event event = supplier.event();

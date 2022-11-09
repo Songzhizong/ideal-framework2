@@ -1,8 +1,9 @@
 package cn.idealframework2.event;
 
+import cn.idealframework2.lang.CollectionUtils;
 import cn.idealframework2.lang.StringUtils;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +21,10 @@ public interface DirectEventPublisher extends EventPublisher {
    */
   @Override
   @SuppressWarnings("DuplicatedCode")
-  default void publish(@Nonnull Collection<EventSupplier> suppliers) {
+  default void publish(@Nullable Collection<EventSupplier> suppliers) {
+    if (CollectionUtils.isEmpty(suppliers)) {
+      return;
+    }
     List<DirectEventSupplier> collect = suppliers.stream().map(supplier -> {
       Event event = supplier.get();
       Class<? extends Event> clazz = event.getClass();
@@ -38,5 +42,5 @@ public interface DirectEventPublisher extends EventPublisher {
     directPublish(collect);
   }
 
-  void directPublish(@Nonnull Collection<DirectEventSupplier> suppliers);
+  void directPublish(@Nullable Collection<DirectEventSupplier> suppliers);
 }

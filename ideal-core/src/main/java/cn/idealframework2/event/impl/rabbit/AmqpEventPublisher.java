@@ -4,10 +4,12 @@ import cn.idealframework2.event.DirectEventPublisher;
 import cn.idealframework2.event.DirectEventSupplier;
 import cn.idealframework2.event.Event;
 import cn.idealframework2.json.JsonUtils;
+import cn.idealframework2.lang.CollectionUtils;
 import cn.idealframework2.lang.StringUtils;
 import org.springframework.amqp.core.*;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
@@ -28,7 +30,10 @@ public class AmqpEventPublisher implements DirectEventPublisher {
   }
 
   @Override
-  public void directPublish(@Nonnull Collection<DirectEventSupplier> suppliers) {
+  public void directPublish(@Nullable Collection<DirectEventSupplier> suppliers) {
+    if (CollectionUtils.isEmpty(suppliers)) {
+      return;
+    }
     for (DirectEventSupplier supplier : suppliers) {
       Event event = supplier.event();
       String topic = supplier.topic();

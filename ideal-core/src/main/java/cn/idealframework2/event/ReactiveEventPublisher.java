@@ -4,6 +4,7 @@ import cn.idealframework2.lang.Lists;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -19,7 +20,7 @@ public interface ReactiveEventPublisher {
    * @return 发布结果
    */
   @Nonnull
-  Mono<Boolean> publish(@Nonnull Collection<EventSupplier> suppliers);
+  Mono<Boolean> publish(@Nullable Collection<EventSupplier> suppliers);
 
   /**
    * 发布事件
@@ -28,7 +29,10 @@ public interface ReactiveEventPublisher {
    * @return 发布结果
    */
   @Nonnull
-  default Mono<Boolean> publish(@Nonnull EventSuppliers suppliers) {
+  default Mono<Boolean> publish(@Nullable EventSuppliers suppliers) {
+    if (suppliers == null) {
+      return Mono.just(true);
+    }
     ArrayList<EventSupplier> list = suppliers.get();
     return publish(list);
   }
@@ -40,7 +44,10 @@ public interface ReactiveEventPublisher {
    * @return 发布结果
    */
   @Nonnull
-  default Mono<Boolean> publish(@Nonnull EventSupplier supplier) {
+  default Mono<Boolean> publish(@Nullable EventSupplier supplier) {
+    if (supplier == null) {
+      return Mono.just(true);
+    }
     return publish(Lists.of(supplier));
   }
 }

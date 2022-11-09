@@ -1,9 +1,11 @@
 package cn.idealframework2.event;
 
+import cn.idealframework2.lang.CollectionUtils;
 import cn.idealframework2.lang.StringUtils;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +23,10 @@ public interface ReactiveDirectEventPublisher extends ReactiveEventPublisher {
    */
   @Nonnull
   @SuppressWarnings("DuplicatedCode")
-  default Mono<Boolean> publish(@Nonnull Collection<EventSupplier> suppliers) {
+  default Mono<Boolean> publish(@Nullable Collection<EventSupplier> suppliers) {
+    if (CollectionUtils.isEmpty(suppliers)) {
+      return Mono.just(true);
+    }
     List<DirectEventSupplier> collect = suppliers.stream().map(supplier -> {
       Event event = supplier.get();
       Class<? extends Event> clazz = event.getClass();
@@ -46,5 +51,5 @@ public interface ReactiveDirectEventPublisher extends ReactiveEventPublisher {
    * @return 发布结果
    */
   @Nonnull
-  Mono<Boolean> directPublish(@Nonnull Collection<DirectEventSupplier> suppliers);
+  Mono<Boolean> directPublish(@Nullable Collection<DirectEventSupplier> suppliers);
 }

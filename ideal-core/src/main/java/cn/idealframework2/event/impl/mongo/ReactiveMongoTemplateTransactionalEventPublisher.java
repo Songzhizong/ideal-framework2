@@ -17,6 +17,7 @@ import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
@@ -50,7 +51,7 @@ public class ReactiveMongoTemplateTransactionalEventPublisher
   @Nonnull
   @Override
   @SuppressWarnings("DuplicatedCode")
-  public Mono<Boolean> publish(@Nonnull Collection<EventSupplier> suppliers) {
+  public Mono<Boolean> publish(@Nullable Collection<EventSupplier> suppliers) {
     if (CollectionUtils.isEmpty(suppliers)) {
       return Mono.just(true);
     }

@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -46,7 +47,7 @@ public class MongoTemplateTransactionalEventPublisher
 
   @Override
   @SuppressWarnings("DuplicatedCode")
-  public void publish(@Nonnull Collection<EventSupplier> suppliers) {
+  public void publish(@Nullable Collection<EventSupplier> suppliers) {
     if (CollectionUtils.isEmpty(suppliers)) {
       return;
     }
