@@ -1,1 +1,2 @@
-cn.idealframework2.IdealCoreRuntimeHints
+cn.idealframework2.aot.IdealCoreRuntimeHintsConfigure
+cn.idealframework2.aot.ZstdJniRuntimeHintsConfigure
