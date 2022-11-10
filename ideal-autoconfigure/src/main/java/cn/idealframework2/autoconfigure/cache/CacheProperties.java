@@ -2,6 +2,7 @@ package cn.idealframework2.autoconfigure.cache;
 
 import cn.idealframework2.cache.CacheUtils;
 import cn.idealframework2.lang.StringUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import javax.annotation.Nonnull;
@@ -14,6 +15,7 @@ public class CacheProperties {
   @Nonnull
   private String prefix = "";
 
+  @JsonIgnore
   private transient volatile String formattedPrefix = null;
 
   @Nonnull

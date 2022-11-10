@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public class TraceContext {
+  @JsonIgnore
   private transient final AtomicInteger spanIdGenerator = new AtomicInteger(0);
   private final long createMillis = System.currentTimeMillis();
   @Nonnull
@@ -26,6 +27,7 @@ public class TraceContext {
   private OperationLog operationLog = null;
 
   @Nonnull
+  @JsonIgnore
   private final transient String logPrefix;
 
   public TraceContext(@Nonnull String traceId, @Nonnull String spanId) {
