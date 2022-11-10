@@ -28,7 +28,7 @@ public class RedisTemplateSnowflakeAutoConfigure {
   @Bean
   public IDGeneratorFactory idGeneratorFactory(@Nonnull IdProperties properties,
                                                @Nonnull StringRedisTemplate stringRedisTemplate) {
-    log.info("SpringRedisSnowFlakeFactory将适用redis作为机器码注册中心进行机器码计算");
+    log.info("SpringRedisSnowFlakeFactory将使用redis作为机器码注册中心进行机器码计算");
     SnowflakeProperties snowflake = properties.getSnowflake();
     int dataCenterId = snowflake.getDataCenterId();
     return new RedisTemplateSnowflakeFactory(dataCenterId, 600, 30, applicationName, stringRedisTemplate);

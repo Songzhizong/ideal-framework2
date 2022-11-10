@@ -1,5 +1,7 @@
 package cn.idealframework2.lang;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.beans.Transient;
@@ -63,6 +65,7 @@ public interface TreeNode {
    */
   @Nullable
   @Transient
+  @JsonIgnore
   Object getParentNodeId();
 
   /**
@@ -72,6 +75,7 @@ public interface TreeNode {
    */
   @Nonnull
   @Transient
+  @JsonIgnore
   Object getNodeId();
 
   /**
@@ -81,5 +85,6 @@ public interface TreeNode {
    */
   @Nonnull
   @Transient
+  @JsonIgnore
   List<? extends TreeNode> getChildNodes();
 }

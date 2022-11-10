@@ -3,6 +3,7 @@ package cn.idealframework2.transmission;
 import cn.idealframework2.exception.ResultException;
 import cn.idealframework2.exception.VisibleException;
 import cn.idealframework2.json.JsonUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.annotation.Nonnull;
@@ -116,6 +117,7 @@ public class Result<T> extends BasicResult {
    */
   @Nonnull
   @Transient
+  @JsonIgnore
   public T requiredData() {
     T data = getData();
     if (data == null) {

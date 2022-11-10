@@ -1,5 +1,7 @@
 package cn.idealframework2.transmission;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.annotation.Nonnull;
 import java.beans.Transient;
 
@@ -41,6 +43,7 @@ public class Paging {
   }
 
   @Transient
+  @JsonIgnore
   public long getOffset() {
     return ((long) pageNumber - 1L) * (long) pageSize;
   }

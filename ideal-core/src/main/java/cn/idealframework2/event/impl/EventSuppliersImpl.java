@@ -4,6 +4,7 @@ import cn.idealframework2.event.EventSupplier;
 import cn.idealframework2.event.EventSuppliers;
 import cn.idealframework2.lang.ArrayUtils;
 import cn.idealframework2.lang.Lists;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -65,8 +66,9 @@ public final class EventSuppliersImpl implements EventSuppliers {
     return getSuppliers();
   }
 
-  @Transient
   @Override
+  @Transient
+  @JsonIgnore
   public boolean isEmpty() {
     return Lists.isEmpty(getSuppliers());
   }

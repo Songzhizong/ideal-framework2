@@ -1,6 +1,7 @@
 package cn.idealframework2.trace;
 
 import cn.idealframework2.lang.StringUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -80,6 +81,7 @@ public class TraceContext {
 
   @Nonnull
   @Transient
+  @JsonIgnore
   public String getLogPrefix() {
     return logPrefix;
   }
