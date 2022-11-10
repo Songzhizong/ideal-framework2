@@ -16,10 +16,10 @@ import java.util.Arrays;
  * @author 宋志宗 on 2022/9/30
  */
 @ConditionalOnClass(Zstd.class)
-@ImportRuntimeHints(ZstdJniRuntimeHintsConfigure.IdealCoreRuntimeHints.class)
+@ImportRuntimeHints(ZstdJniRuntimeHintsConfigure.ZstdJniRuntimeHints.class)
 public class ZstdJniRuntimeHintsConfigure {
 
-  public static class IdealCoreRuntimeHints implements RuntimeHintsRegistrar {
+  public static class ZstdJniRuntimeHints implements RuntimeHintsRegistrar {
 
     @Override
     public void registerHints(@Nonnull RuntimeHints hints, @Nullable ClassLoader classLoader) {

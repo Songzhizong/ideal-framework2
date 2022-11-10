@@ -1,2 +1,3 @@
 cn.idealframework2.aot.IdealCoreRuntimeHintsConfigure
+cn.idealframework2.aot.SnappyRuntimeHintsConfigure
 cn.idealframework2.aot.ZstdJniRuntimeHintsConfigure
