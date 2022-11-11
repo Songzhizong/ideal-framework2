@@ -183,6 +183,12 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
         if (key != null) {
           idempotentHandler.release(key);
         }
+        log.warn("事件处理出现异常: ", e);
+        try {
+          TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException ex) {
+          // ignore
+        }
         throw e;
       }
     }

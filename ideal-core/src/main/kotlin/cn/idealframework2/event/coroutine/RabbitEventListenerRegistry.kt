@@ -84,7 +84,7 @@ class RabbitEventListenerRegistry(
   class RabbitEventListener<E : Event>(
     exchange: String,
     topic: String,
-    private val name: String,
+    name: String,
     temporary: Boolean,
     queuePrefix: String,
     sender: Sender,
@@ -126,19 +126,23 @@ class RabbitEventListenerRegistry(
                 return@mono
               }
               val uuid = message.uuid
-              val key = "$finalQueueName:$uuid"
-              val tryLock = idempotentHandler.idempotent("$finalQueueName:$uuid")
-              try {
-                if (tryLock) {
-                  block.invoke(this, message)
+              var key: String? = null
+              if (!uuid.isNullOrBlank()) {
+                key = "$finalQueueName:$uuid"
+                val tryLock = idempotentHandler.idempotent(key)
+                if (!tryLock) {
+                  return@mono
                 }
+              }
+              try {
+                block.invoke(this, message)
               } catch (e: Exception) {
                 ack = false
                 try {
-                  if (uuid.isNotBlank()) {
+                  if (key != null) {
                     idempotentHandler.release(key)
                   }
-                  log.warn("处理出现异常: ", e)
+                  log.warn("事件处理出现异常: ", e)
                   delay(1000)
                 } catch (e: Exception) {
                   log.info("异常的后续处理出现异常: ", e)
