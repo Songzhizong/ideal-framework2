@@ -1,6 +1,7 @@
 package cn.idealframework2.event;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author 宋志宗 on 2021/10/22
@@ -8,11 +9,11 @@ import javax.annotation.Nonnull;
 public interface Event extends EventSupplier {
 
   /**
-   * 获取事件的唯一id
+   * 获取事件的唯一id, 用于幂等处理
    *
    * @return 事件唯一id
    */
-  @Nonnull
+  @Nullable
   String getUuid();
 
   /**

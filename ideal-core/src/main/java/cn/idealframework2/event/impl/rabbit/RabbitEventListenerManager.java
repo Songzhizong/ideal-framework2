@@ -169,15 +169,20 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
         return;
       }
       String uuid = event.getUuid();
-      String key = queueName + ":" + uuid;
-      boolean tryLock = idempotentHandler.idempotent(key);
-      if (!tryLock) {
-        return;
+      String key = null;
+      if (StringUtils.isNotBlank(uuid)) {
+        key = queueName + ":" + uuid;
+        boolean tryLock = idempotentHandler.idempotent(key);
+        if (!tryLock) {
+          return;
+        }
       }
       try {
         consumer.accept(event);
       } catch (Exception e) {
-        idempotentHandler.release(key);
+        if (key != null) {
+          idempotentHandler.release(key);
+        }
         throw e;
       }
     }
