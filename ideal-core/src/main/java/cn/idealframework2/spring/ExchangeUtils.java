@@ -74,9 +74,9 @@ public final class ExchangeUtils {
     if (remoteAddress == null) {
       return "";
     }
-    String hostName = remoteAddress.getHostName();
-    if (StringUtils.isNotBlank(hostName)) {
-      return hostName;
+    String hostAddress = remoteAddress.getAddress().getHostAddress();
+    if (StringUtils.isNotBlank(hostAddress)) {
+      return hostAddress;
     }
     return "";
   }

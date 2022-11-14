@@ -21,6 +21,7 @@
     <module>ideal-parent</module>
     <module>ideal-starters</module>
     <module>ideal-autoconfigure</module>
+    <module>ideal-starters/ideal-starter-models/ideal-starter-model-lock-coroutine</module>
   </modules>
 
   <properties>

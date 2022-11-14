@@ -11,7 +11,12 @@ public class IpUtilsTest {
 
   @Test
   public void ipv4ToInt() {
-    assertEquals(IpUtils.ipv4ToInt("0.0.0.0"), Integer.MIN_VALUE);
-    assertEquals(IpUtils.ipv4ToInt("255.255.255.255"), Integer.MAX_VALUE);
+    assertEquals(IpUtils.atypicalIpv4ToInt("0.0.0.0"), Integer.MIN_VALUE);
+    assertEquals(IpUtils.atypicalIpv4ToInt("255.255.255.255"), Integer.MAX_VALUE);
+  }
+
+  @Test
+  public void getLocalAddress() {
+    System.out.println(IpUtils.getLocalAddress().getHostAddress());
   }
 }

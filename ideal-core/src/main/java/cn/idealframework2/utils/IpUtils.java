@@ -1,11 +1,15 @@
 package cn.idealframework2.utils;
 
 import cn.idealframework2.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
-import java.net.Inet4Address;
-import java.net.InetAddress;
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.net.*;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -14,9 +18,14 @@ import java.util.regex.Pattern;
  */
 @SuppressWarnings("unused")
 public final class IpUtils {
+  private static final Logger log = LoggerFactory.getLogger(IpUtils.class);
+  private static final String ANY_HOST_VALUE = "0.0.0.0";
+  private static final String LOCALHOST_VALUE = "127.0.0.1";
   private static final String IPV4_REGEX = "((25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))";
   private static final Pattern IPV4_PATTERN = Pattern.compile(IPV4_REGEX);
   private static final Pattern IPV4_RANGE_PATTERN = Pattern.compile(IPV4_REGEX + "-" + IPV4_REGEX);
+
+  private static volatile InetAddress LOCAL_ADDRESS = null;
 
   private IpUtils() {
   }
@@ -27,7 +36,7 @@ public final class IpUtils {
    * @param address ipv4地址值
    * @return 数字表现形式
    */
-  public static int ipv4ToInt(@Nonnull String address) {
+  public static int atypicalIpv4ToInt(@Nonnull String address) {
     if (!isIpv4(address)) {
       throw new IllegalArgumentException("非法的ipv4地址: " + address);
     }
@@ -89,8 +98,11 @@ public final class IpUtils {
     SubnetUtils utils = new SubnetUtils(startIp, mask);
     SubnetUtils.SubnetInfo info = utils.getInfo();
     String[] allIps = info.getAllAddresses();
+    int start = atypicalIpv4ToInt(startIp);
+    int end = atypicalIpv4ToInt(endIp);
     for (String allIp : allIps) {
-      if (IpUtils.ipInRange(allIp, startIp, endIp)) {
+      int match = atypicalIpv4ToInt(allIp);
+      if (start <= match && match <= end) {
         result.add(allIp);
       }
     }
@@ -109,12 +121,130 @@ public final class IpUtils {
   private static boolean ipInRange(@Nonnull String ip,
                                    @Nonnull String startIp,
                                    @Nonnull String endIp) {
-    int match = ipv4ToInt(ip);
-    int start = ipv4ToInt(startIp);
-    int end = ipv4ToInt(endIp);
+    int match = atypicalIpv4ToInt(ip);
+    int start = atypicalIpv4ToInt(startIp);
+    int end = atypicalIpv4ToInt(endIp);
     if (start < end) {
       return start <= match && match <= end;
     }
     return end <= match && match <= start;
+  }
+
+  public static InetAddress getLocalAddress() {
+    if (LOCAL_ADDRESS == null) {
+      synchronized (IpUtils.class) {
+        if (LOCAL_ADDRESS == null) {
+          LOCAL_ADDRESS = getLocalAddress0();
+        }
+      }
+    }
+    return LOCAL_ADDRESS;
+  }
+
+
+  private static InetAddress getLocalAddress0() {
+    InetAddress localAddress = null;
+    try {
+      localAddress = InetAddress.getLocalHost();
+      InetAddress addressItem = toValidAddress(localAddress);
+      if (addressItem != null) {
+        return addressItem;
+      }
+    } catch (Throwable e) {
+      log.error(e.getMessage(), e);
+    }
+
+    try {
+      Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+      while (interfaces.hasMoreElements()) {
+        try {
+          NetworkInterface network = interfaces.nextElement();
+          if (network.isLoopback() || network.isVirtual() || !network.isUp()) {
+            continue;
+          }
+          Enumeration<InetAddress> addresses = network.getInetAddresses();
+          while (addresses.hasMoreElements()) {
+            try {
+              InetAddress addressItem = toValidAddress(addresses.nextElement());
+              if (addressItem != null) {
+                try {
+                  if (addressItem.isReachable(100)) {
+                    return addressItem;
+                  }
+                } catch (IOException e) {
+                  // ignore
+                }
+              }
+            } catch (Throwable e) {
+              log.error(e.getMessage(), e);
+            }
+          }
+        } catch (Throwable e) {
+          log.error(e.getMessage(), e);
+        }
+      }
+    } catch (Throwable e) {
+      log.error(e.getMessage(), e);
+    }
+    return localAddress;
+  }
+
+  @Nullable
+  private static InetAddress toValidAddress(InetAddress address) {
+    if (address instanceof Inet6Address v6Address) {
+      if (isPreferIPV6Address()) {
+        return normalizeV6Address(v6Address);
+      }
+    }
+    if (isValidV4Address(address)) {
+      return address;
+    }
+    return null;
+  }
+
+  private static boolean isPreferIPV6Address() {
+    return Boolean.getBoolean("java.net.preferIPv6Addresses");
+  }
+
+  /**
+   * valid ipv4
+   */
+  private static boolean isValidV4Address(@Nullable InetAddress address) {
+    if (address == null || address.isLoopbackAddress()) {
+      return false;
+    }
+    String name = address.getHostAddress();
+    return (name != null
+      && isIpv4(name)
+      && !ANY_HOST_VALUE.equals(name)
+      && !LOCALHOST_VALUE.equals(name));
+  }
+
+  /**
+   * normalize the ipv6 Address, convert scope name to scope id.
+   * e.g.
+   * convert
+   * fe80:0:0:0:894:aeec:f37d:23e1%en0
+   * to
+   * fe80:0:0:0:894:aeec:f37d:23e1%5
+   * <p>
+   * The %5 after ipv6 address is called scope id.
+   * see java doc of {@link Inet6Address} for more details.
+   *
+   * @param address the input address
+   * @return the normalized address, with scope id converted to int
+   */
+  private static InetAddress normalizeV6Address(@Nonnull Inet6Address address) {
+    String addr = address.getHostAddress();
+    int i = addr.lastIndexOf('%');
+    if (i > 0) {
+      try {
+        return InetAddress.getByName(addr.substring(0, i) + '%' + address.getScopeId());
+      } catch (UnknownHostException e) {
+        // ignore
+        log.debug("Unknown IPV6 address: ", e);
+      }
+    }
+    return address;
   }
 }
