@@ -2,6 +2,7 @@ package cn.idealframework2.event.coroutine
 
 import cn.idealframework2.event.Event
 import cn.idealframework2.event.EventListener
+import cn.idealframework2.idempotent.Idempotentable
 import cn.idealframework2.idempotent.coroutine.IdempotentHandler
 import cn.idealframework2.json.JsonUtils
 import cn.idealframework2.lang.StringUtils
@@ -119,23 +120,25 @@ class RabbitEventListenerRegistry(
             try {
               val body = delivery.body
               val string = String(body, Charsets.UTF_8)
-              val message = try {
+              val event = try {
                 JsonUtils.parse(string, clazz)
               } catch (e: Exception) {
-                log.info("反序列化事件消息出现异常 {} ", clazz.name, e)
+                log.warn("反序列化事件消息出现异常 {} ", clazz.name, e)
                 return@mono
               }
-              val uuid = message.uuid
               var key: String? = null
-              if (!uuid.isNullOrBlank()) {
-                key = "$finalQueueName:$uuid"
-                val tryLock = idempotentHandler.idempotent(key)
-                if (!tryLock) {
-                  return@mono
+              if (event is Idempotentable) {
+                val idempotentKey = event.idempotentKey()
+                if (!idempotentKey.isNullOrBlank()) {
+                  key = "$finalQueueName:$idempotentKey"
+                  val idempotent = idempotentHandler.idempotent(key)
+                  if (!idempotent) {
+                    return@mono
+                  }
                 }
               }
               try {
-                block.invoke(this, message)
+                block.invoke(this, event)
               } catch (e: Exception) {
                 ack = false
                 try {

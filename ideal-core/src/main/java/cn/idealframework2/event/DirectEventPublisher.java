@@ -26,7 +26,7 @@ public interface DirectEventPublisher extends EventPublisher {
       return;
     }
     List<DirectEventSupplier> collect = suppliers.stream().map(supplier -> {
-      Event event = supplier.get();
+      Event event = supplier.getEvent();
       Class<? extends Event> clazz = event.getClass();
       cn.idealframework2.event.annotation.Event annotation = clazz.getAnnotation(cn.idealframework2.event.annotation.Event.class);
       if (annotation == null) {

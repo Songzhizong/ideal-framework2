@@ -5,6 +5,7 @@ import cn.idealframework2.event.EventListener;
 import cn.idealframework2.event.EventListenerRegistrar;
 import cn.idealframework2.event.EventListenerRegistry;
 import cn.idealframework2.idempotent.IdempotentHandler;
+import cn.idealframework2.idempotent.Idempotentable;
 import cn.idealframework2.json.JsonUtils;
 import cn.idealframework2.lang.StringUtils;
 import com.rabbitmq.client.Channel;
@@ -168,13 +169,15 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
           " 出现异常, message = " + message + " e:", e);
         return;
       }
-      String uuid = event.getUuid();
       String key = null;
-      if (StringUtils.isNotBlank(uuid)) {
-        key = queueName + ":" + uuid;
-        boolean tryLock = idempotentHandler.idempotent(key);
-        if (!tryLock) {
-          return;
+      if (event instanceof Idempotentable idempotentable) {
+        String idempotentKey = idempotentable.idempotentKey();
+        if (StringUtils.isNotBlank(idempotentKey)) {
+          key = queueName + ":" + idempotentKey;
+          boolean idempotent = idempotentHandler.idempotent(key);
+          if (!idempotent) {
+            return;
+          }
         }
       }
       try {

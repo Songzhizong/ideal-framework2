@@ -57,7 +57,7 @@ public class ReactiveMongoTemplateTransactionalEventPublisher
     }
     long currentTimeMillis = System.currentTimeMillis();
     List<MongoEventTemp> collect = suppliers.stream().map(s -> {
-      Event event = s.get();
+      Event event = s.getEvent();
       Class<? extends Event> clazz = event.getClass();
       cn.idealframework2.event.annotation.Event annotation = clazz.getAnnotation(cn.idealframework2.event.annotation.Event.class);
       if (annotation == null) {

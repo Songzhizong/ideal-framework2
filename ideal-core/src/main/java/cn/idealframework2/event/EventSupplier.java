@@ -1,6 +1,9 @@
 package cn.idealframework2.event;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.annotation.Nonnull;
+import java.beans.Transient;
 
 /**
  * @author 宋志宗 on 2021/10/19
@@ -13,5 +16,7 @@ public interface EventSupplier {
    * @return 事件对象
    */
   @Nonnull
-  Event get();
+  @Transient
+  @JsonIgnore
+  Event getEvent();
 }

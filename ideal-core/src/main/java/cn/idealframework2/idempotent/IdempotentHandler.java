@@ -11,7 +11,7 @@ public interface IdempotentHandler {
    * 执行幂等判断
    *
    * @param key 幂等key
-   * @return 是否已处理
+   * @return 如果返回true则代表可以进行后续的业务处理; 如果返回false则代表之前已经完成了处理,应该直接跳过
    */
   boolean idempotent(@Nonnull String key);
 

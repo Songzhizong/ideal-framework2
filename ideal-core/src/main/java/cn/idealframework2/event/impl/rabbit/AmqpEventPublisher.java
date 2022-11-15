@@ -37,10 +37,6 @@ public class AmqpEventPublisher implements DirectEventPublisher {
     for (DirectEventSupplier supplier : suppliers) {
       Event event = supplier.event();
       String topic = supplier.topic();
-      if (StringUtils.isBlank(topic)) {
-        Class<? extends Event> clazz = event.getClass();
-        throw new RuntimeException("event 实现类:" + clazz.getName() + " topic为空");
-      }
       String exchange = supplier.exchange();
       if (StringUtils.isBlank(exchange)) {
         exchange = defaultExchange;
