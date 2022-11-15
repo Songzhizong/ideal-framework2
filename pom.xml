@@ -21,7 +21,6 @@
     <module>ideal-parent</module>
     <module>ideal-starters</module>
     <module>ideal-autoconfigure</module>
-    <module>ideal-starters/ideal-starter-models/ideal-starter-model-lock-coroutine</module>
   </modules>
 
   <properties>
@@ -43,7 +42,7 @@
     <lombok.version>1.18.24</lombok.version>
     <kotlin-logging.version>3.0.4</kotlin-logging.version>
     <reactor-rabbitmq.version>1.5.5</reactor-rabbitmq.version>
-    <redisson.version>3.17.7</redisson.version>
+    <redisson.version>3.18.0</redisson.version>
     <snakeyaml.version>1.33</snakeyaml.version>
     <snappy.version>1.1.8.4</snappy.version>
     <zstd-jni.version>1.5.2-5</zstd-jni.version>

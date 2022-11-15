@@ -18,6 +18,7 @@
     <module>ideal-starter-model-idempotent</module>
     <module>ideal-starter-model-cache-coroutine</module>
     <module>ideal-starter-model-event-coroutine</module>
+    <module>ideal-starter-model-lock-coroutine</module>
     <module>ideal-starter-model-trace-coroutine</module>
     <module>ideal-starter-model-idempotent-coroutine</module>
   </modules>
