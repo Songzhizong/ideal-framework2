@@ -98,13 +98,12 @@ public class MongoTemplateTransactionalEventPublisher
             continue;
           }
           sleep = temps.size() < limit;
-          List<DirectEventSupplier> collect = temps.stream()
+          List<JsonStringEventSupplier> collect = temps.stream()
             .map(t -> {
               String eventInfo = t.getEventInfo();
               String topic = t.getTopic();
               String exchange = t.getExchange();
-              GeneralEvent event = JsonUtils.parse(eventInfo, GeneralEvent.class);
-              return new DirectEventSupplier(event, topic, exchange);
+              return new JsonStringEventSupplier(eventInfo, topic, exchange);
             })
             .collect(Collectors.toList());
           eventPublisher.directPublish(collect);

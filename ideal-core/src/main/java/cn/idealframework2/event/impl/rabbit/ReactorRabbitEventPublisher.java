@@ -1,9 +1,7 @@
 package cn.idealframework2.event.impl.rabbit;
 
-import cn.idealframework2.event.DirectEventSupplier;
-import cn.idealframework2.event.Event;
+import cn.idealframework2.event.JsonStringEventSupplier;
 import cn.idealframework2.event.ReactiveDirectEventPublisher;
-import cn.idealframework2.json.JsonUtils;
 import cn.idealframework2.lang.CollectionUtils;
 import cn.idealframework2.lang.StringUtils;
 import com.rabbitmq.client.AMQP;
@@ -39,20 +37,19 @@ public class ReactorRabbitEventPublisher implements ReactiveDirectEventPublisher
 
   @Nonnull
   @Override
-  public Mono<Boolean> directPublish(@Nullable Collection<DirectEventSupplier> suppliers) {
+  public Mono<Boolean> directPublish(@Nullable Collection<JsonStringEventSupplier> suppliers) {
     if (CollectionUtils.isEmpty(suppliers)) {
       return Mono.just(true);
     }
     Flux<OutboundMessage> messages = Flux.fromIterable(suppliers)
       .map(supplier -> {
-        Event event = supplier.event();
+        String eventJsonString = supplier.eventJsonString();
         String topic = supplier.topic();
         String exchange = supplier.exchange();
         if (StringUtils.isBlank(exchange)) {
           exchange = defaultExchange;
         }
-        String jsonString = JsonUtils.toJsonStringIgnoreNull(event);
-        byte[] originalBytes = jsonString.getBytes(StandardCharsets.UTF_8);
+        byte[] originalBytes = eventJsonString.getBytes(StandardCharsets.UTF_8);
         AMQP.BasicProperties.Builder builder = new AMQP.BasicProperties.Builder()
           .deliveryMode(DELIVERY_MODE_PERSISTENT);
         AMQP.BasicProperties properties = builder.build();

@@ -1,5 +1,6 @@
 package cn.idealframework2.event;
 
+import cn.idealframework2.json.JsonUtils;
 import cn.idealframework2.lang.CollectionUtils;
 import cn.idealframework2.lang.StringUtils;
 
@@ -25,7 +26,7 @@ public interface DirectEventPublisher extends EventPublisher {
     if (CollectionUtils.isEmpty(suppliers)) {
       return;
     }
-    List<DirectEventSupplier> collect = suppliers.stream().map(supplier -> {
+    List<JsonStringEventSupplier> collect = suppliers.stream().map(supplier -> {
       Event event = supplier.getEvent();
       Class<? extends Event> clazz = event.getClass();
       cn.idealframework2.event.annotation.Event annotation = clazz.getAnnotation(cn.idealframework2.event.annotation.Event.class);
@@ -37,10 +38,11 @@ public interface DirectEventPublisher extends EventPublisher {
       if (StringUtils.isBlank(topic)) {
         throw new RuntimeException("event 实现类:" + clazz.getName() + " 获取topic为空");
       }
-      return new DirectEventSupplier(event, topic, exchange);
+      String eventJsonString = JsonUtils.toJsonString(event);
+      return new JsonStringEventSupplier(eventJsonString, topic, exchange);
     }).collect(Collectors.toList());
     directPublish(collect);
   }
 
-  void directPublish(@Nullable Collection<DirectEventSupplier> suppliers);
+  void directPublish(@Nullable Collection<JsonStringEventSupplier> suppliers);
 }

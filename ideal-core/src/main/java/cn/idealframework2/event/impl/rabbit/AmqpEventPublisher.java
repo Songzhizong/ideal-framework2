@@ -1,8 +1,7 @@
 package cn.idealframework2.event.impl.rabbit;
 
 import cn.idealframework2.event.DirectEventPublisher;
-import cn.idealframework2.event.DirectEventSupplier;
-import cn.idealframework2.event.Event;
+import cn.idealframework2.event.JsonStringEventSupplier;
 import cn.idealframework2.json.JsonUtils;
 import cn.idealframework2.lang.CollectionUtils;
 import cn.idealframework2.lang.StringUtils;
@@ -30,18 +29,18 @@ public class AmqpEventPublisher implements DirectEventPublisher {
   }
 
   @Override
-  public void directPublish(@Nullable Collection<DirectEventSupplier> suppliers) {
+  public void directPublish(@Nullable Collection<JsonStringEventSupplier> suppliers) {
     if (CollectionUtils.isEmpty(suppliers)) {
       return;
     }
-    for (DirectEventSupplier supplier : suppliers) {
-      Event event = supplier.event();
+    for (JsonStringEventSupplier supplier : suppliers) {
+      String eventJsonString = supplier.eventJsonString();
       String topic = supplier.topic();
       String exchange = supplier.exchange();
       if (StringUtils.isBlank(exchange)) {
         exchange = defaultExchange;
       }
-      String jsonString = JsonUtils.toJsonString(event);
+      String jsonString = JsonUtils.toJsonString(eventJsonString);
       byte[] originalBytes = jsonString.getBytes(StandardCharsets.UTF_8);
       Message message = MessageBuilder.withBody(originalBytes).build();
       MessageProperties properties = message.getMessageProperties();
