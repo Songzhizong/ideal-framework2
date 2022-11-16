@@ -16,7 +16,7 @@ public interface EventListenerRegistry {
    * @param consumer 处理逻辑
    * @param <E>      事件类型
    */
-  <E extends Event> void register(@Nonnull String name,
-                                  @Nonnull Class<E> clazz,
-                                  @Nonnull Consumer<E> consumer);
+  <E> void register(@Nonnull String name,
+                    @Nonnull Class<E> clazz,
+                    @Nonnull Consumer<E> consumer);
 }

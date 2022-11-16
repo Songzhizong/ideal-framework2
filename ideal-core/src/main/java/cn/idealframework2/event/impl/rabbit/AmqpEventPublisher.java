@@ -2,7 +2,6 @@ package cn.idealframework2.event.impl.rabbit;
 
 import cn.idealframework2.event.DirectEventPublisher;
 import cn.idealframework2.event.JsonStringEventSupplier;
-import cn.idealframework2.json.JsonUtils;
 import cn.idealframework2.lang.CollectionUtils;
 import cn.idealframework2.lang.StringUtils;
 import org.springframework.amqp.core.*;
@@ -40,8 +39,7 @@ public class AmqpEventPublisher implements DirectEventPublisher {
       if (StringUtils.isBlank(exchange)) {
         exchange = defaultExchange;
       }
-      String jsonString = JsonUtils.toJsonString(eventJsonString);
-      byte[] originalBytes = jsonString.getBytes(StandardCharsets.UTF_8);
+      byte[] originalBytes = eventJsonString.getBytes(StandardCharsets.UTF_8);
       Message message = MessageBuilder.withBody(originalBytes).build();
       MessageProperties properties = message.getMessageProperties();
       properties.setDeliveryMode(MessageDeliveryMode.PERSISTENT);

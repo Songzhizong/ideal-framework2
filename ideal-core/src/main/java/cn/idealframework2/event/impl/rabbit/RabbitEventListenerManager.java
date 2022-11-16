@@ -1,6 +1,5 @@
 package cn.idealframework2.event.impl.rabbit;
 
-import cn.idealframework2.event.Event;
 import cn.idealframework2.event.EventListener;
 import cn.idealframework2.event.EventListenerRegistrar;
 import cn.idealframework2.event.EventListenerRegistry;
@@ -101,9 +100,9 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
   }
 
   @Override
-  public <E extends Event> void register(@Nonnull String name,
-                                         @Nonnull Class<E> clazz,
-                                         @Nonnull Consumer<E> consumer) {
+  public <E> void register(@Nonnull String name,
+                           @Nonnull Class<E> clazz,
+                           @Nonnull Consumer<E> consumer) {
     cn.idealframework2.event.annotation.Event annotation = clazz.getAnnotation(cn.idealframework2.event.annotation.Event.class);
     if (annotation == null) {
       throw new RuntimeException("event 实现类:" + clazz.getName() + " 缺少 @cn.idealframework2.event.annotation.Event 注解");
@@ -144,7 +143,7 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
     beansOfType.forEach((n, r) -> r.registerEventListener(this));
   }
 
-  public static class RabbitEventListener<E extends Event> implements EventListener {
+  public static class RabbitEventListener<E> implements EventListener {
     private final Class<E> clazz;
     private final String queueName;
     private final Consumer<E> consumer;

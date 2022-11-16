@@ -1,6 +1,5 @@
 package cn.idealframework2.event.coroutine
 
-import cn.idealframework2.event.Event
 import cn.idealframework2.event.EventListener
 import cn.idealframework2.idempotent.Idempotentable
 import cn.idealframework2.idempotent.coroutine.IdempotentHandler
@@ -44,7 +43,7 @@ class RabbitEventListenerRegistry(
   }
 
   @Suppress("UNCHECKED_CAST")
-  override fun <E : Event> register(
+  override fun <E> register(
     name: String,
     clazz: Class<E>,
     block: suspend CoroutineScope.(E) -> Unit
@@ -82,7 +81,7 @@ class RabbitEventListenerRegistry(
     singletonBeanRegistry.registerSingleton(name, eventListener)
   }
 
-  class RabbitEventListener<E : Event>(
+  class RabbitEventListener<E>(
     exchange: String,
     topic: String,
     name: String,

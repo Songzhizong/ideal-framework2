@@ -1,6 +1,5 @@
 package cn.idealframework2.event.coroutine
 
-import cn.idealframework2.event.Event
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -18,7 +17,7 @@ interface EventListenerRegistry {
    * @param block 处理逻辑
    * @author 宋志宗 on 2022/4/8
    */
-  fun <E : Event> register(
+  fun <E> register(
     name: String,
     clazz: Class<E>,
     block: suspend CoroutineScope.(E) -> Unit
