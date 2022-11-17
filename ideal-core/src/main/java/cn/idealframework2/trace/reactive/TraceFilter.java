@@ -208,8 +208,11 @@ public class TraceFilter implements Ordered, WebFilter {
       operationLog.setMessage(message);
       if (operationLogStore != null) {
         operationLogStore.save(operationLog)
-          .contextWrite(ctx -> ctx.put(TraceConstants.CTX_KEY, traceContext))
-          .subscribe();
+          .contextWrite(ctx ->
+            ctx.put(TraceConstants.CTX_KEY, traceContext)
+              .put(TraceConstants.TRACE_ID_HEADER_NAME, traceContext.getTraceId())
+              .put(TraceConstants.SPAN_ID_HEADER_NAME, traceContext.getSpanId())
+          ).subscribe();
       }
     }
     MDC.clear();
