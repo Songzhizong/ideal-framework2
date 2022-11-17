@@ -12,8 +12,4 @@ object TraceContextHolder {
   suspend fun awaitContext(): TraceContext? {
     return TraceContextHolder.current().awaitSingle().orElse(null)
   }
-
-  suspend fun awaitLogPrefix(): String {
-    return awaitContext()?.logPrefix ?: ""
-  }
 }

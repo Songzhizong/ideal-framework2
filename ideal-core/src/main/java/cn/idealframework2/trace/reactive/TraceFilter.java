@@ -92,16 +92,15 @@ public class TraceFilter implements Ordered, WebFilter {
       traceContext = new TraceContext(TraceIdGenerator.Holder.get().generate());
     }
     TraceExchangeUtils.putTraceContext(exchange, traceContext);
-    String logPrefix = traceContext.getLogPrefix();
     if (StringUtils.isNotBlank(traceId) && StringUtils.isBlank(spanId)) {
-      log.warn("{}traceId不为空, 但是spanId为空", logPrefix);
+      log.warn("traceId不为空, 但是spanId为空");
     }
     // 为响应头附加traceId
     exchange.getResponse().getHeaders()
       .set(TraceConstants.TRACE_ID_HEADER_NAME, traceContext.getTraceId());
 
     String method = request.getMethod().name();
-    log.info(logPrefix + method + " " + requestPath);
+    log.info(method + " " + requestPath);
 
     AtomicBoolean success = new AtomicBoolean(true);
     AtomicReference<String> message = new AtomicReference<>("success");
@@ -179,7 +178,6 @@ public class TraceFilter implements Ordered, WebFilter {
   private void doFinally(@Nonnull ServerWebExchange exchange,
                          @Nonnull TraceContext traceContext,
                          boolean success, @Nonnull String message) {
-    String logPrefix = traceContext.getLogPrefix();
     ServerHttpRequest request = exchange.getRequest();
     String method = request.getMethod().name();
     String requestPath = request.getURI().getPath();
@@ -188,11 +186,10 @@ public class TraceFilter implements Ordered, WebFilter {
     long survivalMillis = traceContext.getSurvivalMillis();
     // 输出trace耗时日志
     if (statusCode == null) {
-      log.info("{}{} {} | consuming: {}ms", logPrefix, method, requestPath, survivalMillis);
+      log.info("{} {} | consuming: {}ms", method, requestPath, survivalMillis);
     } else {
       int status = statusCode.value();
-      log.info("{}{} {} {} | consuming: {}ms",
-        logPrefix, status, method, requestPath, survivalMillis);
+      log.info("{} {} {} | consuming: {}ms", status, method, requestPath, survivalMillis);
     }
     // 保存操作日志
     OperationLog operationLog = traceContext.getOperationLog();

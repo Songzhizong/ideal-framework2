@@ -10,9 +10,6 @@ public interface TraceConstants {
   String CTX_KEY = "_$IDEAL$TRACE:CONTEXT#$$$$$$";
 
   @Nonnull
-  String LOG_PREFIX_KEY = "x-ideal-log-prefix";
-
-  @Nonnull
   String TRACE_ID_HEADER_NAME = "x-ideal-trace-id";
 
   @Nonnull

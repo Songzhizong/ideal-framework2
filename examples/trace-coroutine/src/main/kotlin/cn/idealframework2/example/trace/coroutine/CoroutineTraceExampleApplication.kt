@@ -3,7 +3,6 @@ package cn.idealframework2.example.trace.coroutine
 import cn.idealframework2.json.JsonUtils
 import cn.idealframework2.trace.Operation
 import cn.idealframework2.trace.Operator
-import cn.idealframework2.trace.coroutine.TraceContextHolder
 import cn.idealframework2.trace.reactive.OperationLogStore
 import cn.idealframework2.trace.reactive.OperatorHolder
 import cn.idealframework2.transmission.Result
@@ -44,11 +43,7 @@ class CoroutineTraceExampleApplication {
   fun operationLogStore(): OperationLogStore {
     return OperationLogStore { operationLog ->
       cn.idealframework2.trace.reactive.TraceContextHolder.current().map {
-        var logPrefix = ""
-        if (it.isPresent) {
-          logPrefix = it.get().logPrefix
-        }
-        log.info("{}operation log: {}", logPrefix, JsonUtils.toJsonString(operationLog))
+        log.info("operation log: {}", JsonUtils.toJsonString(operationLog))
         true
       }
     }
@@ -58,8 +53,7 @@ class CoroutineTraceExampleApplication {
   @GetMapping("/trace/1")
   suspend fun t1(): Result<LocalDateTime> {
     delay(1.seconds)
-    val logPrefix = TraceContextHolder.awaitLogPrefix()
-    log.info("{}测试1", logPrefix)
+    log.info("测试1")
     return Result.success(LocalDateTime.now())
   }
 
@@ -67,8 +61,7 @@ class CoroutineTraceExampleApplication {
   @GetMapping("/trace/2")
   suspend fun t2(): Result<LocalDateTime> {
     delay(1.seconds)
-    val logPrefix = TraceContextHolder.awaitLogPrefix()
-    log.info("{}测试2", logPrefix)
+    log.info("测试2")
     @Suppress("DIVISION_BY_ZERO")
     val a = 1 / 0
     return Result.success(LocalDateTime.now())

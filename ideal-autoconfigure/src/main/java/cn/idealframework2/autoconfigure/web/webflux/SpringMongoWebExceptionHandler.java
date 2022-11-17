@@ -3,8 +3,6 @@ package cn.idealframework2.autoconfigure.web.webflux;
 import cn.idealframework2.json.JsonUtils;
 import cn.idealframework2.lang.StringUtils;
 import cn.idealframework2.spring.ExchangeUtils;
-import cn.idealframework2.trace.TraceContext;
-import cn.idealframework2.trace.reactive.TraceExchangeUtils;
 import cn.idealframework2.transmission.Result;
 import cn.idealframework2.utils.ExceptionUtils;
 import com.mongodb.MongoCommandException;
@@ -24,7 +22,6 @@ import reactor.core.publisher.Mono;
 
 import javax.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 
 /**
  * @author 宋志宗 on 2022/10/10
@@ -50,12 +47,6 @@ public class SpringMongoWebExceptionHandler implements Ordered, ErrorWebExceptio
     //noinspection DuplicatedCode
     HttpStatusCode httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     Result<Object> res = null;
-    String logPrefix = "";
-    Optional<TraceContext> optional = TraceExchangeUtils.getTraceContext(exchange);
-    if (optional.isPresent()) {
-      TraceContext context = optional.get();
-      logPrefix = context.getLogPrefix();
-    }
 
     if (throwable instanceof UncategorizedMongoDbException exception) {
       httpStatus = HttpStatus.BAD_REQUEST;
@@ -64,7 +55,7 @@ public class SpringMongoWebExceptionHandler implements Ordered, ErrorWebExceptio
       if (StringUtils.isBlank(message)) {
         message = rootCause.getClass().getName();
       }
-      log.info("{}UncategorizedMongoDbException {}", logPrefix, message);
+      log.info("UncategorizedMongoDbException {}", message);
       res = Result.failure(message);
     }
 
@@ -75,7 +66,7 @@ public class SpringMongoWebExceptionHandler implements Ordered, ErrorWebExceptio
       if (StringUtils.isBlank(message)) {
         message = rootCause.getClass().getName();
       }
-      log.info("{}MongoCommandException {}", logPrefix, message);
+      log.info("MongoCommandException {}", message);
       res = Result.failure(message);
     }
 

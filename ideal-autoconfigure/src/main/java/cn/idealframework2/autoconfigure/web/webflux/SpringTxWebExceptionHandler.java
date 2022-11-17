@@ -3,8 +3,6 @@ package cn.idealframework2.autoconfigure.web.webflux;
 import cn.idealframework2.json.JsonUtils;
 import cn.idealframework2.lang.StringUtils;
 import cn.idealframework2.spring.ExchangeUtils;
-import cn.idealframework2.trace.TraceContext;
-import cn.idealframework2.trace.reactive.TraceExchangeUtils;
 import cn.idealframework2.transmission.Result;
 import com.mongodb.MongoWriteException;
 import com.mongodb.WriteError;
@@ -24,7 +22,6 @@ import reactor.core.publisher.Mono;
 
 import javax.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 
 /**
  * @author 宋志宗 on 2022/10/10
@@ -50,16 +47,10 @@ public class SpringTxWebExceptionHandler implements Ordered, ErrorWebExceptionHa
     //noinspection DuplicatedCode
     HttpStatusCode httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     Result<Object> res = null;
-    String logPrefix = "";
-    Optional<TraceContext> optional = TraceExchangeUtils.getTraceContext(exchange);
-    if (optional.isPresent()) {
-      TraceContext context = optional.get();
-      logPrefix = context.getLogPrefix();
-    }
 
     if (throwable instanceof DuplicateKeyException exception) {
       String message = getDuplicateMessage(exception);
-      log.info("{}DuplicateKeyException {}", logPrefix, message);
+      log.info("DuplicateKeyException {}", message);
       res = Result.failure(message);
     }
 

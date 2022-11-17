@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.beans.Transient;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -26,18 +25,9 @@ public class TraceContext {
   @Nullable
   private OperationLog operationLog = null;
 
-  @Nonnull
-  @JsonIgnore
-  private final transient String logPrefix;
-
   public TraceContext(@Nonnull String traceId, @Nonnull String spanId) {
     this.traceId = traceId;
     this.spanId = spanId;
-    if (StringUtils.isBlank(spanId)) {
-      this.logPrefix = "[" + traceId + "] ";
-    } else {
-      this.logPrefix = "[" + traceId + ", " + spanId + "] ";
-    }
   }
 
   public TraceContext(@Nonnull String traceId) {
@@ -79,12 +69,5 @@ public class TraceContext {
   public TraceContext setOperationLog(@Nullable OperationLog operationLog) {
     this.operationLog = operationLog;
     return this;
-  }
-
-  @Nonnull
-  @Transient
-  @JsonIgnore
-  public String getLogPrefix() {
-    return logPrefix;
   }
 }

@@ -5,8 +5,6 @@ import cn.idealframework2.json.JsonFormatException;
 import cn.idealframework2.json.JsonParseException;
 import cn.idealframework2.json.JsonUtils;
 import cn.idealframework2.spring.ExchangeUtils;
-import cn.idealframework2.trace.TraceContext;
-import cn.idealframework2.trace.reactive.TraceExchangeUtils;
 import cn.idealframework2.transmission.Result;
 import cn.idealframework2.utils.ExceptionUtils;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
@@ -31,7 +29,6 @@ import reactor.core.publisher.Mono;
 
 import javax.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -58,12 +55,6 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
     //noinspection DuplicatedCode
     HttpStatusCode httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     Result<Object> res = null;
-    String logPrefix = "";
-    Optional<TraceContext> optional = TraceExchangeUtils.getTraceContext(exchange);
-    if (optional.isPresent()) {
-      TraceContext context = optional.get();
-      logPrefix = context.getLogPrefix();
-    }
 
     if (throwable instanceof VisibleException exception) {
       int status = exception.getHttpStatus();
@@ -74,13 +65,13 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
 
     // json序列化异常
     if (throwable instanceof JsonFormatException) {
-      log.info("{}JsonFormatException: ", logPrefix, throwable);
+      log.info("JsonFormatException: ", throwable);
       res = Result.exception(throwable);
     }
 
     // json解析异常
     if (throwable instanceof JsonParseException) {
-      log.info("{}JsonParseException: ", logPrefix, throwable);
+      log.info("JsonParseException: ", throwable);
       res = Result.exception(throwable);
     }
 
@@ -90,7 +81,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
       String message = exception.getBindingResult().getFieldErrors().stream()
         .map(DefaultMessageSourceResolvable::getDefaultMessage)
         .collect(Collectors.joining(", "));
-      log.info("{}MethodArgumentNotValidException {}", logPrefix, message);
+      log.info("MethodArgumentNotValidException {}", message);
       res = Result.failure(message);
     }
 
@@ -100,7 +91,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
       String message = exception.getBindingResult().getFieldErrors().stream()
         .map(DefaultMessageSourceResolvable::getDefaultMessage)
         .collect(Collectors.joining(", "));
-      log.info("{}BindException {}", logPrefix, message);
+      log.info("BindException {}", message);
       res = Result.failure(message);
     }
 
@@ -117,7 +108,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
       if (originalMessage == null) {
         originalMessage = "HttpMessageNotReadableException";
       }
-      log.info("{}HttpMessageNotReadableException: {}", logPrefix, originalMessage);
+      log.info("HttpMessageNotReadableException: {}", originalMessage);
       res = Result.failure(originalMessage);
       String prefix = "Cannot coerce empty String";
       if (originalMessage.startsWith(prefix)) {
@@ -131,7 +122,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
       if (message == null) {
         message = "illegal argument";
       }
-      log.info("{}", logPrefix, exception);
+      log.info("", exception);
       res = Result.failure(message);
     }
 
@@ -142,7 +133,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
       if (message == null) {
         message = "illegal status";
       }
-      log.info("{}", logPrefix, exception);
+      log.info("", exception);
       res = Result.failure(message);
     }
 
@@ -153,7 +144,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
       if (message == null) {
         message = exception.getClass().getName();
       }
-      log.info("{}MethodArgumentTypeMismatchException, {}", logPrefix, message);
+      log.info("MethodArgumentTypeMismatchException, {}", message);
       res = Result.failure(message);
     }
 
@@ -164,7 +155,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
       if (cause != null) {
         message = ExceptionUtils.getRootCause(exception).getMessage();
       }
-      log.info("{}ServerWebInputException {}", logPrefix, message);
+      log.info("ServerWebInputException {}", message);
       res = Result.failure(message);
     }
 
@@ -174,7 +165,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
       res = Result.failure(message);
       res.setCode(httpStatus.value());
       String uri = exchange.getRequest().getURI().getPath();
-      log.info("{}{} {}", logPrefix, message, uri, throwable);
+      log.info("{} {}", message, uri, throwable);
     }
 
     //noinspection DuplicatedCode
@@ -183,7 +174,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
       if (message == null) {
         message = throwable.getClass().getSimpleName();
       }
-      log.warn("{}未针对处理的异常: ", logPrefix, throwable);
+      log.warn("未针对处理的异常: ", throwable);
       res = Result.failure(message);
     }
     String jsonString = JsonUtils.toJsonString(res);

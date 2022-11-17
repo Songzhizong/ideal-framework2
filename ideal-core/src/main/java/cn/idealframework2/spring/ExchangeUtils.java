@@ -21,7 +21,6 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public final class ExchangeUtils {
   static final String TRACE_CONTEXT_ATTRIBUTE_NAME = "ideal.cloud.traceContext";
-  static final String LOG_PREFIX_ATTRIBUTE_NAME = "ideal.cloud.traceLogPrefix";
   private static final String UNKNOWN = "UNKNOWN";
 
   private ExchangeUtils() {
@@ -44,7 +43,6 @@ public final class ExchangeUtils {
   public static void clean(@Nonnull ServerWebExchange exchange) {
     Map<String, Object> attributes = exchange.getAttributes();
     attributes.remove(TRACE_CONTEXT_ATTRIBUTE_NAME);
-    attributes.remove(LOG_PREFIX_ATTRIBUTE_NAME);
   }
 
   /**

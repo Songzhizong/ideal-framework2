@@ -51,7 +51,6 @@ public class TraceFilter implements Ordered, Filter {
     httpServletRequest.setAttribute(TraceConstants.CTX_KEY, traceContext);
     MDC.put(TraceConstants.TRACE_ID_HEADER_NAME, traceContext.getTraceId());
     MDC.put(TraceConstants.SPAN_ID_HEADER_NAME, traceContext.getSpanId());
-    MDC.put(TraceConstants.LOG_PREFIX_KEY, traceContext.getLogPrefix());
     String method = httpServletRequest.getMethod();
     log.info("{} {}", method, requestPath);
     if (response instanceof HttpServletResponse httpServletResponse) {
