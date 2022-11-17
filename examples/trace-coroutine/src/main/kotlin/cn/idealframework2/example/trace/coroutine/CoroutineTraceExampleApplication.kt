@@ -8,8 +8,6 @@ import cn.idealframework2.trace.reactive.OperationLogStore
 import cn.idealframework2.trace.reactive.OperatorHolder
 import cn.idealframework2.transmission.Result
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.slf4j.MDCContext
-import kotlinx.coroutines.withContext
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.slf4j.MDC
@@ -56,23 +54,19 @@ class CoroutineTraceExampleApplication {
   @Operation("测试1")
   @GetMapping("/trace/1")
   suspend fun t1(): Result<LocalDateTime> {
-    return withContext(MDCContext()) {
-      delay(1.seconds)
-      log.info("测试1: {}", MDC.getCopyOfContextMap()?.toJsonString())
-      Result.success(LocalDateTime.now())
-    }
+    delay(1.seconds)
+    log.info("测试1: {}", MDC.getCopyOfContextMap()?.toJsonString())
+    return Result.success(LocalDateTime.now())
   }
 
   @Operation("测试2")
   @GetMapping("/trace/2")
   suspend fun t2(): Result<LocalDateTime> {
-    return withContext(MDCContext()) {
-      delay(1.seconds)
-      log.info("测试2")
-      @Suppress("DIVISION_BY_ZERO")
-      val a = 1 / 0
-      Result.success(LocalDateTime.now())
-    }
+    delay(1.seconds)
+    log.info("测试2")
+    @Suppress("DIVISION_BY_ZERO")
+    val a = 1 / 0
+    return Result.success(LocalDateTime.now())
   }
 }
 
