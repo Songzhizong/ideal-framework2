@@ -5,11 +5,14 @@ import cn.idealframework2.json.JsonFormatException;
 import cn.idealframework2.json.JsonParseException;
 import cn.idealframework2.json.JsonUtils;
 import cn.idealframework2.spring.ExchangeUtils;
+import cn.idealframework2.trace.TraceConstants;
+import cn.idealframework2.trace.reactive.TraceExchangeUtils;
 import cn.idealframework2.transmission.Result;
 import cn.idealframework2.utils.ExceptionUtils;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -52,6 +55,11 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
   @Nonnull
   @Override
   public Mono<Void> handle(@Nonnull ServerWebExchange exchange, @Nonnull Throwable throwable) {
+    TraceExchangeUtils.getTraceContext(exchange)
+      .ifPresent(ctx -> {
+        MDC.put(TraceConstants.TRACE_ID_HEADER_NAME, ctx.getTraceId());
+        MDC.put(TraceConstants.SPAN_ID_HEADER_NAME, ctx.getSpanId());
+      });
     //noinspection DuplicatedCode
     HttpStatusCode httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     Result<Object> res = null;

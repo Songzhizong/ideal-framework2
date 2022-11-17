@@ -3,11 +3,14 @@ package cn.idealframework2.autoconfigure.web.webflux;
 import cn.idealframework2.json.JsonUtils;
 import cn.idealframework2.lang.StringUtils;
 import cn.idealframework2.spring.ExchangeUtils;
+import cn.idealframework2.trace.TraceConstants;
+import cn.idealframework2.trace.reactive.TraceExchangeUtils;
 import cn.idealframework2.transmission.Result;
 import com.mongodb.MongoWriteException;
 import com.mongodb.WriteError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -44,6 +47,11 @@ public class SpringTxWebExceptionHandler implements Ordered, ErrorWebExceptionHa
   @Nonnull
   @Override
   public Mono<Void> handle(@Nonnull ServerWebExchange exchange, @Nonnull Throwable throwable) {
+    TraceExchangeUtils.getTraceContext(exchange)
+      .ifPresent(ctx -> {
+        MDC.put(TraceConstants.TRACE_ID_HEADER_NAME, ctx.getTraceId());
+        MDC.put(TraceConstants.SPAN_ID_HEADER_NAME, ctx.getSpanId());
+      });
     //noinspection DuplicatedCode
     HttpStatusCode httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     Result<Object> res = null;
