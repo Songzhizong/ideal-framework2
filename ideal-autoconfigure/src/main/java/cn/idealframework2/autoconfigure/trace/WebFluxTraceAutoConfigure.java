@@ -27,13 +27,13 @@ public class WebFluxTraceAutoConfigure {
   private String applicationName;
 
   @Bean
-  public TraceFilter traceContextFilter(@Nonnull TraceProperties properties,
-                                        @Nullable @Autowired(required = false)
-                                        OperatorHolder operatorHolder,
-                                        @Nullable @Autowired(required = false)
-                                        OperationLogStore operationLogStore,
-                                        @Nonnull @Qualifier("requestMappingHandlerMapping")
-                                        RequestMappingHandlerMapping handlerMapping) {
+  public TraceFilter traceFilter(@Nonnull TraceProperties properties,
+                                 @Nullable @Autowired(required = false)
+                                 OperatorHolder operatorHolder,
+                                 @Nullable @Autowired(required = false)
+                                 OperationLogStore operationLogStore,
+                                 @Nonnull @Qualifier("requestMappingHandlerMapping")
+                                 RequestMappingHandlerMapping handlerMapping) {
     String system = properties.getSystem();
     Set<String> excludePatterns = properties.getExcludePatterns();
     if (StringUtils.isBlank(system) && StringUtils.isNotBlank(applicationName)) {

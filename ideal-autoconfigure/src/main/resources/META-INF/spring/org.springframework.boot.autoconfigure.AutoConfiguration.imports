@@ -1,33 +1,34 @@
-  cn.idealframework2.autoconfigure.cache.BlockCacheAutoConfigure
-  cn.idealframework2.autoconfigure.cache.CacheProperties
-  cn.idealframework2.autoconfigure.cache.CoroutineCacheAutoConfigure
-  cn.idealframework2.autoconfigure.event.properties.EventProperties
-  cn.idealframework2.autoconfigure.event.properties.SpringRabbitProperties
-  cn.idealframework2.autoconfigure.event.ReactiveRabbitEventAutoConfigure
-  cn.idealframework2.autoconfigure.event.MongoEventAutoConfigure
-  cn.idealframework2.autoconfigure.event.RabbitEventAutoConfigure
-  cn.idealframework2.autoconfigure.event.RabbitEventRunner
-  cn.idealframework2.autoconfigure.event.ReactiveMongoEventAutoConfigure
-  cn.idealframework2.autoconfigure.id.snowflake.FixedSnowflakeAutoConfigure
-  cn.idealframework2.autoconfigure.id.snowflake.RedisTemplateSnowflakeAutoConfigure
-  cn.idealframework2.autoconfigure.id.IdProperties
-  cn.idealframework2.autoconfigure.id.JpaIDGeneratorInitializing
-  cn.idealframework2.autoconfigure.trace.TraceWebMvcConfigurer
-  cn.idealframework2.autoconfigure.trace.WebFluxTraceAutoConfigure
-  cn.idealframework2.autoconfigure.trace.WebMvcTraceAutoConfigure
-  cn.idealframework2.autoconfigure.idempotent.block.RedisTemplateIdempotentAutoConfigure
-  cn.idealframework2.autoconfigure.idempotent.coroutine.CoroutineRedisTemplateIdempotentAutoConfigure
-  cn.idealframework2.autoconfigure.idempotent.IdempotentProperties
-  cn.idealframework2.autoconfigure.lock.CoroutineLockAutoConfigure
-  cn.idealframework2.autoconfigure.lock.LockProperties
-  cn.idealframework2.autoconfigure.trace.TraceAutoConfigure
-  cn.idealframework2.autoconfigure.trace.TraceProperties
-  cn.idealframework2.autoconfigure.web.webflux.CustomWebFluxConfigurer
-  cn.idealframework2.autoconfigure.web.webflux.GeneralWebExceptionHandler
-  cn.idealframework2.autoconfigure.web.webflux.SpringMongoWebExceptionHandler
-  cn.idealframework2.autoconfigure.web.webflux.SpringTxWebExceptionHandler
-  cn.idealframework2.autoconfigure.web.webmvc.CustomWebMvcConfigurer
-  cn.idealframework2.autoconfigure.web.webmvc.GeneralExceptionHandlerAdvice
-  cn.idealframework2.autoconfigure.web.webmvc.NettyExceptionHandlerAdvice
-  cn.idealframework2.autoconfigure.web.webmvc.SpringJdbcExceptionHandlerAdvice
-  cn.idealframework2.autoconfigure.web.WebProperties
+cn.idealframework2.autoconfigure.cache.BlockCacheAutoConfigure
+cn.idealframework2.autoconfigure.cache.CacheProperties
+cn.idealframework2.autoconfigure.cache.CoroutineCacheAutoConfigure
+cn.idealframework2.autoconfigure.event.properties.EventProperties
+cn.idealframework2.autoconfigure.event.properties.SpringRabbitProperties
+cn.idealframework2.autoconfigure.event.ReactiveRabbitEventAutoConfigure
+cn.idealframework2.autoconfigure.event.MongoEventAutoConfigure
+cn.idealframework2.autoconfigure.event.RabbitEventAutoConfigure
+cn.idealframework2.autoconfigure.event.RabbitEventRunner
+cn.idealframework2.autoconfigure.event.ReactiveMongoEventAutoConfigure
+cn.idealframework2.autoconfigure.id.snowflake.FixedSnowflakeAutoConfigure
+cn.idealframework2.autoconfigure.id.snowflake.RedisTemplateSnowflakeAutoConfigure
+cn.idealframework2.autoconfigure.id.IdProperties
+cn.idealframework2.autoconfigure.id.JpaIDGeneratorInitializing
+cn.idealframework2.autoconfigure.trace.TraceWebMvcConfigurer
+cn.idealframework2.autoconfigure.trace.WebFluxTraceAutoConfigure
+cn.idealframework2.autoconfigure.trace.WebMvcTraceAutoConfigure
+cn.idealframework2.autoconfigure.idempotent.block.RedisTemplateIdempotentAutoConfigure
+cn.idealframework2.autoconfigure.idempotent.coroutine.CoroutineRedisTemplateIdempotentAutoConfigure
+cn.idealframework2.autoconfigure.idempotent.IdempotentProperties
+cn.idealframework2.autoconfigure.lock.CoroutineLockAutoConfigure
+cn.idealframework2.autoconfigure.lock.LockProperties
+cn.idealframework2.autoconfigure.trace.MdcContextLifterConfiguration
+cn.idealframework2.autoconfigure.trace.TraceAutoConfigure
+cn.idealframework2.autoconfigure.trace.TraceProperties
+cn.idealframework2.autoconfigure.web.webflux.CustomWebFluxConfigurer
+cn.idealframework2.autoconfigure.web.webflux.GeneralWebExceptionHandler
+cn.idealframework2.autoconfigure.web.webflux.SpringMongoWebExceptionHandler
+cn.idealframework2.autoconfigure.web.webflux.SpringTxWebExceptionHandler
+cn.idealframework2.autoconfigure.web.webmvc.CustomWebMvcConfigurer
+cn.idealframework2.autoconfigure.web.webmvc.GeneralExceptionHandlerAdvice
+cn.idealframework2.autoconfigure.web.webmvc.NettyExceptionHandlerAdvice
+cn.idealframework2.autoconfigure.web.webmvc.SpringJdbcExceptionHandlerAdvice
+cn.idealframework2.autoconfigure.web.WebProperties

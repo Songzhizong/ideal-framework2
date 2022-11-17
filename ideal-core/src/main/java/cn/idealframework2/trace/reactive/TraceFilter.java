@@ -7,6 +7,7 @@ import cn.idealframework2.spring.PathMatchers;
 import cn.idealframework2.trace.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
@@ -91,6 +92,8 @@ public class TraceFilter implements Ordered, WebFilter {
     } else {
       traceContext = new TraceContext(TraceIdGenerator.Holder.get().generate());
     }
+    MDC.put(TraceConstants.TRACE_ID_HEADER_NAME, traceContext.getTraceId());
+    MDC.put(TraceConstants.SPAN_ID_HEADER_NAME, traceContext.getSpanId());
     TraceExchangeUtils.putTraceContext(exchange, traceContext);
     if (StringUtils.isNotBlank(traceId) && StringUtils.isBlank(spanId)) {
       log.warn("traceId不为空, 但是spanId为空");
@@ -130,7 +133,11 @@ public class TraceFilter implements Ordered, WebFilter {
           message.set(name);
         }
       })
-      .contextWrite(ctx -> ctx.put(TraceConstants.CTX_KEY, traceContext))
+      .contextWrite(ctx ->
+        ctx.put(TraceConstants.CTX_KEY, traceContext)
+          .put(TraceConstants.TRACE_ID_HEADER_NAME, traceContext.getTraceId())
+          .put(TraceConstants.SPAN_ID_HEADER_NAME, traceContext.getSpanId())
+      )
       .doFinally(t -> doFinally(exchange, traceContext, success.get(), message.get()));
   }
 
@@ -178,6 +185,8 @@ public class TraceFilter implements Ordered, WebFilter {
   private void doFinally(@Nonnull ServerWebExchange exchange,
                          @Nonnull TraceContext traceContext,
                          boolean success, @Nonnull String message) {
+    MDC.put(TraceConstants.TRACE_ID_HEADER_NAME, traceContext.getTraceId());
+    MDC.put(TraceConstants.SPAN_ID_HEADER_NAME, traceContext.getSpanId());
     ServerHttpRequest request = exchange.getRequest();
     String method = request.getMethod().name();
     String requestPath = request.getURI().getPath();
@@ -203,5 +212,6 @@ public class TraceFilter implements Ordered, WebFilter {
           .subscribe();
       }
     }
+    MDC.clear();
   }
 }

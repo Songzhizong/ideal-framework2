@@ -13,4 +13,4 @@ logging:
     io.netty.resolver.dns.DnsServerAddressStreamProviders: off
     com.zzs.iam.launcher.configure.WebMessageConverterAutoConfigure: info
   pattern:
-    console: '%d{HH:mm:ss.SSS} %clr(%5p) [%15.15t] %clr(%-40.40logger{39}){cyan} %clr(%6L){magenta} : %clr(%X{x-ideal-log-prefix}){cyan}%m%n'
+    console: '%d{HH:mm:ss.SSS} %clr(%5p) [%15.15t] %clr(%-40.40logger{39}){cyan} %clr(%6L){magenta} : %clr([%X{x-ideal-trace-id},%X{x-ideal-span-id}]){cyan}%m%n'
