@@ -43,11 +43,6 @@
     </dependency>
     <!-- kotlin -->
     <dependency>
-      <groupId>io.github.microutils</groupId>
-      <artifactId>kotlin-logging-jvm</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib-jdk8</artifactId>
       <scope>provided</scope>
