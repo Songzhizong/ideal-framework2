@@ -14,6 +14,38 @@ interface SuspendLogger {
   suspend fun <T : Any> withMDCContext(block: () -> T): T
 
   /**
+   * Is the logger instance enabled for the DEBUG level?
+   *
+   * @return True if this Logger is enabled for the DEBUG level,
+   *         false otherwise.
+   */
+  suspend fun isDebugEnabled(): Boolean
+
+  /**
+   * Is the logger instance enabled for the INFO level?
+   *
+   * @return True if this Logger is enabled for the INFO level,
+   *         false otherwise.
+   */
+  suspend fun isInfoEnabled(): Boolean
+
+  /**
+   * Is the logger instance enabled for the WARN level?
+   *
+   * @return True if this Logger is enabled for the WARN level,
+   *         false otherwise.
+   */
+  suspend fun isWarnEnabled(): Boolean
+
+  /**
+   * Is the logger instance enabled for the ERROR level?
+   *
+   * @return True if this Logger is enabled for the ERROR level,
+   *         false otherwise.
+   */
+  suspend fun isErrorEnabled(): Boolean
+
+  /**
    * Log a message at the DEBUG level.
    *
    * @param msg the message string to be logged

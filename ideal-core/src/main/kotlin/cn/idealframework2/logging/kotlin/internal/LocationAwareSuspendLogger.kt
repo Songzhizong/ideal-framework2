@@ -31,6 +31,22 @@ internal class LocationAwareSuspendLogger(
     return tracingContext(block)!!
   }
 
+  override suspend fun isDebugEnabled(): Boolean {
+    return underlyingLogger.isDebugEnabled
+  }
+
+  override suspend fun isInfoEnabled(): Boolean {
+    return underlyingLogger.isInfoEnabled
+  }
+
+  override suspend fun isWarnEnabled(): Boolean {
+    return underlyingLogger.isWarnEnabled
+  }
+
+  override suspend fun isErrorEnabled(): Boolean {
+    return underlyingLogger.isErrorEnabled
+  }
+
   override suspend fun debug(msg: String?) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(
