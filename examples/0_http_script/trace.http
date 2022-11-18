@@ -3,3 +3,6 @@ GET http://localhost:8080/trace/1
 
 ### trace-异常
 GET http://localhost:8080/trace/2
+
+### trace-webclient
+GET http://localhost:8080/trace/3

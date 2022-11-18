@@ -27,6 +27,10 @@ internal class LocationAwareSuspendLogger(
     private const val EXITMESSAGE = "exit with ({})"
   }
 
+  override suspend fun <T : Any> withMDCContext(block: () -> T): T {
+    return tracingContext(block)!!
+  }
+
   override suspend fun debug(msg: String?) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(
@@ -393,7 +397,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  private suspend fun tracingContext(block: () -> Unit) {
+  private suspend fun <T> tracingContext(block: () -> T?): T? {
     val contextMap = Mono.deferContextual { cv ->
       val map = if (cv.isEmpty) {
         emptyMap()
@@ -411,8 +415,9 @@ internal class LocationAwareSuspendLogger(
       Mono.just(map)
     }.awaitSingle()
     MDC.setContextMap(contextMap)
-    block.invoke()
+    val invoke = block.invoke()
     MDC.clear()
+    return invoke
   }
 
   private fun buildMessagePattern(len: Int): String {

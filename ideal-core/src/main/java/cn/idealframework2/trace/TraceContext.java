@@ -31,7 +31,7 @@ public class TraceContext {
   }
 
   public TraceContext(@Nonnull String traceId) {
-    this(traceId, "");
+    this(traceId, "0");
   }
 
   @Nonnull

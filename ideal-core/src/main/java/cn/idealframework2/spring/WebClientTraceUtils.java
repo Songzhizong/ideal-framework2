@@ -26,6 +26,6 @@ public final class WebClientTraceUtils {
     String traceId = traceContext.getTraceId();
     String spanId = traceContext.nextSpanId();
     httpHeaders.set(TraceConstants.TRACE_ID_HEADER_NAME, traceId);
-    httpHeaders.set(TraceConstants.TRACE_ID_HEADER_NAME, spanId);
+    httpHeaders.set(TraceConstants.SPAN_ID_HEADER_NAME, spanId);
   }
 }

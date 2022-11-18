@@ -11,6 +11,8 @@ interface SuspendLogger {
   /** The  logger executing logging */
   val underlyingLogger: Logger
 
+  suspend fun <T : Any> withMDCContext(block: () -> T): T
+
   /**
    * Log a message at the DEBUG level.
    *
