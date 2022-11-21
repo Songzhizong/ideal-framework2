@@ -31,23 +31,23 @@ internal class LocationAwareSuspendLogger(
     return tracingContext(block)!!
   }
 
-  override suspend fun isDebugEnabled(): Boolean {
+  override fun isDebugEnabled(): Boolean {
     return underlyingLogger.isDebugEnabled
   }
 
-  override suspend fun isInfoEnabled(): Boolean {
+  override fun isInfoEnabled(): Boolean {
     return underlyingLogger.isInfoEnabled
   }
 
-  override suspend fun isWarnEnabled(): Boolean {
+  override fun isWarnEnabled(): Boolean {
     return underlyingLogger.isWarnEnabled
   }
 
-  override suspend fun isErrorEnabled(): Boolean {
+  override fun isErrorEnabled(): Boolean {
     return underlyingLogger.isErrorEnabled
   }
 
-  override suspend fun debug(msg: String?) {
+  override suspend fun suspendDebug(msg: String?) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.DEBUG_INT, msg, null, null
@@ -55,7 +55,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun debug(format: String?, arg: Any?) {
+  override suspend fun suspendDebug(format: String?, arg: Any?) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.DEBUG_INT, format, arrayOf(arg), null
@@ -63,7 +63,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun debug(format: String?, arg1: Any?, arg2: Any?) {
+  override suspend fun suspendDebug(format: String?, arg1: Any?, arg2: Any?) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.DEBUG_INT, format, arrayOf(arg1, arg2), null
@@ -71,7 +71,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun debug(format: String?, vararg arguments: Any?) {
+  override suspend fun suspendDebug(format: String?, vararg arguments: Any?) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.DEBUG_INT, format, arguments, null
@@ -79,13 +79,13 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun debug(msg: String?, t: Throwable) {
+  override suspend fun suspendDebug(msg: String?, t: Throwable) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(null, fqcn, LocationAwareLogger.DEBUG_INT, msg, null, t)
     }
   }
 
-  override suspend fun info(msg: String?) {
+  override suspend fun suspendInfo(msg: String?) {
     if (underlyingLogger.isInfoEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.INFO_INT, msg, null, null
@@ -93,7 +93,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun info(format: String?, arg: Any?) {
+  override suspend fun suspendInfo(format: String?, arg: Any?) {
     if (underlyingLogger.isInfoEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.INFO_INT, format, arrayOf(arg), null
@@ -101,7 +101,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun info(format: String?, arg1: Any?, arg2: Any?) {
+  override suspend fun suspendInfo(format: String?, arg1: Any?, arg2: Any?) {
     if (underlyingLogger.isInfoEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.INFO_INT, format, arrayOf(arg1, arg2), null
@@ -109,7 +109,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun info(format: String?, vararg arguments: Any?) {
+  override suspend fun suspendInfo(format: String?, vararg arguments: Any?) {
     if (underlyingLogger.isInfoEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.INFO_INT, format, arguments, null
@@ -117,7 +117,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun info(msg: String?, t: Throwable) {
+  override suspend fun suspendInfo(msg: String?, t: Throwable) {
     if (underlyingLogger.isInfoEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.INFO_INT, msg, null, t
@@ -125,7 +125,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun warn(msg: String?) {
+  override suspend fun suspendWarn(msg: String?) {
     if (underlyingLogger.isWarnEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.WARN_INT, msg, null, null
@@ -133,7 +133,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun warn(format: String?, arg: Any?) {
+  override suspend fun suspendWarn(format: String?, arg: Any?) {
     if (underlyingLogger.isWarnEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.WARN_INT, format, arrayOf(arg), null
@@ -141,7 +141,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun warn(format: String?, arg1: Any?, arg2: Any?) {
+  override suspend fun suspendWarn(format: String?, arg1: Any?, arg2: Any?) {
     if (underlyingLogger.isWarnEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.WARN_INT, format, arrayOf(arg1, arg2), null
@@ -149,7 +149,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun warn(format: String?, vararg arguments: Any?) {
+  override suspend fun suspendWarn(format: String?, vararg arguments: Any?) {
     if (underlyingLogger.isWarnEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.WARN_INT, format, arguments, null
@@ -158,7 +158,7 @@ internal class LocationAwareSuspendLogger(
 
   }
 
-  override suspend fun warn(msg: String?, t: Throwable) {
+  override suspend fun suspendWarn(msg: String?, t: Throwable) {
     if (underlyingLogger.isWarnEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.WARN_INT, msg, null, t
@@ -166,7 +166,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun error(msg: String?) {
+  override suspend fun suspendError(msg: String?) {
     if (underlyingLogger.isErrorEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.ERROR_INT, msg, null, null
@@ -174,7 +174,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun error(format: String?, arg: Any?) {
+  override suspend fun suspendError(format: String?, arg: Any?) {
     if (underlyingLogger.isErrorEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.ERROR_INT, format, arrayOf(arg), null
@@ -182,7 +182,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun error(format: String?, arg1: Any?, arg2: Any?) {
+  override suspend fun suspendError(format: String?, arg1: Any?, arg2: Any?) {
     if (underlyingLogger.isErrorEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.ERROR_INT, format, arrayOf(arg1, arg2), null
@@ -190,7 +190,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun error(format: String?, vararg arguments: Any?) {
+  override suspend fun suspendError(format: String?, vararg arguments: Any?) {
     if (underlyingLogger.isErrorEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.ERROR_INT, format, arguments, null
@@ -198,7 +198,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun error(msg: String?, t: Throwable) {
+  override suspend fun suspendError(msg: String?, t: Throwable) {
     if (underlyingLogger.isErrorEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.ERROR_INT, msg, null, t
@@ -207,7 +207,7 @@ internal class LocationAwareSuspendLogger(
   }
 
 
-  override suspend fun trace(msg: () -> Any?) {
+  override suspend fun suspendTrace(msg: () -> Any?) {
     if (underlyingLogger.isTraceEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.TRACE_INT, msg.toStringSafe(), null, null
@@ -215,7 +215,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun trace(t: Throwable?, msg: () -> Any?) {
+  override suspend fun suspendTrace(t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isTraceEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.TRACE_INT, msg.toStringSafe(), null, t
@@ -223,7 +223,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun trace(marker: Marker?, msg: () -> Any?) {
+  override suspend fun suspendTrace(marker: Marker?, msg: () -> Any?) {
     if (underlyingLogger.isTraceEnabled) tracingContext {
       underlyingLogger.log(
         marker, fqcn, LocationAwareLogger.TRACE_INT, msg.toStringSafe(), null, null
@@ -231,7 +231,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun trace(marker: Marker?, t: Throwable?, msg: () -> Any?) {
+  override suspend fun suspendTrace(marker: Marker?, t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isTraceEnabled) tracingContext {
       underlyingLogger.log(
         marker, fqcn, LocationAwareLogger.TRACE_INT, msg.toStringSafe(), null, t
@@ -239,7 +239,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun debug(msg: () -> Any?) {
+  override suspend fun suspendDebug(msg: () -> Any?) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.DEBUG_INT, msg.toStringSafe(), null, null
@@ -247,13 +247,13 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun debug(t: Throwable?, msg: () -> Any?) {
+  override suspend fun suspendDebug(t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(null, fqcn, LocationAwareLogger.DEBUG_INT, msg.toStringSafe(), null, t)
     }
   }
 
-  override suspend fun debug(marker: Marker?, msg: () -> Any?) {
+  override suspend fun suspendDebug(marker: Marker?, msg: () -> Any?) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(
         marker, fqcn, LocationAwareLogger.DEBUG_INT, msg.toStringSafe(), null, null
@@ -261,7 +261,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun debug(marker: Marker?, t: Throwable?, msg: () -> Any?) {
+  override suspend fun suspendDebug(marker: Marker?, t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(
         marker, fqcn, LocationAwareLogger.DEBUG_INT, msg.toStringSafe(), null, t
@@ -269,7 +269,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun info(msg: () -> Any?) {
+  override suspend fun suspendInfo(msg: () -> Any?) {
     if (underlyingLogger.isInfoEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.INFO_INT, msg.toStringSafe(), null, null
@@ -277,7 +277,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun info(t: Throwable?, msg: () -> Any?) {
+  override suspend fun suspendInfo(t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isInfoEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.INFO_INT, msg.toStringSafe(), null, t
@@ -285,7 +285,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun info(marker: Marker?, msg: () -> Any?) {
+  override suspend fun suspendInfo(marker: Marker?, msg: () -> Any?) {
     if (underlyingLogger.isInfoEnabled) tracingContext {
       underlyingLogger.log(
         marker, fqcn, LocationAwareLogger.INFO_INT, msg.toStringSafe(), null, null
@@ -293,7 +293,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun info(marker: Marker?, t: Throwable?, msg: () -> Any?) {
+  override suspend fun suspendInfo(marker: Marker?, t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isInfoEnabled) tracingContext {
       underlyingLogger.log(
         marker, fqcn, LocationAwareLogger.INFO_INT, msg.toStringSafe(), null, t
@@ -301,7 +301,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun warn(msg: () -> Any?) {
+  override suspend fun suspendWarn(msg: () -> Any?) {
     if (underlyingLogger.isWarnEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.WARN_INT, msg.toStringSafe(), null, null
@@ -309,7 +309,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun warn(t: Throwable?, msg: () -> Any?) {
+  override suspend fun suspendWarn(t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isWarnEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.WARN_INT, msg.toStringSafe(), null, t
@@ -317,7 +317,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun warn(marker: Marker?, msg: () -> Any?) {
+  override suspend fun suspendWarn(marker: Marker?, msg: () -> Any?) {
     if (underlyingLogger.isWarnEnabled) tracingContext {
       underlyingLogger.log(
         marker, fqcn, LocationAwareLogger.WARN_INT, msg.toStringSafe(), null, null
@@ -325,7 +325,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun warn(marker: Marker?, t: Throwable?, msg: () -> Any?) {
+  override suspend fun suspendWarn(marker: Marker?, t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isWarnEnabled) tracingContext {
       underlyingLogger.log(
         marker, fqcn, LocationAwareLogger.WARN_INT, msg.toStringSafe(), null, t
@@ -333,7 +333,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun error(msg: () -> Any?) {
+  override suspend fun suspendError(msg: () -> Any?) {
     if (underlyingLogger.isErrorEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.ERROR_INT, msg.toStringSafe(), null, null
@@ -341,7 +341,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun error(t: Throwable?, msg: () -> Any?) {
+  override suspend fun suspendError(t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isErrorEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.ERROR_INT, msg.toStringSafe(), null, t
@@ -349,7 +349,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun error(marker: Marker?, msg: () -> Any?) {
+  override suspend fun suspendError(marker: Marker?, msg: () -> Any?) {
     if (underlyingLogger.isErrorEnabled) tracingContext {
       underlyingLogger.log(
         marker, fqcn, LocationAwareLogger.ERROR_INT, msg.toStringSafe(), null, null
@@ -357,7 +357,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun error(marker: Marker?, t: Throwable?, msg: () -> Any?) {
+  override suspend fun suspendError(marker: Marker?, t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isErrorEnabled) tracingContext {
       underlyingLogger.log(
         marker, fqcn, LocationAwareLogger.ERROR_INT, msg.toStringSafe(), null, t
@@ -365,7 +365,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun entry(vararg argArray: Any?) {
+  override suspend fun suspendEntry(vararg argArray: Any?) {
     if (underlyingLogger.isTraceEnabled(ENTRY)) {
       val tp = MessageFormatter.arrayFormat(buildMessagePattern(argArray.size), argArray)
       tracingContext {
@@ -374,7 +374,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun exit() {
+  override suspend fun suspendExit() {
     if (underlyingLogger.isTraceEnabled(EXIT)) {
       tracingContext {
         underlyingLogger.log(EXIT, fqcn, LocationAwareLogger.TRACE_INT, EXITONLY, null, null)
@@ -382,7 +382,7 @@ internal class LocationAwareSuspendLogger(
     }
   }
 
-  override suspend fun <T> exit(result: T): T {
+  override suspend fun <T> suspendExit(result: T): T {
     if (underlyingLogger.isTraceEnabled(EXIT)) {
       val tp = MessageFormatter.format(EXITMESSAGE, result)
       tracingContext {
@@ -394,7 +394,7 @@ internal class LocationAwareSuspendLogger(
     return result
   }
 
-  override suspend fun <T : Throwable> throwing(throwable: T): T {
+  override suspend fun <T : Throwable> suspendThrowing(throwable: T): T {
     tracingContext {
       underlyingLogger.log(
         THROWING, fqcn, LocationAwareLogger.ERROR_INT, "throwing", null, throwable
@@ -403,7 +403,7 @@ internal class LocationAwareSuspendLogger(
     throw throwable
   }
 
-  override suspend fun <T : Throwable> catching(throwable: T) {
+  override suspend fun <T : Throwable> suspendCatching(throwable: T) {
     if (underlyingLogger.isErrorEnabled) {
       tracingContext {
         underlyingLogger.log(

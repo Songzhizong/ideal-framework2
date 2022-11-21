@@ -19,7 +19,7 @@ interface SuspendLogger {
    * @return True if this Logger is enabled for the DEBUG level,
    *         false otherwise.
    */
-  suspend fun isDebugEnabled(): Boolean
+  fun isDebugEnabled(): Boolean
 
   /**
    * Is the logger instance enabled for the INFO level?
@@ -27,7 +27,7 @@ interface SuspendLogger {
    * @return True if this Logger is enabled for the INFO level,
    *         false otherwise.
    */
-  suspend fun isInfoEnabled(): Boolean
+  fun isInfoEnabled(): Boolean
 
   /**
    * Is the logger instance enabled for the WARN level?
@@ -35,7 +35,7 @@ interface SuspendLogger {
    * @return True if this Logger is enabled for the WARN level,
    *         false otherwise.
    */
-  suspend fun isWarnEnabled(): Boolean
+  fun isWarnEnabled(): Boolean
 
   /**
    * Is the logger instance enabled for the ERROR level?
@@ -43,14 +43,14 @@ interface SuspendLogger {
    * @return True if this Logger is enabled for the ERROR level,
    *         false otherwise.
    */
-  suspend fun isErrorEnabled(): Boolean
+  fun isErrorEnabled(): Boolean
 
   /**
    * Log a message at the DEBUG level.
    *
    * @param msg the message string to be logged
    */
-  suspend fun debug(msg: String?)
+  suspend fun suspendDebug(msg: String?)
 
   /**
    * Log a message at the DEBUG level according to the specified format
@@ -62,7 +62,7 @@ interface SuspendLogger {
    * @param format the format string
    * @param arg    the argument
    */
-  suspend fun debug(format: String?, arg: Any?)
+  suspend fun suspendDebug(format: String?, arg: Any?)
 
   /**
    * Log a message at the DEBUG level according to the specified format
@@ -75,7 +75,7 @@ interface SuspendLogger {
    * @param arg1   the first argument
    * @param arg2   the second argument
    */
-  suspend fun debug(format: String?, arg1: Any?, arg2: Any?)
+  suspend fun suspendDebug(format: String?, arg1: Any?, arg2: Any?)
 
   /**
    * Log a message at the DEBUG level according to the specified format
@@ -91,7 +91,7 @@ interface SuspendLogger {
    * @param format    the format string
    * @param arguments a list of 3 or more arguments
    */
-  suspend fun debug(format: String?, vararg arguments: Any?)
+  suspend fun suspendDebug(format: String?, vararg arguments: Any?)
 
   /**
    * Log an exception (throwable) at the DEBUG level with an
@@ -100,14 +100,14 @@ interface SuspendLogger {
    * @param msg the message accompanying the exception
    * @param t   the exception (throwable) to log
    */
-  suspend fun debug(msg: String?, t: Throwable)
+  suspend fun suspendDebug(msg: String?, t: Throwable)
 
   /**
    * Log a message at the INFO level.
    *
    * @param msg the message string to be logged
    */
-  suspend fun info(msg: String?)
+  suspend fun suspendInfo(msg: String?)
 
   /**
    * Log a message at the INFO level according to the specified format
@@ -119,7 +119,7 @@ interface SuspendLogger {
    * @param format the format string
    * @param arg    the argument
    */
-  suspend fun info(format: String?, arg: Any?)
+  suspend fun suspendInfo(format: String?, arg: Any?)
 
   /**
    * Log a message at the INFO level according to the specified format
@@ -132,7 +132,7 @@ interface SuspendLogger {
    * @param arg1   the first argument
    * @param arg2   the second argument
    */
-  suspend fun info(format: String?, arg1: Any?, arg2: Any?)
+  suspend fun suspendInfo(format: String?, arg1: Any?, arg2: Any?)
 
   /**
    * Log a message at the INFO level according to the specified format
@@ -148,7 +148,7 @@ interface SuspendLogger {
    * @param format    the format string
    * @param arguments a list of 3 or more arguments
    */
-  suspend fun info(format: String?, vararg arguments: Any?)
+  suspend fun suspendInfo(format: String?, vararg arguments: Any?)
 
   /**
    * Log an exception (throwable) at the INFO level with an
@@ -157,14 +157,14 @@ interface SuspendLogger {
    * @param msg the message accompanying the exception
    * @param t   the exception (throwable) to log
    */
-  suspend fun info(msg: String?, t: Throwable)
+  suspend fun suspendInfo(msg: String?, t: Throwable)
 
   /**
    * Log a message at the WARN level.
    *
    * @param msg the message string to be logged
    */
-  suspend fun warn(msg: String?)
+  suspend fun suspendWarn(msg: String?)
 
   /**
    * Log a message at the WARN level according to the specified format
@@ -176,7 +176,7 @@ interface SuspendLogger {
    * @param format the format string
    * @param arg    the argument
    */
-  suspend fun warn(format: String?, arg: Any?)
+  suspend fun suspendWarn(format: String?, arg: Any?)
 
   /**
    * Log a message at the WARN level according to the specified format
@@ -189,7 +189,7 @@ interface SuspendLogger {
    * @param arg1   the first argument
    * @param arg2   the second argument
    */
-  suspend fun warn(format: String?, arg1: Any?, arg2: Any?)
+  suspend fun suspendWarn(format: String?, arg1: Any?, arg2: Any?)
 
   /**
    * Log a message at the WARN level according to the specified format
@@ -205,7 +205,7 @@ interface SuspendLogger {
    * @param format    the format string
    * @param arguments a list of 3 or more arguments
    */
-  suspend fun warn(format: String?, vararg arguments: Any?)
+  suspend fun suspendWarn(format: String?, vararg arguments: Any?)
 
   /**
    * Log an exception (throwable) at the WARN level with an
@@ -214,14 +214,14 @@ interface SuspendLogger {
    * @param msg the message accompanying the exception
    * @param t   the exception (throwable) to log
    */
-  suspend fun warn(msg: String?, t: Throwable)
+  suspend fun suspendWarn(msg: String?, t: Throwable)
 
   /**
    * Log a message at the ERROR level.
    *
    * @param msg the message string to be logged
    */
-  suspend fun error(msg: String?)
+  suspend fun suspendError(msg: String?)
 
   /**
    * Log a message at the ERROR level according to the specified format
@@ -233,7 +233,7 @@ interface SuspendLogger {
    * @param format the format string
    * @param arg    the argument
    */
-  suspend fun error(format: String?, arg: Any?)
+  suspend fun suspendError(format: String?, arg: Any?)
 
   /**
    * Log a message at the ERROR level according to the specified format
@@ -246,7 +246,7 @@ interface SuspendLogger {
    * @param arg1   the first argument
    * @param arg2   the second argument
    */
-  suspend fun error(format: String?, arg1: Any?, arg2: Any?)
+  suspend fun suspendError(format: String?, arg1: Any?, arg2: Any?)
 
   /**
    * Log a message at the ERROR level according to the specified format
@@ -262,7 +262,7 @@ interface SuspendLogger {
    * @param format    the format string
    * @param arguments a list of 3 or more arguments
    */
-  suspend fun error(format: String?, vararg arguments: Any?)
+  suspend fun suspendError(format: String?, vararg arguments: Any?)
 
   /**
    * Log an exception (throwable) at the ERROR level with an
@@ -271,80 +271,80 @@ interface SuspendLogger {
    * @param msg the message accompanying the exception
    * @param t   the exception (throwable) to log
    */
-  suspend fun error(msg: String?, t: Throwable)
+  suspend fun suspendError(msg: String?, t: Throwable)
 
   /** Lazy add a log message if isTraceEnabled is true */
-  suspend fun trace(msg: () -> Any?)
+  suspend fun suspendTrace(msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isTraceEnabled is true */
-  suspend fun trace(t: Throwable?, msg: () -> Any?)
+  suspend fun suspendTrace(t: Throwable?, msg: () -> Any?)
 
   /** Lazy add a log message if isTraceEnabled is true */
-  suspend fun trace(marker: Marker?, msg: () -> Any?)
+  suspend fun suspendTrace(marker: Marker?, msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isTraceEnabled is true */
-  suspend fun trace(marker: Marker?, t: Throwable?, msg: () -> Any?)
+  suspend fun suspendTrace(marker: Marker?, t: Throwable?, msg: () -> Any?)
 
   /** Lazy add a log message if isDebugEnabled is true */
-  suspend fun debug(msg: () -> Any?)
+  suspend fun suspendDebug(msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isDebugEnabled is true */
-  suspend fun debug(t: Throwable?, msg: () -> Any?)
+  suspend fun suspendDebug(t: Throwable?, msg: () -> Any?)
 
   /** Lazy add a log message if isDebugEnabled is true */
-  suspend fun debug(marker: Marker?, msg: () -> Any?)
+  suspend fun suspendDebug(marker: Marker?, msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isDebugEnabled is true */
-  suspend fun debug(marker: Marker?, t: Throwable?, msg: () -> Any?)
+  suspend fun suspendDebug(marker: Marker?, t: Throwable?, msg: () -> Any?)
 
   /** Lazy add a log message if isInfoEnabled is true */
-  suspend fun info(msg: () -> Any?)
+  suspend fun suspendInfo(msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isInfoEnabled is true */
-  suspend fun info(t: Throwable?, msg: () -> Any?)
+  suspend fun suspendInfo(t: Throwable?, msg: () -> Any?)
 
   /** Lazy add a log message if isInfoEnabled is true */
-  suspend fun info(marker: Marker?, msg: () -> Any?)
+  suspend fun suspendInfo(marker: Marker?, msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isInfoEnabled is true */
-  suspend fun info(marker: Marker?, t: Throwable?, msg: () -> Any?)
+  suspend fun suspendInfo(marker: Marker?, t: Throwable?, msg: () -> Any?)
 
   /** Lazy add a log message if isWarnEnabled is true */
-  suspend fun warn(msg: () -> Any?)
+  suspend fun suspendWarn(msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isWarnEnabled is true */
-  suspend fun warn(t: Throwable?, msg: () -> Any?)
+  suspend fun suspendWarn(t: Throwable?, msg: () -> Any?)
 
   /** Lazy add a log message if isWarnEnabled is true */
-  suspend fun warn(marker: Marker?, msg: () -> Any?)
+  suspend fun suspendWarn(marker: Marker?, msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isWarnEnabled is true */
-  suspend fun warn(marker: Marker?, t: Throwable?, msg: () -> Any?)
+  suspend fun suspendWarn(marker: Marker?, t: Throwable?, msg: () -> Any?)
 
   /** Lazy add a log message if isErrorEnabled is true */
-  suspend fun error(msg: () -> Any?)
+  suspend fun suspendError(msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isErrorEnabled is true */
-  suspend fun error(t: Throwable?, msg: () -> Any?)
+  suspend fun suspendError(t: Throwable?, msg: () -> Any?)
 
   /** Lazy add a log message if isErrorEnabled is true */
-  suspend fun error(marker: Marker?, msg: () -> Any?)
+  suspend fun suspendError(marker: Marker?, msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isErrorEnabled is true */
-  suspend fun error(marker: Marker?, t: Throwable?, msg: () -> Any?)
+  suspend fun suspendError(marker: Marker?, t: Throwable?, msg: () -> Any?)
 
   /** Add a log message with all the supplied parameters along with method name */
-  suspend fun entry(vararg argArray: Any?)
+  suspend fun suspendEntry(vararg argArray: Any?)
 
   /** Add log message indicating exit of a method */
-  suspend fun exit()
+  suspend fun suspendExit()
 
   /** Add a log message with the return value of a method */
-  suspend fun <T> exit(result: T): T where T : Any?
+  suspend fun <T> suspendExit(result: T): T where T : Any?
 
   /** Add a log message indicating an exception will be thrown along with the stack trace. */
-  suspend fun <T> throwing(throwable: T): T where T : Throwable
+  suspend fun <T> suspendThrowing(throwable: T): T where T : Throwable
 
   /** Add a log message indicating an exception is caught along with the stack trace. */
-  suspend fun <T> catching(throwable: T) where T : Throwable
+  suspend fun <T> suspendCatching(throwable: T) where T : Throwable
 }

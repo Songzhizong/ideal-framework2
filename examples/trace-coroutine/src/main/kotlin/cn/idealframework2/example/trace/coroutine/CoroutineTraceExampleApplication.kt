@@ -67,7 +67,7 @@ class CoroutineTraceExampleApplication {
   @GetMapping("/trace/1")
   suspend fun t1(): Result<LocalDateTime> {
     delay(1.seconds)
-    log.info { "测试1: ${MDC.getCopyOfContextMap()?.toJsonString()}" }
+    log.suspendInfo { "测试1: ${MDC.getCopyOfContextMap()?.toJsonString()}" }
     return Result.success(LocalDateTime.now())
   }
 
@@ -75,7 +75,7 @@ class CoroutineTraceExampleApplication {
   @GetMapping("/trace/2")
   suspend fun t2(): Result<LocalDateTime> {
     delay(1.seconds)
-    log.info { "测试2" }
+    log.suspendInfo { "测试2" }
     @Suppress("DIVISION_BY_ZERO")
     val a = 1 / 0
     return Result.success(LocalDateTime.now())
@@ -93,7 +93,7 @@ class CoroutineTraceExampleApplication {
           }
           .flatMap { body ->
             mono {
-              log.info { "body log: $body" }
+              log.suspendInfo { "body log: $body" }
               body
             }
           }

@@ -8,6 +8,14 @@ import org.slf4j.Logger
  */
 object KotlinLogging {
 
+  fun logger(func: () -> Unit): KLogger = KLoggerFactory.logger(func)
+
+  fun logger(name: String): KLogger = KLoggerFactory.logger(name)
+
+  fun logger(clazz: Class<*>): KLogger = KLoggerFactory.logger(clazz)
+
+  fun logger(underlyingLogger: Logger): KLogger = KLoggerFactory.wrapJLogger(underlyingLogger)
+
   fun suspendLogger(func: () -> Unit): SuspendLogger = KLoggerFactory.suspendLogger(func)
 
   fun suspendLogger(name: String): SuspendLogger = KLoggerFactory.suspendLogger(name)
