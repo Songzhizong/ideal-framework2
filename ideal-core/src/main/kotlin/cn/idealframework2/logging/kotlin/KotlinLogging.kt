@@ -16,12 +16,12 @@ object KotlinLogging {
 
   fun logger(underlyingLogger: Logger): KLogger = KLoggerFactory.wrapJLogger(underlyingLogger)
 
-  fun suspendLogger(func: () -> Unit): SuspendLogger = KLoggerFactory.suspendLogger(func)
-
-  fun suspendLogger(name: String): SuspendLogger = KLoggerFactory.suspendLogger(name)
-
-  fun suspendLogger(clazz: Class<*>): SuspendLogger = KLoggerFactory.suspendLogger(clazz)
-
-  fun suspendLogger(underlyingLogger: Logger): SuspendLogger =
-    KLoggerFactory.wrapSuspendKLogger(underlyingLogger)
+//  fun suspendLogger(func: () -> Unit): SuspendLogger = KLoggerFactory.suspendLogger(func)
+//
+//  fun suspendLogger(name: String): SuspendLogger = KLoggerFactory.suspendLogger(name)
+//
+//  fun suspendLogger(clazz: Class<*>): SuspendLogger = KLoggerFactory.suspendLogger(clazz)
+//
+//  fun suspendLogger(underlyingLogger: Logger): SuspendLogger =
+//    KLoggerFactory.wrapSuspendKLogger(underlyingLogger)
 }

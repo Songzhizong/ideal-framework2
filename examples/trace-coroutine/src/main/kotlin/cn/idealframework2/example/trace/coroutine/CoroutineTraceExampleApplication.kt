@@ -35,7 +35,7 @@ class CoroutineTraceExampleApplication {
   companion object {
     private val logger: Logger =
       LoggerFactory.getLogger(CoroutineTraceExampleApplication::class.java)
-    private val log = KotlinLogging.suspendLogger { }
+    private val log = KotlinLogging.logger { }
   }
 
   @Value("\${server.port:8080}")
