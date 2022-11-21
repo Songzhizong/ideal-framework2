@@ -94,7 +94,7 @@ interface KLogger : Logger {
    *
    * @param msg the message string to be logged
    */
-  suspend fun suspendDebug(msg: String?)
+  suspend fun mdcDebug(msg: String?)
 
   /**
    * Log a message at the DEBUG level according to the specified format
@@ -106,7 +106,7 @@ interface KLogger : Logger {
    * @param format the format string
    * @param arg    the argument
    */
-  suspend fun suspendDebug(format: String?, arg: Any?)
+  suspend fun mdcDebug(format: String?, arg: Any?)
 
   /**
    * Log a message at the DEBUG level according to the specified format
@@ -119,7 +119,7 @@ interface KLogger : Logger {
    * @param arg1   the first argument
    * @param arg2   the second argument
    */
-  suspend fun suspendDebug(format: String?, arg1: Any?, arg2: Any?)
+  suspend fun mdcDebug(format: String?, arg1: Any?, arg2: Any?)
 
   /**
    * Log a message at the DEBUG level according to the specified format
@@ -135,7 +135,7 @@ interface KLogger : Logger {
    * @param format    the format string
    * @param arguments a list of 3 or more arguments
    */
-  suspend fun suspendDebug(format: String?, vararg arguments: Any?)
+  suspend fun mdcDebug(format: String?, vararg arguments: Any?)
 
   /**
    * Log an exception (throwable) at the DEBUG level with an
@@ -144,14 +144,14 @@ interface KLogger : Logger {
    * @param msg the message accompanying the exception
    * @param t   the exception (throwable) to log
    */
-  suspend fun suspendDebug(msg: String?, t: Throwable)
+  suspend fun mdcDebug(msg: String?, t: Throwable)
 
   /**
    * Log a message at the INFO level.
    *
    * @param msg the message string to be logged
    */
-  suspend fun suspendInfo(msg: String?)
+  suspend fun mdcInfo(msg: String?)
 
   /**
    * Log a message at the INFO level according to the specified format
@@ -163,7 +163,7 @@ interface KLogger : Logger {
    * @param format the format string
    * @param arg    the argument
    */
-  suspend fun suspendInfo(format: String?, arg: Any?)
+  suspend fun mdcInfo(format: String?, arg: Any?)
 
   /**
    * Log a message at the INFO level according to the specified format
@@ -176,7 +176,7 @@ interface KLogger : Logger {
    * @param arg1   the first argument
    * @param arg2   the second argument
    */
-  suspend fun suspendInfo(format: String?, arg1: Any?, arg2: Any?)
+  suspend fun mdcInfo(format: String?, arg1: Any?, arg2: Any?)
 
   /**
    * Log a message at the INFO level according to the specified format
@@ -192,7 +192,7 @@ interface KLogger : Logger {
    * @param format    the format string
    * @param arguments a list of 3 or more arguments
    */
-  suspend fun suspendInfo(format: String?, vararg arguments: Any?)
+  suspend fun mdcInfo(format: String?, vararg arguments: Any?)
 
   /**
    * Log an exception (throwable) at the INFO level with an
@@ -201,14 +201,14 @@ interface KLogger : Logger {
    * @param msg the message accompanying the exception
    * @param t   the exception (throwable) to log
    */
-  suspend fun suspendInfo(msg: String?, t: Throwable)
+  suspend fun mdcInfo(msg: String?, t: Throwable)
 
   /**
    * Log a message at the WARN level.
    *
    * @param msg the message string to be logged
    */
-  suspend fun suspendWarn(msg: String?)
+  suspend fun mdcWarn(msg: String?)
 
   /**
    * Log a message at the WARN level according to the specified format
@@ -220,7 +220,7 @@ interface KLogger : Logger {
    * @param format the format string
    * @param arg    the argument
    */
-  suspend fun suspendWarn(format: String?, arg: Any?)
+  suspend fun mdcWarn(format: String?, arg: Any?)
 
   /**
    * Log a message at the WARN level according to the specified format
@@ -233,7 +233,7 @@ interface KLogger : Logger {
    * @param arg1   the first argument
    * @param arg2   the second argument
    */
-  suspend fun suspendWarn(format: String?, arg1: Any?, arg2: Any?)
+  suspend fun mdcWarn(format: String?, arg1: Any?, arg2: Any?)
 
   /**
    * Log a message at the WARN level according to the specified format
@@ -249,7 +249,7 @@ interface KLogger : Logger {
    * @param format    the format string
    * @param arguments a list of 3 or more arguments
    */
-  suspend fun suspendWarn(format: String?, vararg arguments: Any?)
+  suspend fun mdcWarn(format: String?, vararg arguments: Any?)
 
   /**
    * Log an exception (throwable) at the WARN level with an
@@ -258,14 +258,14 @@ interface KLogger : Logger {
    * @param msg the message accompanying the exception
    * @param t   the exception (throwable) to log
    */
-  suspend fun suspendWarn(msg: String?, t: Throwable)
+  suspend fun mdcWarn(msg: String?, t: Throwable)
 
   /**
    * Log a message at the ERROR level.
    *
    * @param msg the message string to be logged
    */
-  suspend fun suspendError(msg: String?)
+  suspend fun mdcError(msg: String?)
 
   /**
    * Log a message at the ERROR level according to the specified format
@@ -277,7 +277,7 @@ interface KLogger : Logger {
    * @param format the format string
    * @param arg    the argument
    */
-  suspend fun suspendError(format: String?, arg: Any?)
+  suspend fun mdcError(format: String?, arg: Any?)
 
   /**
    * Log a message at the ERROR level according to the specified format
@@ -290,7 +290,7 @@ interface KLogger : Logger {
    * @param arg1   the first argument
    * @param arg2   the second argument
    */
-  suspend fun suspendError(format: String?, arg1: Any?, arg2: Any?)
+  suspend fun mdcError(format: String?, arg1: Any?, arg2: Any?)
 
   /**
    * Log a message at the ERROR level according to the specified format
@@ -306,7 +306,7 @@ interface KLogger : Logger {
    * @param format    the format string
    * @param arguments a list of 3 or more arguments
    */
-  suspend fun suspendError(format: String?, vararg arguments: Any?)
+  suspend fun mdcError(format: String?, vararg arguments: Any?)
 
   /**
    * Log an exception (throwable) at the ERROR level with an
@@ -315,80 +315,80 @@ interface KLogger : Logger {
    * @param msg the message accompanying the exception
    * @param t   the exception (throwable) to log
    */
-  suspend fun suspendError(msg: String?, t: Throwable)
+  suspend fun mdcError(msg: String?, t: Throwable)
 
   /** Lazy add a log message if isTraceEnabled is true */
-  suspend fun suspendTrace(msg: () -> Any?)
+  suspend fun mdcTrace(msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isTraceEnabled is true */
-  suspend fun suspendTrace(t: Throwable?, msg: () -> Any?)
+  suspend fun mdcTrace(t: Throwable?, msg: () -> Any?)
 
   /** Lazy add a log message if isTraceEnabled is true */
-  suspend fun suspendTrace(marker: Marker?, msg: () -> Any?)
+  suspend fun mdcTrace(marker: Marker?, msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isTraceEnabled is true */
-  suspend fun suspendTrace(marker: Marker?, t: Throwable?, msg: () -> Any?)
+  suspend fun mdcTrace(marker: Marker?, t: Throwable?, msg: () -> Any?)
 
   /** Lazy add a log message if isDebugEnabled is true */
-  suspend fun suspendDebug(msg: () -> Any?)
+  suspend fun mdcDebug(msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isDebugEnabled is true */
-  suspend fun suspendDebug(t: Throwable?, msg: () -> Any?)
+  suspend fun mdcDebug(t: Throwable?, msg: () -> Any?)
 
   /** Lazy add a log message if isDebugEnabled is true */
-  suspend fun suspendDebug(marker: Marker?, msg: () -> Any?)
+  suspend fun mdcDebug(marker: Marker?, msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isDebugEnabled is true */
-  suspend fun suspendDebug(marker: Marker?, t: Throwable?, msg: () -> Any?)
+  suspend fun mdcDebug(marker: Marker?, t: Throwable?, msg: () -> Any?)
 
   /** Lazy add a log message if isInfoEnabled is true */
-  suspend fun suspendInfo(msg: () -> Any?)
+  suspend fun mdcInfo(msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isInfoEnabled is true */
-  suspend fun suspendInfo(t: Throwable?, msg: () -> Any?)
+  suspend fun mdcInfo(t: Throwable?, msg: () -> Any?)
 
   /** Lazy add a log message if isInfoEnabled is true */
-  suspend fun suspendInfo(marker: Marker?, msg: () -> Any?)
+  suspend fun mdcInfo(marker: Marker?, msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isInfoEnabled is true */
-  suspend fun suspendInfo(marker: Marker?, t: Throwable?, msg: () -> Any?)
+  suspend fun mdcInfo(marker: Marker?, t: Throwable?, msg: () -> Any?)
 
   /** Lazy add a log message if isWarnEnabled is true */
-  suspend fun suspendWarn(msg: () -> Any?)
+  suspend fun mdcWarn(msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isWarnEnabled is true */
-  suspend fun suspendWarn(t: Throwable?, msg: () -> Any?)
+  suspend fun mdcWarn(t: Throwable?, msg: () -> Any?)
 
   /** Lazy add a log message if isWarnEnabled is true */
-  suspend fun suspendWarn(marker: Marker?, msg: () -> Any?)
+  suspend fun mdcWarn(marker: Marker?, msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isWarnEnabled is true */
-  suspend fun suspendWarn(marker: Marker?, t: Throwable?, msg: () -> Any?)
+  suspend fun mdcWarn(marker: Marker?, t: Throwable?, msg: () -> Any?)
 
   /** Lazy add a log message if isErrorEnabled is true */
-  suspend fun suspendError(msg: () -> Any?)
+  suspend fun mdcError(msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isErrorEnabled is true */
-  suspend fun suspendError(t: Throwable?, msg: () -> Any?)
+  suspend fun mdcError(t: Throwable?, msg: () -> Any?)
 
   /** Lazy add a log message if isErrorEnabled is true */
-  suspend fun suspendError(marker: Marker?, msg: () -> Any?)
+  suspend fun mdcError(marker: Marker?, msg: () -> Any?)
 
   /** Lazy add a log message with throwable payload if isErrorEnabled is true */
-  suspend fun suspendError(marker: Marker?, t: Throwable?, msg: () -> Any?)
+  suspend fun mdcError(marker: Marker?, t: Throwable?, msg: () -> Any?)
 
   /** Add a log message with all the supplied parameters along with method name */
-  suspend fun suspendEntry(vararg argArray: Any?)
+  suspend fun mdcEntry(vararg argArray: Any?)
 
   /** Add log message indicating exit of a method */
-  suspend fun suspendExit()
+  suspend fun mdcExit()
 
   /** Add a log message with the return value of a method */
-  suspend fun <T> suspendExit(result: T): T where T : Any?
+  suspend fun <T> mdcExit(result: T): T where T : Any?
 
   /** Add a log message indicating an exception will be thrown along with the stack trace. */
-  suspend fun <T> suspendThrowing(throwable: T): T where T : Throwable
+  suspend fun <T> mdcThrowing(throwable: T): T where T : Throwable
 
   /** Add a log message indicating an exception is caught along with the stack trace. */
-  suspend fun <T> suspendCatching(throwable: T) where T : Throwable
+  suspend fun <T> mdcCatching(throwable: T) where T : Throwable
 }

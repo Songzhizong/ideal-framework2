@@ -468,7 +468,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     return tracingContext(block)!!
   }
 
-  override suspend fun suspendDebug(msg: String?) {
+  override suspend fun mdcDebug(msg: String?) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.DEBUG_INT, msg, null, null
@@ -476,7 +476,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendDebug(format: String?, arg: Any?) {
+  override suspend fun mdcDebug(format: String?, arg: Any?) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -485,7 +485,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendDebug(format: String?, arg1: Any?, arg2: Any?) {
+  override suspend fun mdcDebug(format: String?, arg1: Any?, arg2: Any?) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -494,7 +494,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendDebug(format: String?, vararg arguments: Any?) {
+  override suspend fun mdcDebug(format: String?, vararg arguments: Any?) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -503,7 +503,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendDebug(msg: String?, t: Throwable) {
+  override suspend fun mdcDebug(msg: String?, t: Throwable) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -512,7 +512,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendInfo(msg: String?) {
+  override suspend fun mdcInfo(msg: String?) {
     if (underlyingLogger.isInfoEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.INFO_INT, msg, null, null
@@ -520,7 +520,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendInfo(format: String?, arg: Any?) {
+  override suspend fun mdcInfo(format: String?, arg: Any?) {
     if (underlyingLogger.isInfoEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -529,7 +529,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendInfo(format: String?, arg1: Any?, arg2: Any?) {
+  override suspend fun mdcInfo(format: String?, arg1: Any?, arg2: Any?) {
     if (underlyingLogger.isInfoEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -538,7 +538,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendInfo(format: String?, vararg arguments: Any?) {
+  override suspend fun mdcInfo(format: String?, vararg arguments: Any?) {
     if (underlyingLogger.isInfoEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.INFO_INT, format, arguments, null
@@ -546,7 +546,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendInfo(msg: String?, t: Throwable) {
+  override suspend fun mdcInfo(msg: String?, t: Throwable) {
     if (underlyingLogger.isInfoEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.INFO_INT, msg, null, t
@@ -554,7 +554,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendWarn(msg: String?) {
+  override suspend fun mdcWarn(msg: String?) {
     if (underlyingLogger.isWarnEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.WARN_INT, msg, null, null
@@ -562,7 +562,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendWarn(format: String?, arg: Any?) {
+  override suspend fun mdcWarn(format: String?, arg: Any?) {
     if (underlyingLogger.isWarnEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -571,7 +571,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendWarn(format: String?, arg1: Any?, arg2: Any?) {
+  override suspend fun mdcWarn(format: String?, arg1: Any?, arg2: Any?) {
     if (underlyingLogger.isWarnEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -580,7 +580,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendWarn(format: String?, vararg arguments: Any?) {
+  override suspend fun mdcWarn(format: String?, vararg arguments: Any?) {
     if (underlyingLogger.isWarnEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.WARN_INT, format, arguments, null
@@ -589,7 +589,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
 
   }
 
-  override suspend fun suspendWarn(msg: String?, t: Throwable) {
+  override suspend fun mdcWarn(msg: String?, t: Throwable) {
     if (underlyingLogger.isWarnEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.WARN_INT, msg, null, t
@@ -597,7 +597,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendError(msg: String?) {
+  override suspend fun mdcError(msg: String?) {
     if (underlyingLogger.isErrorEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.ERROR_INT, msg, null, null
@@ -605,7 +605,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendError(format: String?, arg: Any?) {
+  override suspend fun mdcError(format: String?, arg: Any?) {
     if (underlyingLogger.isErrorEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -614,7 +614,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendError(format: String?, arg1: Any?, arg2: Any?) {
+  override suspend fun mdcError(format: String?, arg1: Any?, arg2: Any?) {
     if (underlyingLogger.isErrorEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -623,7 +623,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendError(format: String?, vararg arguments: Any?) {
+  override suspend fun mdcError(format: String?, vararg arguments: Any?) {
     if (underlyingLogger.isErrorEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -632,7 +632,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendError(msg: String?, t: Throwable) {
+  override suspend fun mdcError(msg: String?, t: Throwable) {
     if (underlyingLogger.isErrorEnabled) tracingContext {
       underlyingLogger.log(
         null, fqcn, LocationAwareLogger.ERROR_INT, msg, null, t
@@ -641,7 +641,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
   }
 
 
-  override suspend fun suspendTrace(msg: () -> Any?) {
+  override suspend fun mdcTrace(msg: () -> Any?) {
     if (underlyingLogger.isTraceEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -650,7 +650,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendTrace(t: Throwable?, msg: () -> Any?) {
+  override suspend fun mdcTrace(t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isTraceEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -659,7 +659,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendTrace(marker: Marker?, msg: () -> Any?) {
+  override suspend fun mdcTrace(marker: Marker?, msg: () -> Any?) {
     if (underlyingLogger.isTraceEnabled) tracingContext {
       underlyingLogger.log(
         marker,
@@ -668,7 +668,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendTrace(marker: Marker?, t: Throwable?, msg: () -> Any?) {
+  override suspend fun mdcTrace(marker: Marker?, t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isTraceEnabled) tracingContext {
       underlyingLogger.log(
         marker,
@@ -677,7 +677,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendDebug(msg: () -> Any?) {
+  override suspend fun mdcDebug(msg: () -> Any?) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -686,7 +686,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendDebug(t: Throwable?, msg: () -> Any?) {
+  override suspend fun mdcDebug(t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -695,7 +695,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendDebug(marker: Marker?, msg: () -> Any?) {
+  override suspend fun mdcDebug(marker: Marker?, msg: () -> Any?) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(
         marker,
@@ -704,7 +704,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendDebug(marker: Marker?, t: Throwable?, msg: () -> Any?) {
+  override suspend fun mdcDebug(marker: Marker?, t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isDebugEnabled) tracingContext {
       underlyingLogger.log(
         marker,
@@ -713,7 +713,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendInfo(msg: () -> Any?) {
+  override suspend fun mdcInfo(msg: () -> Any?) {
     if (underlyingLogger.isInfoEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -722,7 +722,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendInfo(t: Throwable?, msg: () -> Any?) {
+  override suspend fun mdcInfo(t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isInfoEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -731,7 +731,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendInfo(marker: Marker?, msg: () -> Any?) {
+  override suspend fun mdcInfo(marker: Marker?, msg: () -> Any?) {
     if (underlyingLogger.isInfoEnabled) tracingContext {
       underlyingLogger.log(
         marker,
@@ -740,7 +740,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendInfo(marker: Marker?, t: Throwable?, msg: () -> Any?) {
+  override suspend fun mdcInfo(marker: Marker?, t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isInfoEnabled) tracingContext {
       underlyingLogger.log(
         marker,
@@ -749,7 +749,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendWarn(msg: () -> Any?) {
+  override suspend fun mdcWarn(msg: () -> Any?) {
     if (underlyingLogger.isWarnEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -758,7 +758,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendWarn(t: Throwable?, msg: () -> Any?) {
+  override suspend fun mdcWarn(t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isWarnEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -767,7 +767,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendWarn(marker: Marker?, msg: () -> Any?) {
+  override suspend fun mdcWarn(marker: Marker?, msg: () -> Any?) {
     if (underlyingLogger.isWarnEnabled) tracingContext {
       underlyingLogger.log(
         marker,
@@ -776,7 +776,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendWarn(marker: Marker?, t: Throwable?, msg: () -> Any?) {
+  override suspend fun mdcWarn(marker: Marker?, t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isWarnEnabled) tracingContext {
       underlyingLogger.log(
         marker,
@@ -785,7 +785,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendError(msg: () -> Any?) {
+  override suspend fun mdcError(msg: () -> Any?) {
     if (underlyingLogger.isErrorEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -794,7 +794,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendError(t: Throwable?, msg: () -> Any?) {
+  override suspend fun mdcError(t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isErrorEnabled) tracingContext {
       underlyingLogger.log(
         null,
@@ -803,7 +803,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendError(marker: Marker?, msg: () -> Any?) {
+  override suspend fun mdcError(marker: Marker?, msg: () -> Any?) {
     if (underlyingLogger.isErrorEnabled) tracingContext {
       underlyingLogger.log(
         marker,
@@ -812,7 +812,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendError(marker: Marker?, t: Throwable?, msg: () -> Any?) {
+  override suspend fun mdcError(marker: Marker?, t: Throwable?, msg: () -> Any?) {
     if (underlyingLogger.isErrorEnabled) tracingContext {
       underlyingLogger.log(
         marker,
@@ -821,7 +821,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendEntry(vararg argArray: Any?) {
+  override suspend fun mdcEntry(vararg argArray: Any?) {
     if (underlyingLogger.isTraceEnabled(ENTRY)) {
       val tp = MessageFormatter.arrayFormat(buildMessagePattern(argArray.size), argArray)
       tracingContext {
@@ -833,7 +833,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun suspendExit() {
+  override suspend fun mdcExit() {
     if (underlyingLogger.isTraceEnabled(EXIT)) {
       tracingContext {
         underlyingLogger.log(
@@ -845,7 +845,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     }
   }
 
-  override suspend fun <T> suspendExit(result: T): T {
+  override suspend fun <T> mdcExit(result: T): T {
     if (underlyingLogger.isTraceEnabled(EXIT)) {
       val tp = MessageFormatter.format(EXITMESSAGE, result)
       tracingContext {
@@ -858,7 +858,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     return result
   }
 
-  override suspend fun <T : Throwable> suspendThrowing(throwable: T): T {
+  override suspend fun <T : Throwable> mdcThrowing(throwable: T): T {
     tracingContext {
       underlyingLogger.log(
         THROWING,
@@ -868,7 +868,7 @@ internal class LocationAwareKLogger(override val underlyingLogger: LocationAware
     throw throwable
   }
 
-  override suspend fun <T : Throwable> suspendCatching(throwable: T) {
+  override suspend fun <T : Throwable> mdcCatching(throwable: T) {
     if (underlyingLogger.isErrorEnabled) {
       tracingContext {
         underlyingLogger.log(
