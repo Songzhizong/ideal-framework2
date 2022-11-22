@@ -1,8 +1,9 @@
-package cn.idealframework2.example.event.block;
+package cn.idealframework2.example.event.block.mongo;
 
 import cn.idealframework2.event.EventPublisher;
 import cn.idealframework2.event.TransactionalEventPublisher;
 import cn.idealframework2.transmission.Result;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author 宋志宗 on 2022/9/30
  */
 @RestController
+@Transactional(rollbackFor = Throwable.class)
 public class PublishController {
   private final EventPublisher eventPublisher;
   private final TransactionalEventPublisher transactionalEventPublisher;

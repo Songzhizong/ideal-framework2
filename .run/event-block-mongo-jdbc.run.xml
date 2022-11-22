@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="cache-coroutine"
+  <configuration default="false" name="event-block-mongo-jdbc"
                  type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <module name="cache-coroutine"/>
+    <module name="event-block-jdbc"/>
     <option name="SPRING_BOOT_MAIN_CLASS"
-            value="cn.idealframework2.example.cache.coroutine.CoroutineCacheExampleApplication"/>
+            value="cn.idealframework2.example.event.block.jdbc.JdbcBlockEventExampleApplication"/>
     <method v="2">
       <option name="Make" enabled="true"/>
     </method>

@@ -1,4 +1,4 @@
-package cn.idealframework2.example.event.block;
+package cn.idealframework2.example.event.block.jdbc;
 
 import cn.idealframework2.event.BaseEvent;
 import cn.idealframework2.event.annotation.Event;

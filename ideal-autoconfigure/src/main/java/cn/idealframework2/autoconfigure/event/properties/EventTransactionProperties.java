@@ -10,8 +10,10 @@ public class EventTransactionProperties {
   private Type type = Type.mongo;
 
   public enum Type {
-    //    jdbc,
-    mongo
+    /** jdbc */
+    jdbc,
+    /** mongodb */
+    mongo,
   }
 
   public boolean isEnabled() {

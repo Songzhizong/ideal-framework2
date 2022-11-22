@@ -2,6 +2,7 @@ package cn.idealframework2.aot;
 
 import cn.idealframework2.event.BaseEvent;
 import cn.idealframework2.event.GeneralEvent;
+import cn.idealframework2.event.impl.jdbc.JdbcEventTemp;
 import cn.idealframework2.event.impl.mongo.MongoEventLock;
 import cn.idealframework2.event.impl.mongo.MongoEventTemp;
 import cn.idealframework2.lang.Label;
@@ -36,6 +37,7 @@ public class IdealCoreRuntimeHintsConfigure {
       hints.reflection()
         .registerTypes(
           Arrays.asList(
+            TypeReference.of(JdbcEventTemp.class),
             TypeReference.of(MongoEventLock.class),
             TypeReference.of(MongoEventTemp.class),
             TypeReference.of(BaseEvent.class),

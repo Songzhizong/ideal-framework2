@@ -9,7 +9,7 @@ logging:
     console: utf-8
   level:
     root: info
-    cn.cn.idealframework2: debug
+    cn.idealframework2: debug
     io.netty.resolver.dns.DnsServerAddressStreamProviders: off
     com.zzs.iam.launcher.configure.WebMessageConverterAutoConfigure: info
   pattern:

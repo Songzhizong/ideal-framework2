@@ -1,22 +1,32 @@
 spring:
   application:
-    name: EXAMPLE-CACHE-COROUTINE
+    name: EXAMPLE-EVENT-BLOCK-JDBC
   data:
-    mongodb:
-      auto-index-creation: true
-      uri: mongodb://127.0.0.1:27011,127.0.0.1:27012,127.0.0.1:27013/ideal2-example?maxPoolSize=4
     redis:
       host: 127.0.0.1
       port: 6379
+  datasource:
+    url: "jdbc:mysql://127.0.0.1:3306/idealframework?useUnicode=true&characterEncoding=utf-8&useAffectedRows=true&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true&failOverReadOnly=false"
+    username: admin
+    password: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimumIdle: 0
+      maximum-pool-size: 100
+      connection-timeout: 5000
+      max-lifetime: 1800000
+      idle-timeout: 600000
+      validation-timeout: 5000
   rabbitmq:
     addresses: 127.0.0.1:5672
-    virtual-host: example
+    virtual-host: ideal
     username: admin
     password: admin
 
 ideal-event:
   transaction:
-    type: mongo
+    type: jdbc
     enabled: true
   rabbit:
     temporary: true

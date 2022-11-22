@@ -79,57 +79,66 @@ public class MongoTemplateTransactionalEventPublisher
       return;
     }
     executor.execute(() -> {
+      try {
+        TimeUnit.SECONDS.sleep(1);
+      } catch (InterruptedException e) {
+        // ignore
+      }
       while (this.running.get()) {
-        boolean executed = false;
-        boolean sleep = true;
-        try {
-          try {
-            MongoEventLock lock = MongoEventLock.create(LOCK_VALUE);
-            mongoTemplate.insert(lock, MongoEventLock.DOCUMENT);
-          } catch (Exception e) {
-            continue;
-          }
-          executed = true;
-          int limit = 500;
-          Query query = new Query().limit(limit)
-            .with(Sort.by(Sort.Order.asc("id")));
-          List<MongoEventTemp> temps = mongoTemplate.find(query, MongoEventTemp.class);
-          if (Lists.isEmpty(temps)) {
-            continue;
-          }
-          sleep = temps.size() < limit;
-          List<JsonStringEventSupplier> collect = temps.stream()
-            .map(t -> {
-              String eventInfo = t.getEventInfo();
-              String topic = t.getTopic();
-              String exchange = t.getExchange();
-              return new JsonStringEventSupplier(eventInfo, topic, exchange);
-            })
-            .collect(Collectors.toList());
-          eventPublisher.directPublish(collect);
-          mongoTemplate.remove(query, MongoEventTemp.class);
-        } catch (Exception e) {
-          log.info("发布消息出现异常: ", e);
-        } finally {
-          try {
-            if (executed) {
-              Criteria criteria = Criteria.where("value").is(LOCK_VALUE);
-              Query query = Query.query(criteria);
-              DeleteResult result = mongoTemplate.remove(query, MongoEventLock.class);
-              long deletedCount = result.getDeletedCount();
-              if (deletedCount == 0) {
-                log.warn("未能成功释放锁");
-              }
-            }
-            if (sleep) {
-              TimeUnit.SECONDS.sleep(1);
-            }
-          } catch (InterruptedException e) {
-            // ignore
-          }
-        }
+        execWhile();
       }
     });
+  }
+
+  private void execWhile() {
+    boolean executed = false;
+    boolean sleep = true;
+    try {
+      try {
+        MongoEventLock lock = MongoEventLock.create(LOCK_VALUE);
+        mongoTemplate.insert(lock, MongoEventLock.DOCUMENT);
+      } catch (Exception e) {
+        return;
+      }
+      executed = true;
+      int limit = 500;
+      Query query = new Query().limit(limit)
+        .with(Sort.by(Sort.Order.asc("id")));
+      List<MongoEventTemp> temps = mongoTemplate.find(query, MongoEventTemp.class);
+      if (Lists.isEmpty(temps)) {
+        return;
+      }
+      sleep = false;
+      List<JsonStringEventSupplier> collect = temps.stream()
+        .map(t -> {
+          String eventInfo = t.getEventInfo();
+          String topic = t.getTopic();
+          String exchange = t.getExchange();
+          return new JsonStringEventSupplier(eventInfo, topic, exchange);
+        })
+        .collect(Collectors.toList());
+      eventPublisher.directPublish(collect);
+      mongoTemplate.remove(query, MongoEventTemp.class);
+    } catch (Exception e) {
+      log.info("发布消息出现异常: ", e);
+    } finally {
+      try {
+        if (executed) {
+          Criteria criteria = Criteria.where("value").is(LOCK_VALUE);
+          Query query = Query.query(criteria);
+          DeleteResult result = mongoTemplate.remove(query, MongoEventLock.class);
+          long deletedCount = result.getDeletedCount();
+          if (deletedCount == 0) {
+            log.warn("未能成功释放锁");
+          }
+        }
+        if (sleep) {
+          TimeUnit.SECONDS.sleep(1);
+        }
+      } catch (InterruptedException e) {
+        // ignore
+      }
+    }
   }
 
   @Override

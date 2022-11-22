@@ -1,4 +1,4 @@
-package cn.idealframework2.example.event.block;
+package cn.idealframework2.example.event.block.mongo;
 
 import cn.idealframework2.event.IEventListener;
 import cn.idealframework2.json.JsonUtils;

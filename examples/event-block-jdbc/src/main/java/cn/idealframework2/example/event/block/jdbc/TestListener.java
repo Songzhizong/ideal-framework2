@@ -1,4 +1,4 @@
-package cn.idealframework2.example.event.block;
+package cn.idealframework2.example.event.block.jdbc;
 
 import cn.idealframework2.event.EventListenerRegistrar;
 import cn.idealframework2.event.EventListenerRegistry;

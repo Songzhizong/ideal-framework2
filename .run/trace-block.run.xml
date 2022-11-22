@@ -1,7 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="trace-block" type="SpringBootApplicationConfigurationType"
                  factoryName="Spring Boot">
-    <option name="ACTIVE_PROFILES"/>
     <module name="trace-block"/>
     <option name="SPRING_BOOT_MAIN_CLASS"
             value="cn.idealframework2.example.trace.block.BlockTraceExampleApplication"/>

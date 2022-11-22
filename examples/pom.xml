@@ -12,12 +12,13 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>event-block</module>
     <module>cache-block</module>
     <module>trace-block</module>
     <module>event-coroutine</module>
     <module>cache-coroutine</module>
     <module>trace-coroutine</module>
+    <module>event-block-jdbc</module>
+    <module>event-block-mongo</module>
   </modules>
 
   <build>
