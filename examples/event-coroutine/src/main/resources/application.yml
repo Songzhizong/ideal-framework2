@@ -10,7 +10,7 @@ spring:
       port: 6379
   rabbitmq:
     addresses: 127.0.0.1:5672
-    virtual-host: example
+    virtual-host: ideal
     username: admin
     password: admin
 

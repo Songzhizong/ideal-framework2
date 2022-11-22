@@ -1,6 +1,6 @@
 spring:
   application:
-    name: EXAMPLE-CACHE-BLOCK
+    name: EXAMPLE-EVENT-BLOCK-MONGO
   data:
     mongodb:
       auto-index-creation: true
@@ -11,7 +11,7 @@ spring:
       port: 6379
   rabbitmq:
     addresses: 127.0.0.1:5672
-    virtual-host: example
+    virtual-host: ideal
     username: admin
     password: admin
 
@@ -27,7 +27,7 @@ logging:
     console: utf-8
   level:
     root: info
-    cn.cn.idealframework2: debug
+    cn.idealframework2: debug
     io.netty.resolver.dns.DnsServerAddressStreamProviders: off
     com.zzs.iam.launcher.configure.WebMessageConverterAutoConfigure: info
   pattern:
