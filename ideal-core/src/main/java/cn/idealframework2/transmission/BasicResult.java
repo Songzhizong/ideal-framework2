@@ -17,6 +17,16 @@ public class BasicResult implements Serializable {
   @Serial
   private static final long serialVersionUID = 1658084050565123764L;
 
+
+  /**
+   * 请求trace id
+   *
+   * @deprecated 转移到响应头中, 为了保持向前兼容, 暂时保留此字段
+   */
+  @Nullable
+  @Deprecated
+  private String traceId;
+
   /** 是否成功 */
   @Nullable
   private Boolean success = null;
@@ -50,6 +60,17 @@ public class BasicResult implements Serializable {
   @JsonIgnore
   public boolean isFailed() {
     return !isSuccessful();
+  }
+
+  @Nullable
+  @Deprecated
+  public String getTraceId() {
+    return traceId;
+  }
+
+  @Deprecated
+  public void setTraceId(@Nullable String traceId) {
+    this.traceId = traceId;
   }
 
   @Nullable
