@@ -25,7 +25,7 @@ CREATE TABLE `ideal_event_publish_temp`
   `id`         bigint       NOT NULL AUTO_INCREMENT,
   `event_info` longtext     NOT NULL,
   `topic`      varchar(255) NOT NULL DEFAULT '',
-  `exchange`   varchar(255)          DEFAULT '',
+  `exchange`   varchar(255) NOT NULL DEFAULT '',
   `timestamp`  bigint       NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB COMMENT = '事件发布中转';
