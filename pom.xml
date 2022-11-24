@@ -37,10 +37,8 @@
     <easyexcel.version>3.1.2</easyexcel.version>
     <easypoi.version>4.4.0</easypoi.version>
     <guava.version>31.1-jre</guava.version>
-    <jackson.version>2.14.0</jackson.version>
     <jsr305.version>3.0.2</jsr305.version>
     <lombok.version>1.18.24</lombok.version>
-    <kotlin-logging.version>3.0.4</kotlin-logging.version>
     <reactor-rabbitmq.version>1.5.5</reactor-rabbitmq.version>
     <redisson.version>3.18.0</redisson.version>
     <snakeyaml.version>1.33</snakeyaml.version>
@@ -54,14 +52,6 @@
 
   <dependencyManagement>
     <dependencies>
-      <!--   jackson   -->
-      <dependency>
-        <groupId>com.fasterxml.jackson</groupId>
-        <artifactId>jackson-bom</artifactId>
-        <version>${jackson.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
       <!--   kotlin   -->
       <dependency>
         <groupId>org.jetbrains.kotlin</groupId>
