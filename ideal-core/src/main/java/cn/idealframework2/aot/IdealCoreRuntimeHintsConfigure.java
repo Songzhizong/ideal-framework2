@@ -33,10 +33,12 @@ public class IdealCoreRuntimeHintsConfigure {
 
     @Override
     public void registerHints(@Nonnull RuntimeHints hints, @Nullable ClassLoader classLoader) {
-
+      hints.serialization()
+        .registerType(java.util.HashSet.class);
       hints.reflection()
         .registerTypes(
           Arrays.asList(
+            TypeReference.of(java.util.HashSet.class),
             TypeReference.of(JdbcEventTemp.class),
             TypeReference.of(MongoEventLock.class),
             TypeReference.of(MongoEventTemp.class),
