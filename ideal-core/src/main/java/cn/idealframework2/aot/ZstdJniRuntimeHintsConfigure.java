@@ -39,14 +39,7 @@ public class ZstdJniRuntimeHintsConfigure {
               TypeReference.of(ZstdOutputStream.class),
               TypeReference.of(ZstdOutputStreamNoFinalizer.class)
             ),
-            builder -> builder.withMembers(
-              MemberCategory.PUBLIC_FIELDS,
-              MemberCategory.DECLARED_FIELDS,
-              MemberCategory.INVOKE_DECLARED_CONSTRUCTORS,
-              MemberCategory.INVOKE_PUBLIC_CONSTRUCTORS,
-              MemberCategory.INVOKE_DECLARED_METHODS,
-              MemberCategory.INVOKE_PUBLIC_METHODS
-            )
+            builder -> builder.withMembers(MemberCategory.values())
           )
           .registerField(ZstdCompressCtx.class.getDeclaredField("nativePtr"))
           .registerField(ZstdDecompressCtx.class.getDeclaredField("nativePtr"))

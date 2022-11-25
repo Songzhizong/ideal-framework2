@@ -34,11 +34,13 @@ public class IdealCoreRuntimeHintsConfigure {
     @Override
     public void registerHints(@Nonnull RuntimeHints hints, @Nullable ClassLoader classLoader) {
       hints.serialization()
-        .registerType(java.util.HashSet.class);
+        .registerType(java.util.HashSet.class)
+        .registerType(java.util.LinkedHashSet.class);
       hints.reflection()
         .registerTypes(
           Arrays.asList(
             TypeReference.of(java.util.HashSet.class),
+            TypeReference.of(java.util.LinkedHashSet.class),
             TypeReference.of(JdbcEventTemp.class),
             TypeReference.of(MongoEventLock.class),
             TypeReference.of(MongoEventTemp.class),
@@ -59,14 +61,7 @@ public class IdealCoreRuntimeHintsConfigure {
             TypeReference.of(Sort.class),
             TypeReference.of(SortablePaging.class)
           ),
-          builder -> builder.withMembers(
-            MemberCategory.PUBLIC_FIELDS,
-            MemberCategory.DECLARED_FIELDS,
-            MemberCategory.INVOKE_DECLARED_CONSTRUCTORS,
-            MemberCategory.INVOKE_PUBLIC_CONSTRUCTORS,
-            MemberCategory.INVOKE_DECLARED_METHODS,
-            MemberCategory.INVOKE_PUBLIC_METHODS
-          )
+          builder -> builder.withMembers(MemberCategory.values())
         )
       ;
     }
