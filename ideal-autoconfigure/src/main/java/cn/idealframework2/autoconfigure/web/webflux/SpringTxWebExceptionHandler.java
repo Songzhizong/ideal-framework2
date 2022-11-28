@@ -3,6 +3,7 @@ package cn.idealframework2.autoconfigure.web.webflux;
 import cn.idealframework2.json.JsonUtils;
 import cn.idealframework2.lang.StringUtils;
 import cn.idealframework2.spring.ExchangeUtils;
+import cn.idealframework2.starter.model.webflux.WebfluxModel;
 import cn.idealframework2.trace.TraceConstants;
 import cn.idealframework2.trace.reactive.TraceExchangeUtils;
 import cn.idealframework2.transmission.Result;
@@ -29,7 +30,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * @author 宋志宗 on 2022/10/10
  */
-@ConditionalOnClass({WebFluxConfigurer.class, DuplicateKeyException.class})
+@ConditionalOnClass({WebFluxConfigurer.class, DuplicateKeyException.class, WebfluxModel.class})
 @ConditionalOnExpression("${ideal-web.enable-unified-exception-handler:true}")
 public class SpringTxWebExceptionHandler implements Ordered, ErrorWebExceptionHandler {
   private static final Logger log = LoggerFactory.getLogger(SpringTxWebExceptionHandler.class);

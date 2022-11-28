@@ -1,5 +1,6 @@
 package cn.idealframework2.autoconfigure.web.webmvc;
 
+import cn.idealframework2.starter.model.webmvc.WebmvcModel;
 import cn.idealframework2.transmission.BasicResult;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
@@ -31,7 +32,8 @@ import java.sql.SQLException;
   WebMvcConfigurer.class,
   DataIntegrityViolationException.class,
   ConstraintViolationException.class,
-  ObjectOptimisticLockingFailureException.class
+  ObjectOptimisticLockingFailureException.class,
+  WebmvcModel.class
 })
 @ConditionalOnExpression("${ideal-web.enable-unified-exception-handler:true}")
 public class SpringJdbcExceptionHandlerAdvice {

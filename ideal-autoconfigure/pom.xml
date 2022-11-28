@@ -43,11 +43,6 @@
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-mongodb</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
       <scope>provided</scope>
     </dependency>
@@ -123,6 +118,18 @@
     <dependency>
       <groupId>cn.idealframework2</groupId>
       <artifactId>ideal-starter-model-idempotent-coroutine</artifactId>
+      <version>3.0-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>cn.idealframework2</groupId>
+      <artifactId>ideal-starter-model-webflux</artifactId>
+      <version>3.0-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>cn.idealframework2</groupId>
+      <artifactId>ideal-starter-model-webmvc</artifactId>
       <version>3.0-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>

@@ -2,6 +2,7 @@ package cn.idealframework2.autoconfigure.web.webmvc;
 
 import cn.idealframework2.autoconfigure.web.MessageConverterProperties;
 import cn.idealframework2.autoconfigure.web.WebProperties;
+import cn.idealframework2.starter.model.webmvc.WebmvcModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -34,7 +35,7 @@ import java.util.List;
 /**
  * @author 宋志宗 on 2022/10/10
  */
-@ConditionalOnClass({WebMvcConfigurer.class})
+@ConditionalOnClass({WebMvcConfigurer.class, WebmvcModel.class})
 @ConditionalOnExpression("${ideal-web.message-converter.enable-custom:true}")
 public class CustomWebMvcConfigurer {
   private final WebProperties webProperties;

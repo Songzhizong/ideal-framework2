@@ -1,5 +1,6 @@
 package cn.idealframework2.autoconfigure.web.webmvc;
 
+import cn.idealframework2.starter.model.webmvc.WebmvcModel;
 import cn.idealframework2.transmission.BasicResult;
 import io.netty.handler.timeout.ReadTimeoutException;
 import org.slf4j.Logger;
@@ -23,7 +24,7 @@ import javax.annotation.Nonnull;
 @SuppressWarnings("DuplicatedCode")
 @Order(-101)
 @ControllerAdvice
-@ConditionalOnClass({WebMvcConfigurer.class, ReadTimeoutException.class})
+@ConditionalOnClass({WebMvcConfigurer.class, ReadTimeoutException.class, WebmvcModel.class})
 @ConditionalOnExpression("${ideal-web.enable-unified-exception-handler:true}")
 public class NettyExceptionHandlerAdvice {
   private static final Logger log = LoggerFactory.getLogger(NettyExceptionHandlerAdvice.class);

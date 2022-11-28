@@ -2,6 +2,7 @@ package cn.idealframework2.autoconfigure.trace;
 
 import cn.idealframework2.lang.StringUtils;
 import cn.idealframework2.starter.model.trace.TraceModel;
+import cn.idealframework2.starter.model.webmvc.WebmvcModel;
 import cn.idealframework2.trace.block.OperationLogStore;
 import cn.idealframework2.trace.block.OperatorHolder;
 import cn.idealframework2.trace.block.TraceFilter;
@@ -22,7 +23,7 @@ import java.util.Set;
 /**
  * @author 宋志宗 on 2022/10/9
  */
-@ConditionalOnClass({TraceModel.class, Filter.class, HandlerInterceptor.class})
+@ConditionalOnClass({TraceModel.class, Filter.class, HandlerInterceptor.class, WebmvcModel.class})
 public class WebMvcTraceAutoConfigure {
   private static final Logger log = LoggerFactory.getLogger(WebMvcTraceAutoConfigure.class);
 

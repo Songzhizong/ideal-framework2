@@ -1,6 +1,7 @@
 package cn.idealframework2.autoconfigure.trace;
 
 import cn.idealframework2.starter.model.trace.TraceModel;
+import cn.idealframework2.starter.model.webmvc.WebmvcModel;
 import cn.idealframework2.trace.block.TraceInterceptor;
 import jakarta.servlet.Filter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -13,7 +14,7 @@ import javax.annotation.Nonnull;
 /**
  * @author 宋志宗 on 2022/10/9
  */
-@ConditionalOnClass({TraceModel.class, Filter.class, HandlerInterceptor.class})
+@ConditionalOnClass({TraceModel.class, Filter.class, HandlerInterceptor.class, WebmvcModel.class})
 public class TraceWebMvcConfigurer implements WebMvcConfigurer {
   private final TraceInterceptor traceInterceptor;
 

@@ -2,6 +2,7 @@ package cn.idealframework2.autoconfigure.trace;
 
 import cn.idealframework2.lang.StringUtils;
 import cn.idealframework2.starter.model.trace.coroutine.CoroutineTraceModel;
+import cn.idealframework2.starter.model.webflux.WebfluxModel;
 import cn.idealframework2.trace.reactive.OperationLogStore;
 import cn.idealframework2.trace.reactive.OperatorHolder;
 import cn.idealframework2.trace.reactive.TraceFilter;
@@ -22,7 +23,7 @@ import java.util.Set;
 /**
  * @author 宋志宗 on 2022/9/22
  */
-@ConditionalOnClass({CoroutineTraceModel.class, WebFilter.class})
+@ConditionalOnClass({CoroutineTraceModel.class, WebFilter.class, WebfluxModel.class})
 public class WebFluxTraceAutoConfigure {
   private static final Logger log = LoggerFactory.getLogger(WebFluxTraceAutoConfigure.class);
 

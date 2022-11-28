@@ -3,6 +3,7 @@ package cn.idealframework2.autoconfigure.web.webmvc;
 import cn.idealframework2.exception.VisibleException;
 import cn.idealframework2.json.JsonFormatException;
 import cn.idealframework2.json.JsonParseException;
+import cn.idealframework2.starter.model.webmvc.WebmvcModel;
 import cn.idealframework2.transmission.BasicResult;
 import cn.idealframework2.transmission.Result;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
@@ -36,7 +37,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"DuplicatedCode"})
 @Order(-100)
 @ControllerAdvice
-@ConditionalOnClass({WebMvcConfigurer.class})
+@ConditionalOnClass({WebMvcConfigurer.class, WebmvcModel.class})
 @ConditionalOnExpression("${ideal-web.enable-unified-exception-handler:true}")
 public class GeneralExceptionHandlerAdvice {
   private static final Logger log = LoggerFactory.getLogger(GeneralExceptionHandlerAdvice.class);

@@ -2,6 +2,7 @@ package cn.idealframework2.autoconfigure.web.webflux;
 
 import cn.idealframework2.autoconfigure.web.MessageConverterProperties;
 import cn.idealframework2.autoconfigure.web.WebProperties;
+import cn.idealframework2.starter.model.webflux.WebfluxModel;
 import cn.idealframework2.trace.reactive.TraceContextHolder;
 import cn.idealframework2.transmission.BasicResult;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -47,8 +48,7 @@ import java.util.Map;
  *
  * @author 宋志宗 on 2021/7/4
  */
-//@EnableWebFlux
-@ConditionalOnClass({WebFluxConfigurer.class})
+@ConditionalOnClass({WebFluxConfigurer.class, WebfluxModel.class})
 public class CustomWebFluxConfigurer implements WebFluxConfigurer {
   private final WebProperties webProperties;
 
@@ -94,7 +94,7 @@ public class CustomWebFluxConfigurer implements WebFluxConfigurer {
       if (messageConverter.isIgnoreNull()) {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
       }
-      configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(objectMapper));
+      configurer.defaultCodecs().jackson2JsonEncoder(new CustomJackson2JsonEncoder(objectMapper));
       configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(objectMapper));
     }
     configurer.defaultCodecs().maxInMemorySize(Math.toIntExact(codecMaxInMemorySize.toBytes()));

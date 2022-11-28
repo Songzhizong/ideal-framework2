@@ -32,4 +32,5 @@ cn.idealframework2.autoconfigure.web.webmvc.CustomWebMvcConfigurer
 cn.idealframework2.autoconfigure.web.webmvc.GeneralExceptionHandlerAdvice
 cn.idealframework2.autoconfigure.web.webmvc.NettyExceptionHandlerAdvice
 cn.idealframework2.autoconfigure.web.webmvc.SpringJdbcExceptionHandlerAdvice
+cn.idealframework2.autoconfigure.web.webmvc.TraceIdResponseBodyAdvice
 cn.idealframework2.autoconfigure.web.WebProperties

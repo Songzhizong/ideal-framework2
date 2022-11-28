@@ -1,5 +1,6 @@
 package cn.idealframework2.autoconfigure.trace;
 
+import cn.idealframework2.starter.model.webflux.WebfluxModel;
 import cn.idealframework2.trace.TraceConstants;
 import org.reactivestreams.Subscription;
 import org.slf4j.MDC;
@@ -20,7 +21,7 @@ import java.util.Map;
  * @author 宋志宗 on 2022/11/17
  */
 @Configuration
-@ConditionalOnClass({MDC.class, CoreSubscriber.class, Context.class})
+@ConditionalOnClass({MDC.class, CoreSubscriber.class, Context.class, WebfluxModel.class})
 public class MdcContextLifterConfiguration implements SmartInitializingSingleton, Disposable {
   private static final String MDC_CONTEXT_REACTOR_KEY = MdcContextLifterConfiguration.class.getName();
 
