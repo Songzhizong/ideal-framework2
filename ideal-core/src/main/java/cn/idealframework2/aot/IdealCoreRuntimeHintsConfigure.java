@@ -1,7 +1,5 @@
 package cn.idealframework2.aot;
 
-import cn.idealframework2.data.hibernate.JpaIDGenerator;
-import cn.idealframework2.data.hibernate.ManualIDGenerator;
 import cn.idealframework2.event.BaseEvent;
 import cn.idealframework2.event.GeneralEvent;
 import cn.idealframework2.event.impl.jdbc.JdbcEventTemp;
@@ -43,8 +41,6 @@ public class IdealCoreRuntimeHintsConfigure {
           Arrays.asList(
             TypeReference.of(java.util.HashSet.class),
             TypeReference.of(java.util.LinkedHashSet.class),
-            TypeReference.of(JpaIDGenerator.class),
-            TypeReference.of(ManualIDGenerator.class),
             TypeReference.of(JdbcEventTemp.class),
             TypeReference.of(MongoEventLock.class),
             TypeReference.of(MongoEventTemp.class),
