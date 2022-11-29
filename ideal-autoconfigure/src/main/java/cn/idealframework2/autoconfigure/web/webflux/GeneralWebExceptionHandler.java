@@ -174,7 +174,11 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
       res = Result.failure(message);
       res.setCode(httpStatus.value());
       String uri = exchange.getRequest().getURI().getPath();
-      log.info("{} {}", message, uri, throwable);
+      if (httpStatus.value() == 404) {
+        log.info("{} {}", message, uri);
+      } else {
+        log.info("{} {}", message, uri, throwable);
+      }
     }
 
     //noinspection DuplicatedCode
