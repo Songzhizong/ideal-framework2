@@ -123,6 +123,7 @@ public class CustomWebFluxConfigurer implements WebFluxConfigurer {
                   if (opt.isEmpty()) {
                     return body;
                   }
+                  ((BasicResult) body).setTraceId(opt.get().getTraceId());
                   return (BasicResult) body;
                 });
             }
