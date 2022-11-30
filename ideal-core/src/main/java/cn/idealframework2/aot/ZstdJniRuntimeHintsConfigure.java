@@ -56,19 +56,20 @@ public class ZstdJniRuntimeHintsConfigure {
       hints.resources()
         .registerPattern("darwin/aarch64/libzstd-jni-*.dylib")
         .registerPattern("darwin/x86_64/libzstd-jni-*.dylib")
-        .registerPattern("freebsd/amd64/libzstd-jni-*.so")
-        .registerPattern("freebsd/i386/libzstd-jni-*.so")
+//        .registerPattern("freebsd/amd64/libzstd-jni-*.so")
+//        .registerPattern("freebsd/i386/libzstd-jni-*.so")
         .registerPattern("linux/aarch64/libzstd-jni-*.so")
         .registerPattern("linux/amd64/libzstd-jni-*.so")
-        .registerPattern("linux/arm/libzstd-jni-*.so")
-        .registerPattern("linux/i386/libzstd-jni-*.so")
-        .registerPattern("linux/loongarch64/libzstd-jni-*.so")
-        .registerPattern("linux/mips64/libzstd-jni-*.so")
-        .registerPattern("linux/ppc64/libzstd-jni-*.so")
-        .registerPattern("linux/ppc64le/libzstd-jni-*.so")
-        .registerPattern("linux/s390x/libzstd-jni-*.so")
+//        .registerPattern("linux/arm/libzstd-jni-*.so")
+//        .registerPattern("linux/i386/libzstd-jni-*.so")
+//        .registerPattern("linux/loongarch64/libzstd-jni-*.so")
+//        .registerPattern("linux/mips64/libzstd-jni-*.so")
+//        .registerPattern("linux/ppc64/libzstd-jni-*.so")
+//        .registerPattern("linux/ppc64le/libzstd-jni-*.so")
+//        .registerPattern("linux/s390x/libzstd-jni-*.so")
         .registerPattern("win/amd64/libzstd-jni-*.dll")
-        .registerPattern("win/x86/libzstd-jni-*.dll");
+//        .registerPattern("win/x86/libzstd-jni-*.dll")
+      ;
     }
   }
 
