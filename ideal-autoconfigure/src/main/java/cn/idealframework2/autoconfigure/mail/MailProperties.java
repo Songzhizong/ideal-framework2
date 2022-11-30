@@ -12,31 +12,31 @@ import javax.annotation.Nullable;
 @ConfigurationProperties("ideal-mail")
 public class MailProperties {
 
-  /**
-   * the max allowed number of open connections to the mail server if not set the default is 32
-   */
-  protected int maxPoolSize = 32;
-  /**
-   * SMTP server host. For instance, 'smtp.example.com'.
-   */
+  /** SMTP服务端地址 */
   @Nullable
   private String host;
-  /**
-   * SMTP server port.
-   */
+
+  /** SMTP服务端口号 */
   @Nullable
   private Integer port;
-  /**
-   * Login user of the SMTP server.
-   */
+
+  /** 发送邮件的邮箱地址 */
   @Nullable
   private String username;
-  /**
-   * Login password of the SMTP server.
-   */
+
+  /** 发送账户的密码 */
   @Nullable
   private String password;
+
+  /** 连接池最大连接数 */
+  private int maxPoolSize = 32;
+
+  /** 是否开启连接池 */
+  private boolean keepAlive = true;
+
+  /** 是否启用ssl */
   private boolean ssl = false;
+
   @Nonnull
   private StartTLSOptions starttls = StartTLSOptions.OPTIONAL;
 
@@ -99,5 +99,13 @@ public class MailProperties {
 
   public void setMaxPoolSize(int maxPoolSize) {
     this.maxPoolSize = maxPoolSize;
+  }
+
+  public boolean isKeepAlive() {
+    return keepAlive;
+  }
+
+  public void setKeepAlive(boolean keepAlive) {
+    this.keepAlive = keepAlive;
   }
 }

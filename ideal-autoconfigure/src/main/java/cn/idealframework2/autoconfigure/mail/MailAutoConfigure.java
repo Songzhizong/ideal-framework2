@@ -28,6 +28,7 @@ public class MailAutoConfigure {
     Integer port = mailProperties.getPort();
     String username = mailProperties.getUsername();
     String password = mailProperties.getPassword();
+    boolean keepAlive = mailProperties.isKeepAlive();
     int maxPoolSize = mailProperties.getMaxPoolSize();
     StartTLSOptions starttls = mailProperties.getStarttls();
     if (StringUtils.isAllBlank(host, username, password)) {
@@ -51,6 +52,7 @@ public class MailAutoConfigure {
       .setUsername(username)
       .setPassword(password)
       .setStarttls(starttls)
+      .setKeepAlive(keepAlive)
       .setMaxPoolSize(maxPoolSize);
     if (port != null) {
       config.setPort(port);
