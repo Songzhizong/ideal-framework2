@@ -1,12 +1,12 @@
-package cn.idealframework2.autoconfigure.id.snowflake;
+package cn.idealframework2.starter.snowflake.redis;
 
 import cn.idealframework2.autoconfigure.id.IdProperties;
+import cn.idealframework2.autoconfigure.id.snowflake.SnowflakeProperties;
 import cn.idealframework2.id.IDGeneratorFactory;
 import cn.idealframework2.id.snowflake.RedisTemplateSnowflakeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
@@ -15,10 +15,6 @@ import javax.annotation.Nonnull;
 /**
  * @author 宋志宗 on 2022/8/14
  */
-@ConditionalOnExpression("""
-  '${ideal-id.type:snowflake}'.equalsIgnoreCase('snowflake')
-  &&'${ideal-id.snowflake.factory:fixed}'.equalsIgnoreCase('redis')
-  """)
 public class RedisTemplateSnowflakeAutoConfigure {
   private static final Logger log = LoggerFactory.getLogger(RedisTemplateSnowflakeAutoConfigure.class);
 

@@ -4,13 +4,9 @@ cn.idealframework2.autoconfigure.cache.CoroutineCacheAutoConfigure
 cn.idealframework2.autoconfigure.event.properties.EventProperties
 cn.idealframework2.autoconfigure.event.properties.SpringRabbitProperties
 cn.idealframework2.autoconfigure.event.ReactiveRabbitEventAutoConfigure
-cn.idealframework2.autoconfigure.event.JdbcEventAutoConfigure
-cn.idealframework2.autoconfigure.event.MongoEventAutoConfigure
 cn.idealframework2.autoconfigure.event.RabbitEventAutoConfigure
 cn.idealframework2.autoconfigure.event.RabbitEventRunner
-cn.idealframework2.autoconfigure.event.ReactiveMongoEventAutoConfigure
 cn.idealframework2.autoconfigure.id.snowflake.FixedSnowflakeAutoConfigure
-cn.idealframework2.autoconfigure.id.snowflake.RedisTemplateSnowflakeAutoConfigure
 cn.idealframework2.autoconfigure.id.IdProperties
 cn.idealframework2.autoconfigure.id.JpaIDGeneratorInitializing
 cn.idealframework2.autoconfigure.trace.TraceWebMvcConfigurer

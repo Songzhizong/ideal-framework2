@@ -23,7 +23,10 @@
     <module>ideal-starter-lock-coroutine</module>
     <module>ideal-starter-cache-coroutine</module>
     <module>ideal-starter-event-coroutine</module>
+    <module>ideal-starter-snowflake-redis</module>
     <module>ideal-starter-trace-coroutine</module>
     <module>ideal-starter-idempotent-coroutine</module>
+    <module>ideal-starter-event-transaction-jdbc</module>
+    <module>ideal-starter-event-transaction-mongo</module>
   </modules>
 </project>

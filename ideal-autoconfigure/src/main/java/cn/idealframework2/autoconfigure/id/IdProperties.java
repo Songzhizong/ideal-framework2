@@ -11,26 +11,10 @@ import javax.annotation.Nonnull;
  */
 @ConfigurationProperties("ideal-id")
 public class IdProperties {
-  @Nonnull
-  private Type type = Type.snowflake;
 
   @Nonnull
   @NestedConfigurationProperty
   private SnowflakeProperties snowflake = new SnowflakeProperties();
-
-  public enum Type {
-    /** 雪花算法 */
-    snowflake
-  }
-
-  @Nonnull
-  public Type getType() {
-    return type;
-  }
-
-  public void setType(@Nonnull Type type) {
-    this.type = type;
-  }
 
   @Nonnull
   public SnowflakeProperties getSnowflake() {

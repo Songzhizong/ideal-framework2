@@ -17,10 +17,6 @@ public class EventProperties {
 
   @Nonnull
   @NestedConfigurationProperty
-  private EventTransactionProperties transaction = new EventTransactionProperties();
-
-  @Nonnull
-  @NestedConfigurationProperty
   private EventIdempotentProperties idempotent = new EventIdempotentProperties();
 
   public enum Type {
@@ -39,14 +35,6 @@ public class EventProperties {
     this.rabbit = rabbit;
   }
 
-  @Nonnull
-  public EventTransactionProperties getTransaction() {
-    return transaction;
-  }
-
-  public void setTransaction(@Nonnull EventTransactionProperties transaction) {
-    this.transaction = transaction;
-  }
 
   @Nonnull
   public EventIdempotentProperties getIdempotent() {
