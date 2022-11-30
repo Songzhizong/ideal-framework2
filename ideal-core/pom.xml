@@ -41,6 +41,10 @@
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-mail-client</artifactId>
+    </dependency>
     <!-- kotlin -->
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>

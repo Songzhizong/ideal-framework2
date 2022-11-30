@@ -17,6 +17,8 @@ cn.idealframework2.autoconfigure.idempotent.coroutine.CoroutineRedisTemplateIdem
 cn.idealframework2.autoconfigure.idempotent.IdempotentProperties
 cn.idealframework2.autoconfigure.lock.CoroutineLockAutoConfigure
 cn.idealframework2.autoconfigure.lock.LockProperties
+cn.idealframework2.autoconfigure.mail.MailAutoConfigure
+cn.idealframework2.autoconfigure.mail.MailProperties
 cn.idealframework2.autoconfigure.trace.MdcContextLifterConfiguration
 cn.idealframework2.autoconfigure.trace.TraceAutoConfigure
 cn.idealframework2.autoconfigure.trace.TraceProperties
