@@ -13,6 +13,7 @@ import cn.idealframework2.trace.OperationLog;
 import cn.idealframework2.trace.Operator;
 import cn.idealframework2.trace.TraceContext;
 import cn.idealframework2.transmission.*;
+import io.vertx.ext.mail.impl.MailClientImpl;
 import org.springframework.aot.hint.MemberCategory;
 import org.springframework.aot.hint.RuntimeHints;
 import org.springframework.aot.hint.RuntimeHintsRegistrar;
@@ -41,6 +42,7 @@ public class IdealCoreRuntimeHintsConfigure {
           Arrays.asList(
             TypeReference.of(java.util.HashSet.class),
             TypeReference.of(java.util.LinkedHashSet.class),
+            TypeReference.of(MailClientImpl.class),
             TypeReference.of(JdbcEventTemp.class),
             TypeReference.of(MongoEventLock.class),
             TypeReference.of(MongoEventTemp.class),
