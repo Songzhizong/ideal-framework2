@@ -101,7 +101,7 @@ class RabbitEventListenerRegistry(
       val queue = if (temporary) {
         finalQueueName =
           queuePrefix + "." + name + "." + UUID.randomUUID().toString().replace("-", "")
-        QueueSpecification.queue(finalQueueName).durable(false).exclusive(false).autoDelete(true)
+        QueueSpecification.queue(finalQueueName).durable(false).exclusive(true).autoDelete(true)
       } else {
         finalQueueName = "$queuePrefix.$name"
         QueueSpecification.queue(finalQueueName).durable(true).exclusive(false).autoDelete(false)
