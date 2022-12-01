@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -187,18 +188,25 @@ public class TraceFilter implements Ordered, WebFilter {
                          boolean success, @Nonnull String message) {
     MDC.put(TraceConstants.TRACE_ID_HEADER_NAME, traceContext.getTraceId());
     MDC.put(TraceConstants.SPAN_ID_HEADER_NAME, traceContext.getSpanId());
-    ServerHttpRequest request = exchange.getRequest();
-    String method = request.getMethod().name();
-    String requestPath = request.getURI().getPath();
-    ServerHttpResponse response = exchange.getResponse();
-    HttpStatusCode statusCode = response.getStatusCode();
     long survivalMillis = traceContext.getSurvivalMillis();
-    // 输出trace耗时日志
-    if (statusCode == null) {
-      log.info("{} {} | consuming: {}ms", method, requestPath, survivalMillis);
-    } else {
-      int status = statusCode.value();
-      log.info("{} {} {} | consuming: {}ms", status, method, requestPath, survivalMillis);
+    if (log.isInfoEnabled()) {
+      ServerHttpRequest request = exchange.getRequest();
+      ServerHttpResponse response = exchange.getResponse();
+      String method = request.getMethod().name();
+      String requestPath = request.getURI().getPath();
+      HttpStatusCode statusCode = response.getStatusCode();
+      // 输出trace耗时日志
+      if (statusCode == null) {
+        log.info("{} {} | consuming: {}ms", method, requestPath, survivalMillis);
+      } else {
+        int status = statusCode.value();
+        if (statusCode instanceof HttpStatus httpStatus) {
+          String reasonPhrase = httpStatus.getReasonPhrase();
+          log.info("{} {} {} {} | consuming: {}ms", status, reasonPhrase, method, requestPath, survivalMillis);
+        } else {
+          log.info("{} {} {} | consuming: {}ms", status, method, requestPath, survivalMillis);
+        }
+      }
     }
     // 保存操作日志
     OperationLog operationLog = traceContext.getOperationLog();

@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import javax.annotation.Nonnull;
 
 /**
+ * 不启用此项配置
+ *
  * @author 宋志宗 on 2022/8/14
  */
 public class FixedSnowflakeAutoConfigure {

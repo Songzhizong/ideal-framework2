@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -138,11 +140,19 @@ public class TraceInterceptor implements HandlerInterceptor {
       return;
     }
     try {
-      String method = request.getMethod();
-      String requestPath = request.getRequestURI();
       long survivalMillis = context.getSurvivalMillis();
-      int status = response.getStatus();
-      log.info("{} {} {} | consuming {}ms", status, method, requestPath, survivalMillis);
+      if (log.isInfoEnabled()) {
+        int status = response.getStatus();
+        String method = request.getMethod();
+        String requestPath = request.getRequestURI();
+        HttpStatusCode statusCode = HttpStatusCode.valueOf(status);
+        if (statusCode instanceof HttpStatus httpStatus) {
+          String reasonPhrase = httpStatus.getReasonPhrase();
+          log.info("{} {} {} {} | consuming: {}ms", status, reasonPhrase, method, requestPath, survivalMillis);
+        } else {
+          log.info("{} {} {} | consuming {}ms", status, method, requestPath, survivalMillis);
+        }
+      }
       OperationLog operationLog = context.getOperationLog();
       if (operationLog != null && operationLogStore != null) {
         if (ex != null) {
