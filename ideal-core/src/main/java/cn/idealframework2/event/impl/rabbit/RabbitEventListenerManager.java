@@ -119,7 +119,7 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
     String queueName = queuePrefix + name;
     if (temporary) {
       queueName += UUID.randomUUID().toString().replace("-", "");
-      queue = new Queue(queueName, false, true, true);
+      queue = new Queue(queueName, false, false, true);
     } else {
       queue = new Queue(queueName, true, false, false);
     }
