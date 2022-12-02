@@ -55,7 +55,7 @@ public class GeneralExceptionHandlerAdvice {
     int httpStatus = ex.getHttpStatus();
     log.info(message);
     Result<Object> body = Result.exception(ex);
-    body.setBizCode(ex.getBizCode());
+    body.setTitle(ex.getTitle());
     return new ResponseEntity<>(body, RESPONSE_HEADERS, HttpStatusCode.valueOf(httpStatus));
   }
 

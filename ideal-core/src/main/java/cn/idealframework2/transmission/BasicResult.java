@@ -42,7 +42,7 @@ public class BasicResult implements Serializable {
   /** 用于描述具体业务信息的编码 */
   @Nullable
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String bizCode;
+  private String title;
 
   @Nonnull
   private String message = "success";
@@ -93,12 +93,12 @@ public class BasicResult implements Serializable {
   }
 
   @Nullable
-  public String getBizCode() {
-    return bizCode;
+  public String getTitle() {
+    return title;
   }
 
-  public void setBizCode(@Nullable String bizCode) {
-    this.bizCode = bizCode;
+  public void setTitle(@Nullable String title) {
+    this.title = title;
   }
 
   @Nonnull

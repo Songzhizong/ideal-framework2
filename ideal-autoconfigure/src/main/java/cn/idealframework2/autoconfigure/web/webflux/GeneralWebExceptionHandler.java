@@ -69,7 +69,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
       int status = exception.getHttpStatus();
       httpStatus = HttpStatus.valueOf(status);
       res = Result.exception(throwable);
-      res.setBizCode(exception.getBizCode());
+      res.setTitle(exception.getTitle());
     }
 
     // json序列化异常

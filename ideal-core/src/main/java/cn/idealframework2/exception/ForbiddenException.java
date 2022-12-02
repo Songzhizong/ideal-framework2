@@ -19,8 +19,8 @@ public class ForbiddenException extends VisibleException {
     super(403, 403, null, message);
   }
 
-  public ForbiddenException(@Nullable String bizCode, @Nonnull String message) {
-    super(403, 403, bizCode, message);
+  public ForbiddenException(@Nullable String title, @Nonnull String message) {
+    super(403, 403, title, message);
   }
 
   public ForbiddenException(int code, @Nonnull String message) {

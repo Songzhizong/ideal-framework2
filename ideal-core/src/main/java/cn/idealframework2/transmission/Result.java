@@ -35,7 +35,7 @@ public class Result<T> extends BasicResult {
                                      @Nullable T data) {
     Result<T> res = new Result<>();
     res.setSuccess(success);
-    res.setBizCode(code);
+    res.setTitle(code);
     res.setMessage(message);
     res.setData(data);
     return res;
@@ -78,7 +78,7 @@ public class Result<T> extends BasicResult {
   public static <T> Result<T> failure(@Nonnull String code, @Nullable String message) {
     Result<T> res = new Result<>();
     res.setSuccess(false);
-    res.setBizCode(code);
+    res.setTitle(code);
     res.setMessage(message);
     return res;
   }
@@ -89,7 +89,7 @@ public class Result<T> extends BasicResult {
       Result<T> res = new Result<>();
       res.setSuccess(false);
       res.setCode(exception.getCode());
-      res.setBizCode(exception.getBizCode());
+      res.setTitle(exception.getTitle());
       res.setMessage(t.getMessage());
       return res;
     }
@@ -140,7 +140,7 @@ public class Result<T> extends BasicResult {
     Result<R> retRes = new Result<>();
     retRes.setSuccess(this.isSuccessful());
     retRes.setCode(this.getCode());
-    retRes.setBizCode(this.getBizCode());
+    retRes.setTitle(this.getTitle());
     retRes.setMessage(this.getMessage());
     if (this.getData() != null && function != null) {
       retRes.setData(function.apply(this.getData()));

@@ -62,7 +62,7 @@ public class PageResult<E> extends ListResult<E> {
     PageResult<U> res = new PageResult<>();
     res.setSuccess(true);
     res.setCode(this.getCode());
-    res.setBizCode(this.getBizCode());
+    res.setTitle(this.getTitle());
     res.setMessage(this.getMessage());
     res.setPage(this.getPage());
     res.setSize(this.getSize());

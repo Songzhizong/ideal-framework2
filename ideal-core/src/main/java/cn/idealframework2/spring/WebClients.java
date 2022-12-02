@@ -180,7 +180,7 @@ public final class WebClients {
             return Mono.error(exception);
           }
           if (statusCode.isError() || parse.isFailed()) {
-            ResultException exception = new ResultException(status, parse.getCode(), parse.getBizCode(), parse.getMessage());
+            ResultException exception = new ResultException(status, parse.getCode(), parse.getTitle(), parse.getMessage());
             return Mono.error(exception);
           }
           return Mono.just(parse);
@@ -214,7 +214,7 @@ public final class WebClients {
           }
           if (statusCode.isError() || parse.isFailed()) {
             ResultException exception
-              = new ResultException(status, parse.getCode(), parse.getBizCode(), parse.getMessage());
+              = new ResultException(status, parse.getCode(), parse.getTitle(), parse.getMessage());
             return Mono.error(exception);
           }
           return Mono.just(parse);
@@ -246,7 +246,7 @@ public final class WebClients {
             return Mono.error(exception);
           }
           if (statusCode.isError() || parse.isFailed()) {
-            ResultException exception = new ResultException(status, parse.getCode(), parse.getBizCode(), parse.getMessage());
+            ResultException exception = new ResultException(status, parse.getCode(), parse.getTitle(), parse.getMessage());
             return Mono.error(exception);
           }
           return Mono.just(parse);
@@ -278,7 +278,7 @@ public final class WebClients {
             return Mono.error(exception);
           }
           if (statusCode.isError() || parse.isFailed()) {
-            ResultException exception = new ResultException(status, parse.getCode(), parse.getBizCode(), parse.getMessage());
+            ResultException exception = new ResultException(status, parse.getCode(), parse.getTitle(), parse.getMessage());
             return Mono.error(exception);
           }
           return Mono.just(parse);
