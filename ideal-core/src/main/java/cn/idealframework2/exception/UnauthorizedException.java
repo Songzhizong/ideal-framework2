@@ -17,4 +17,8 @@ public class UnauthorizedException extends VisibleException {
   public UnauthorizedException(@Nonnull String message) {
     super(401, 401, null, message);
   }
+
+  public UnauthorizedException(@Nonnull String title, @Nonnull String message) {
+    super(401, 401, title, message);
+  }
 }
