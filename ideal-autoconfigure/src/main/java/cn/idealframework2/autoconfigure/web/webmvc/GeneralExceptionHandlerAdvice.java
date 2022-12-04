@@ -88,6 +88,7 @@ public class GeneralExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
+    res.setCode(400);
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.BAD_REQUEST);
   }
 
@@ -104,6 +105,7 @@ public class GeneralExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
+    res.setCode(400);
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.BAD_REQUEST);
   }
 
@@ -130,6 +132,7 @@ public class GeneralExceptionHandlerAdvice {
     if (originalMessage.startsWith(prefix)) {
       res.setMessage("枚举类型值为空时请传null,而非空白字符串");
     }
+    res.setCode(400);
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.BAD_REQUEST);
   }
 
@@ -145,6 +148,7 @@ public class GeneralExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
+    res.setCode(400);
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.BAD_REQUEST);
   }
 
@@ -160,6 +164,7 @@ public class GeneralExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
+    res.setCode(400);
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.BAD_REQUEST);
   }
 
@@ -175,6 +180,7 @@ public class GeneralExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
+    res.setCode(400);
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.METHOD_NOT_ALLOWED);
   }
 
@@ -190,6 +196,7 @@ public class GeneralExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
+    res.setCode(400);
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.BAD_REQUEST);
   }
 
@@ -205,6 +212,7 @@ public class GeneralExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
+    res.setCode(400);
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
   }
 
@@ -223,6 +231,7 @@ public class GeneralExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
+    res.setCode(500);
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

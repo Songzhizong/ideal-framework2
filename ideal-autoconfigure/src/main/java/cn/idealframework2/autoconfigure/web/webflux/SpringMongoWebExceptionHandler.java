@@ -48,11 +48,12 @@ public class SpringMongoWebExceptionHandler implements Ordered, ErrorWebExceptio
   @Nonnull
   @Override
   public Mono<Void> handle(@Nonnull ServerWebExchange exchange, @Nonnull Throwable throwable) {
-    TraceExchangeUtils.getTraceContext(exchange)
-      .ifPresent(ctx -> {
+    String traceId = TraceExchangeUtils.getTraceContext(exchange)
+      .map(ctx -> {
         MDC.put(TraceConstants.TRACE_ID_HEADER_NAME, ctx.getTraceId());
         MDC.put(TraceConstants.SPAN_ID_HEADER_NAME, ctx.getSpanId());
-      });
+        return ctx.getTraceId();
+      }).orElse(null);
     //noinspection DuplicatedCode
     HttpStatusCode httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     Result<Object> res = null;
@@ -66,6 +67,7 @@ public class SpringMongoWebExceptionHandler implements Ordered, ErrorWebExceptio
       }
       log.info("UncategorizedMongoDbException {}", message);
       res = Result.failure(message);
+      res.setCode(httpStatus.value());
     }
 
     if (throwable instanceof MongoCommandException exception) {
@@ -77,12 +79,14 @@ public class SpringMongoWebExceptionHandler implements Ordered, ErrorWebExceptio
       }
       log.info("MongoCommandException {}", message);
       res = Result.failure(message);
+      res.setCode(httpStatus.value());
     }
 
     //noinspection DuplicatedCode
     if (res == null) {
       return Mono.error(throwable);
     }
+    res.setTraceId(traceId);
     String jsonString = JsonUtils.toJsonString(res);
     byte[] bytes = jsonString.getBytes(StandardCharsets.UTF_8);
     return ExchangeUtils.writeResponse(exchange, httpStatus, HTTP_HEADERS, bytes);

@@ -48,11 +48,12 @@ public class SpringTxWebExceptionHandler implements Ordered, ErrorWebExceptionHa
   @Nonnull
   @Override
   public Mono<Void> handle(@Nonnull ServerWebExchange exchange, @Nonnull Throwable throwable) {
-    TraceExchangeUtils.getTraceContext(exchange)
-      .ifPresent(ctx -> {
+    String traceId = TraceExchangeUtils.getTraceContext(exchange)
+      .map(ctx -> {
         MDC.put(TraceConstants.TRACE_ID_HEADER_NAME, ctx.getTraceId());
         MDC.put(TraceConstants.SPAN_ID_HEADER_NAME, ctx.getSpanId());
-      });
+        return ctx.getTraceId();
+      }).orElse(null);
     //noinspection DuplicatedCode
     HttpStatusCode httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     Result<Object> res = null;
@@ -61,12 +62,14 @@ public class SpringTxWebExceptionHandler implements Ordered, ErrorWebExceptionHa
       String message = getDuplicateMessage(exception);
       log.info("DuplicateKeyException {}", message);
       res = Result.failure(message);
+      res.setCode(httpStatus.value());
     }
 
     //noinspection DuplicatedCode
     if (res == null) {
       return Mono.error(throwable);
     }
+    res.setTraceId(traceId);
     String jsonString = JsonUtils.toJsonString(res);
     byte[] bytes = jsonString.getBytes(StandardCharsets.UTF_8);
     return ExchangeUtils.writeResponse(exchange, httpStatus, HTTP_HEADERS, bytes);

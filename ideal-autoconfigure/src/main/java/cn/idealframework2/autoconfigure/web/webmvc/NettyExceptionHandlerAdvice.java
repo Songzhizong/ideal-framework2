@@ -43,6 +43,7 @@ public class NettyExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage("请求超时");
+    res.setCode(500);
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

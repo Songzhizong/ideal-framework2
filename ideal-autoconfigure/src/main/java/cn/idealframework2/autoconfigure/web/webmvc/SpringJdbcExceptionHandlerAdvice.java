@@ -69,6 +69,7 @@ public class SpringJdbcExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
+    res.setCode(500);
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.BAD_REQUEST);
   }
 
@@ -82,6 +83,7 @@ public class SpringJdbcExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage("Object optimistic locking failure.");
+    res.setCode(500);
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.CONFLICT);
   }
 
@@ -104,6 +106,7 @@ public class SpringJdbcExceptionHandlerAdvice {
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage(message);
+    res.setCode(500);
     return new ResponseEntity<>(res, RESPONSE_HEADERS, HttpStatus.BAD_REQUEST);
   }
 }

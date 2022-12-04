@@ -56,11 +56,12 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
   @Nonnull
   @Override
   public Mono<Void> handle(@Nonnull ServerWebExchange exchange, @Nonnull Throwable throwable) {
-    TraceExchangeUtils.getTraceContext(exchange)
-      .ifPresent(ctx -> {
+    String traceId = TraceExchangeUtils.getTraceContext(exchange)
+      .map(ctx -> {
         MDC.put(TraceConstants.TRACE_ID_HEADER_NAME, ctx.getTraceId());
         MDC.put(TraceConstants.SPAN_ID_HEADER_NAME, ctx.getSpanId());
-      });
+        return ctx.getTraceId();
+      }).orElse(null);
     //noinspection DuplicatedCode
     HttpStatusCode httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     Result<Object> res = null;
@@ -76,12 +77,14 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
     if (throwable instanceof JsonFormatException) {
       log.info("JsonFormatException: ", throwable);
       res = Result.exception(throwable);
+      res.setCode(httpStatus.value());
     }
 
     // json解析异常
     if (throwable instanceof JsonParseException) {
       log.info("JsonParseException: ", throwable);
       res = Result.exception(throwable);
+      res.setCode(httpStatus.value());
     }
 
     // 参数校验不通过异常处理
@@ -92,6 +95,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
         .collect(Collectors.joining(", "));
       log.info("MethodArgumentNotValidException {}", message);
       res = Result.failure(message);
+      res.setCode(400);
     }
 
     // 参数校验不通过异常处理
@@ -102,6 +106,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
         .collect(Collectors.joining(", "));
       log.info("BindException {}", message);
       res = Result.failure(message);
+      res.setCode(400);
     }
 
     if (throwable instanceof HttpMessageNotReadableException exception) {
@@ -123,6 +128,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
       if (originalMessage.startsWith(prefix)) {
         res.setMessage("枚举类型值为空时请传null,而非空白字符串");
       }
+      res.setCode(400);
     }
 
     if (throwable instanceof IllegalArgumentException exception) {
@@ -144,6 +150,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
       }
       log.info("", exception);
       res = Result.failure(message);
+      res.setCode(400);
     }
 
     if (throwable instanceof MethodArgumentTypeMismatchException exception) {
@@ -155,6 +162,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
       }
       log.info("MethodArgumentTypeMismatchException, {}", message);
       res = Result.failure(message);
+      res.setCode(400);
     }
 
     if (throwable instanceof ServerWebInputException exception) {
@@ -166,6 +174,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
       }
       log.info("ServerWebInputException {}", message);
       res = Result.failure(message);
+      res.setCode(400);
     }
 
     if (throwable instanceof org.springframework.web.server.ResponseStatusException exception) {
@@ -190,6 +199,7 @@ public class GeneralWebExceptionHandler implements Ordered, ErrorWebExceptionHan
       log.warn("未针对处理的异常: ", throwable);
       res = Result.failure(message);
     }
+    res.setTraceId(traceId);
     String jsonString = JsonUtils.toJsonString(res);
     byte[] bytes = jsonString.getBytes(StandardCharsets.UTF_8);
     return ExchangeUtils.writeResponse(exchange, httpStatus, HTTP_HEADERS, bytes);
