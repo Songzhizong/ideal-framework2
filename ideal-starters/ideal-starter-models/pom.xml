@@ -12,13 +12,12 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>ideal-starter-model-cache</module>
     <module>ideal-starter-model-event</module>
     <module>ideal-starter-model-trace</module>
     <module>ideal-starter-model-webmvc</module>
     <module>ideal-starter-model-webflux</module>
     <module>ideal-starter-model-idempotent</module>
-    <module>ideal-starter-model-cache-coroutine</module>
+    <module>ideal-starter-model-cache-redis</module>
     <module>ideal-starter-model-event-coroutine</module>
     <module>ideal-starter-model-lock-coroutine</module>
     <module>ideal-starter-model-trace-coroutine</module>

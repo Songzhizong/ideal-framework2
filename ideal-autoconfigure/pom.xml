@@ -69,13 +69,7 @@
     <!--  models  -->
     <dependency>
       <groupId>cn.idealframework2</groupId>
-      <artifactId>ideal-starter-model-cache</artifactId>
-      <version>3.0-SNAPSHOT</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>cn.idealframework2</groupId>
-      <artifactId>ideal-starter-model-cache-coroutine</artifactId>
+      <artifactId>ideal-starter-model-cache-redis</artifactId>
       <version>3.0-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>

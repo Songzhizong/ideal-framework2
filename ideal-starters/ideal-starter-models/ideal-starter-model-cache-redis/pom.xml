@@ -8,5 +8,5 @@
     <version>3.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>ideal-starter-model-cache</artifactId>
+  <artifactId>ideal-starter-model-cache-redis</artifactId>
 </project>

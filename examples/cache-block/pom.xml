@@ -13,7 +13,7 @@
   <dependencies>
     <dependency>
       <groupId>cn.idealframework2</groupId>
-      <artifactId>ideal-starter-cache</artifactId>
+      <artifactId>ideal-starter-cache-redis</artifactId>
       <version>3.0-SNAPSHOT</version>
     </dependency>
     <dependency>
