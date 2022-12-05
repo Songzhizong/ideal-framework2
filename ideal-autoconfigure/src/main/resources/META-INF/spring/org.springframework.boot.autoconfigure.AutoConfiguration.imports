@@ -1,6 +1,6 @@
-cn.idealframework2.autoconfigure.cache.BlockCacheAutoConfigure
+cn.idealframework2.autoconfigure.cache.redis.RedisCacheAutoConfigure
 cn.idealframework2.autoconfigure.cache.CacheProperties
-cn.idealframework2.autoconfigure.cache.CoroutineCacheAutoConfigure
+cn.idealframework2.autoconfigure.cache.redis.CoroutineRedisCacheAutoConfigure
 cn.idealframework2.autoconfigure.event.properties.EventProperties
 cn.idealframework2.autoconfigure.event.properties.SpringRabbitProperties
 cn.idealframework2.autoconfigure.event.ReactiveRabbitEventAutoConfigure

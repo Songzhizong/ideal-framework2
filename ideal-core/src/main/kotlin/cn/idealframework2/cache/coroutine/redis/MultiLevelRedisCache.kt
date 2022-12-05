@@ -1,4 +1,4 @@
-package cn.idealframework2.cache.coroutine
+package cn.idealframework2.cache.coroutine.redis
 
 import com.github.benmanes.caffeine.cache.Cache
 import com.github.benmanes.caffeine.cache.Caffeine

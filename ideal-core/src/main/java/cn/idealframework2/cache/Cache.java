@@ -6,10 +6,9 @@ import java.util.Map;
 import java.util.function.Function;
 
 /**
- * @author 宋志宗 on 2022/9/29
+ * @author 宋志宗 on 2022/12/5
  */
-@SuppressWarnings("unused")
-public interface RedisCache<K, V> {
+public interface Cache<K, V> {
 
   /**
    * 从缓存中获取对象, 如果缓存中没有则返回null

@@ -1,4 +1,4 @@
-package cn.idealframework2.cache.coroutine
+package cn.idealframework2.cache.coroutine.redis
 
 
 /**

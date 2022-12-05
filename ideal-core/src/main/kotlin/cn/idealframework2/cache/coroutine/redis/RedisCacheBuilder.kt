@@ -1,6 +1,7 @@
-package cn.idealframework2.cache.coroutine
+package cn.idealframework2.cache.coroutine.redis
 
 import cn.idealframework2.cache.CacheUtils
+import cn.idealframework2.cache.coroutine.CacheBuilder
 import cn.idealframework2.cache.serialize.KeySerializer
 import cn.idealframework2.cache.serialize.StringKeySerializer
 import cn.idealframework2.cache.serialize.ValueSerializer
@@ -15,7 +16,7 @@ class RedisCacheBuilder<K : Any, V : Any>(
   private val prefix: String?,
   private val valueSerializer: ValueSerializer<V>,
   private val redisTemplate: ReactiveStringRedisTemplate
-) {
+) : CacheBuilder<K, V> {
   private var multiLevel = false
   private var memoryCacheSize: Long? = null
   private var memoryCacheTimeout: Duration? = null
@@ -28,7 +29,7 @@ class RedisCacheBuilder<K : Any, V : Any>(
   private var maxTimeoutSeconds: Long? = null
   private var keySerializer: KeySerializer<K> = StringKeySerializer()
 
-  fun keySerializer(keySerializer: KeySerializer<K>): RedisCacheBuilder<K, V> {
+  override fun keySerializer(keySerializer: KeySerializer<K>): RedisCacheBuilder<K, V> {
     this.keySerializer = keySerializer
     return this
   }
@@ -39,7 +40,7 @@ class RedisCacheBuilder<K : Any, V : Any>(
    * @param timeout null值的缓存超时时间
    */
   @Suppress("MemberVisibilityCanBePrivate")
-  fun cacheNull(timeout: Duration): RedisCacheBuilder<K, V> {
+  override fun cacheNull(timeout: Duration): RedisCacheBuilder<K, V> {
     this.cacheNull = true
     this.nullTimeout = timeout
     return this
@@ -51,10 +52,7 @@ class RedisCacheBuilder<K : Any, V : Any>(
    * @param size    内存最大缓存数量
    * @param timeout 内存缓存的超时时间
    */
-  fun multiLevel(
-    size: Long = 1000L,
-    timeout: Duration = Duration.ofSeconds(30)
-  ): RedisCacheBuilder<K, V> {
+  override fun multiLevel(size: Long, timeout: Duration): RedisCacheBuilder<K, V> {
     this.multiLevel = true
     this.memoryCacheSize = size
     this.memoryCacheTimeout = timeout
@@ -68,10 +66,10 @@ class RedisCacheBuilder<K : Any, V : Any>(
    * @param cacheNullTimeout 为了防止缓存穿透, 只有在允许缓存null的前提下才能开启分布式锁, 这个参数用于控制null值的缓存时间
    * @param waitTimeout      等待锁的超时时间, 如果超过这个时间依然没能读取到缓存, 则抛出[cn.idealframework2.cache.ReadCacheException]
    */
-  fun enableLock(
+  override fun enableLock(
     lockTimeout: Duration,
     cacheNullTimeout: Duration,
-    waitTimeout: Duration = Duration.ofSeconds(2)
+    waitTimeout: Duration
   ): RedisCacheBuilder<K, V> {
     this.lock = true
     this.lockTimeout = lockTimeout
@@ -80,12 +78,15 @@ class RedisCacheBuilder<K : Any, V : Any>(
     return this
   }
 
-  fun expireAfterWrite(expireAfterWrite: Duration): RedisCacheBuilder<K, V> {
+  override fun expireAfterWrite(expireAfterWrite: Duration): RedisCacheBuilder<K, V> {
     this.timeoutSeconds = max(expireAfterWrite.toSeconds(), 1)
     return this
   }
 
-  fun expireAfterWrite(minTimeout: Duration, maxTimeout: Duration): RedisCacheBuilder<K, V> {
+  override fun expireAfterWrite(
+    minTimeout: Duration,
+    maxTimeout: Duration
+  ): RedisCacheBuilder<K, V> {
     this.timeoutSeconds = max(minTimeout.toSeconds(), 1)
     this.maxTimeoutSeconds = max(maxTimeout.toSeconds(), 1)
     return this
@@ -97,7 +98,7 @@ class RedisCacheBuilder<K : Any, V : Any>(
    *
    * @author 宋志宗 on 2022/8/15
    */
-  fun build(namespace: String): RedisCache<K, V> {
+  override fun build(namespace: String): RedisCache<K, V> {
     val redisPrefix = generateRedisPrefix(namespace)
     val directRedisCache = DirectRedisCache(
       redisPrefix, lock, waitLockTimeout.toMillis(), cacheNull, keySerializer, valueSerializer,

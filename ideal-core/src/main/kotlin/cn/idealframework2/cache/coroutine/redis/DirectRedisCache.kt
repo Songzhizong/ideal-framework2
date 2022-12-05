@@ -1,8 +1,8 @@
-package cn.idealframework2.cache.coroutine
+package cn.idealframework2.cache.coroutine.redis
 
 import cn.idealframework2.cache.CacheUtils
-import cn.idealframework2.cache.DirectRedisCache
 import cn.idealframework2.cache.ReadCacheException
+import cn.idealframework2.cache.redis.DirectRedisCache
 import cn.idealframework2.cache.serialize.KeySerializer
 import cn.idealframework2.cache.serialize.ValueSerializer
 import cn.idealframework2.spring.RedisTemplateUtils

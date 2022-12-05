@@ -1,5 +1,7 @@
-package cn.idealframework2.cache;
+package cn.idealframework2.cache.redis;
 
+import cn.idealframework2.cache.CacheUtils;
+import cn.idealframework2.cache.ReadCacheException;
 import cn.idealframework2.cache.serialize.KeySerializer;
 import cn.idealframework2.cache.serialize.ValueSerializer;
 import cn.idealframework2.lang.StringUtils;

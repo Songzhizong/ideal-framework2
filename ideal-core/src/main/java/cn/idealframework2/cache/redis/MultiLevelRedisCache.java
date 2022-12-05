@@ -1,4 +1,4 @@
-package cn.idealframework2.cache;
+package cn.idealframework2.cache.redis;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;

@@ -1,9 +1,9 @@
 package cn.idealframework2.cache.coroutine
 
 /**
- * @author 宋志宗 on 2022/8/15
+ * @author 宋志宗 on 2022/12/5
  */
-interface RedisCache<K : Any, V : Any> {
+interface Cache<K : Any, V : Any> {
 
   /**
    * 从缓存中获取对象, 如果缓存中没有则返回null

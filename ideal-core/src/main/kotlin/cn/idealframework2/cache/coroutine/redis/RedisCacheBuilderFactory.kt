@@ -1,5 +1,6 @@
-package cn.idealframework2.cache.coroutine
+package cn.idealframework2.cache.coroutine.redis
 
+import cn.idealframework2.cache.coroutine.CacheBuilderFactory
 import cn.idealframework2.cache.serialize.ValueSerializer
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate
 
@@ -9,9 +10,9 @@ import org.springframework.data.redis.core.ReactiveStringRedisTemplate
 class RedisCacheBuilderFactory(
   private val prefix: String?,
   private val redisTemplate: ReactiveStringRedisTemplate
-) {
+) : CacheBuilderFactory {
 
-  fun <K : Any, V : Any> newBuilder(valueSerializer: ValueSerializer<V>): RedisCacheBuilder<K, V> {
+  override fun <K : Any, V : Any> newBuilder(valueSerializer: ValueSerializer<V>): RedisCacheBuilder<K, V> {
     return RedisCacheBuilder(prefix, valueSerializer, redisTemplate)
   }
 }

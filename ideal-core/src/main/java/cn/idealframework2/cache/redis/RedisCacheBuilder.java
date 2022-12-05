@@ -1,5 +1,8 @@
-package cn.idealframework2.cache;
+package cn.idealframework2.cache.redis;
 
+import cn.idealframework2.cache.CacheBuilder;
+import cn.idealframework2.cache.CacheUtils;
+import cn.idealframework2.cache.ReadCacheException;
 import cn.idealframework2.cache.serialize.KeySerializer;
 import cn.idealframework2.cache.serialize.StringKeySerializer;
 import cn.idealframework2.cache.serialize.ValueSerializer;
@@ -14,7 +17,7 @@ import java.time.Duration;
  * @author 宋志宗 on 2022/9/29
  */
 @SuppressWarnings("unused")
-public class RedisCacheBuilder<K, V> {
+public class RedisCacheBuilder<K, V> implements CacheBuilder<K, V> {
   @Nullable
   private final String prefix;
   @Nonnull
@@ -49,6 +52,7 @@ public class RedisCacheBuilder<K, V> {
   }
 
   @Nonnull
+  @Override
   public RedisCacheBuilder<K, V> keySerializer(@Nonnull KeySerializer<K> keySerializer) {
     this.keySerializer = keySerializer;
     return this;
@@ -60,6 +64,7 @@ public class RedisCacheBuilder<K, V> {
    * @param timeout null值的缓存超时时间
    */
   @Nonnull
+  @Override
   public RedisCacheBuilder<K, V> cacheNull(@Nonnull Duration timeout) {
     this.cacheNull = true;
     this.nullTimeout = timeout;
@@ -73,6 +78,7 @@ public class RedisCacheBuilder<K, V> {
    * @param timeout 内存缓存的超时时间
    */
   @Nonnull
+  @Override
   public RedisCacheBuilder<K, V> multiLevel(long size, @Nonnull Duration timeout) {
     this.multiLevel = true;
     this.memoryCacheSize = size;
@@ -88,14 +94,14 @@ public class RedisCacheBuilder<K, V> {
    * @param waitTimeout      等待锁的超时时间, 如果超过这个时间依然没能读取到缓存, 则抛出{@link ReadCacheException}
    */
   @Nonnull
+  @Override
   public RedisCacheBuilder<K, V> enableLock(@Nonnull Duration lockTimeout,
                                             @Nonnull Duration cacheNullTimeout,
                                             @Nonnull Duration waitTimeout) {
     this.lock = true;
     this.lockTimeout = lockTimeout;
     this.waitLockTimeout = waitTimeout;
-    this.cacheNull(cacheNullTimeout);
-    return this;
+    return this.cacheNull(cacheNullTimeout);
   }
 
   /**
@@ -104,6 +110,7 @@ public class RedisCacheBuilder<K, V> {
    * @param expireAfterWrite 写入后的过期时间
    */
   @Nonnull
+  @Override
   public RedisCacheBuilder<K, V> expireAfterWrite(@Nonnull Duration expireAfterWrite) {
     this.timeoutSeconds = Math.max(expireAfterWrite.toSeconds(), 1);
     return this;
@@ -116,6 +123,7 @@ public class RedisCacheBuilder<K, V> {
    * @param maxTimeout 最大过期时间
    */
   @Nonnull
+  @Override
   public RedisCacheBuilder<K, V> expireAfterWrite(@Nonnull Duration minTimeout,
                                                   @Nonnull Duration maxTimeout) {
     this.timeoutSeconds = Math.max(minTimeout.toSeconds(), 1);
@@ -124,6 +132,7 @@ public class RedisCacheBuilder<K, V> {
   }
 
   @Nonnull
+  @Override
   public RedisCache<K, V> build(@Nonnull String namespace) {
     String redisPrefix = generateRedisPrefix(namespace);
     DirectRedisCache<K, V> directRedisCache = new DirectRedisCache<>(
