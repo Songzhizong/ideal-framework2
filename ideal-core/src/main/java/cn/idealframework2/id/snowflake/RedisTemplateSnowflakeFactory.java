@@ -1,5 +1,6 @@
 package cn.idealframework2.id.snowflake;
 
+import cn.idealframework2.lang.StringUtils;
 import cn.idealframework2.utils.Asserts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +8,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.time.Duration;
 import java.util.UUID;
 import java.util.concurrent.*;
@@ -22,7 +24,7 @@ public class RedisTemplateSnowflakeFactory implements SnowflakeFactory, Snowflak
   private final String value = UUID.randomUUID().toString();
   private final ConcurrentMap<String, Snowflake> generatorMap = new ConcurrentHashMap<>();
   private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-  private final String prefix;
+  private final String redisPrefix;
   private final Duration expire;
   @Nonnull
   private final StringRedisTemplate redisTemplate;
@@ -36,9 +38,10 @@ public class RedisTemplateSnowflakeFactory implements SnowflakeFactory, Snowflak
    * @param redisTemplate   {@link StringRedisTemplate}
    */
   public RedisTemplateSnowflakeFactory(
+    @Nullable String prefix,
     @Nonnull String applicationName,
     @Nonnull StringRedisTemplate redisTemplate) {
-    this(0, applicationName, redisTemplate);
+    this(0, prefix, applicationName, redisTemplate);
   }
 
   /**
@@ -48,10 +51,11 @@ public class RedisTemplateSnowflakeFactory implements SnowflakeFactory, Snowflak
    */
   public RedisTemplateSnowflakeFactory(
     long dataCenterId,
+    @Nullable String prefix,
     @Nonnull String applicationName,
     @Nonnull StringRedisTemplate redisTemplate) {
     this(dataCenterId, 600, 30,
-      applicationName, redisTemplate);
+      prefix, applicationName, redisTemplate);
   }
 
   /**
@@ -65,6 +69,7 @@ public class RedisTemplateSnowflakeFactory implements SnowflakeFactory, Snowflak
     long dataCenterId,
     long expireSeconds,
     long renewalIntervalSeconds,
+    @Nullable String prefix,
     @Nonnull String applicationName,
     @Nonnull StringRedisTemplate redisTemplate) {
     int maxDataCenterNum = Snowflake.MAX_DATA_CENTER_NUM;
@@ -76,7 +81,15 @@ public class RedisTemplateSnowflakeFactory implements SnowflakeFactory, Snowflak
       expireSeconds = renewalIntervalSeconds << 1;
     }
     this.dataCenterId = dataCenterId;
-    this.prefix = "ideal:register:snowflake:machineId:" + applicationName + ":";
+    if (StringUtils.isBlank(prefix)) {
+      this.redisPrefix = "snowflake:machineId:" + applicationName + ":";
+    } else {
+      if (prefix.endsWith(":")) {
+        this.redisPrefix = prefix + "snowflake:machineId:" + applicationName + ":";
+      } else {
+        this.redisPrefix = prefix + ":snowflake:machineId:" + applicationName + ":";
+      }
+    }
     this.expire = Duration.ofSeconds(expireSeconds);
     this.redisTemplate = redisTemplate;
     this.applicationName = applicationName;
@@ -100,7 +113,7 @@ public class RedisTemplateSnowflakeFactory implements SnowflakeFactory, Snowflak
     while (true) {
       ++machineId;
       Boolean success = operations
-        .setIfAbsent(prefix + machineId, value, expire);
+        .setIfAbsent(redisPrefix + machineId, value, expire);
       if (success != null && success) {
         log.info("SnowFlake register success: applicationName = " + this.applicationName + ", machineId = " + machineId);
         break;
@@ -114,7 +127,7 @@ public class RedisTemplateSnowflakeFactory implements SnowflakeFactory, Snowflak
   }
 
   private void heartbeat() {
-    String key = prefix + this.machineId;
+    String key = redisPrefix + this.machineId;
     String value = redisTemplate.opsForValue().get(key);
     if (this.value.equals(value)) {
       redisTemplate.expire(key, expire);
@@ -145,7 +158,7 @@ public class RedisTemplateSnowflakeFactory implements SnowflakeFactory, Snowflak
   public void release() {
     // 释放机器码
     executorService.shutdown();
-    redisTemplate.delete(prefix + this.machineId);
+    redisTemplate.delete(redisPrefix + this.machineId);
   }
 
   @Override

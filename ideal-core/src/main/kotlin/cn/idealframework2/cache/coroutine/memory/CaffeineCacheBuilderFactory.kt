@@ -10,6 +10,6 @@ import cn.idealframework2.cache.serialize.ValueSerializer
 class CaffeineCacheBuilderFactory : CacheBuilderFactory {
 
   override fun <K : Any, V : Any> newBuilder(valueSerializer: ValueSerializer<V>): CacheBuilder<K, V> {
-    TODO("Not yet implemented")
+    return CaffeineCacheBuilder()
   }
 }

@@ -14,6 +14,6 @@ public class CaffeineCacheBuilderFactory implements CacheBuilderFactory {
   @Nonnull
   @Override
   public <K, V> CacheBuilder<K, V> newBuilder(@Nonnull ValueSerializer<V> valueSerializer) {
-    return null;
+    return new CaffeineCacheBuilder<>();
   }
 }

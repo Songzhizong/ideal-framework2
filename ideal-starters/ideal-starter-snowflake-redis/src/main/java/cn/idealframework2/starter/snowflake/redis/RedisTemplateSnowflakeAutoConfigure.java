@@ -1,5 +1,6 @@
 package cn.idealframework2.starter.snowflake.redis;
 
+import cn.idealframework2.autoconfigure.cache.CacheProperties;
 import cn.idealframework2.autoconfigure.id.IdProperties;
 import cn.idealframework2.autoconfigure.id.snowflake.SnowflakeProperties;
 import cn.idealframework2.id.IDGeneratorFactory;
@@ -23,10 +24,12 @@ public class RedisTemplateSnowflakeAutoConfigure {
 
   @Bean
   public IDGeneratorFactory idGeneratorFactory(@Nonnull IdProperties properties,
+                                               @Nonnull CacheProperties cacheProperties,
                                                @Nonnull StringRedisTemplate stringRedisTemplate) {
     log.info("SpringRedisSnowFlakeFactory将使用redis作为机器码注册中心进行机器码计算");
     SnowflakeProperties snowflake = properties.getSnowflake();
     int dataCenterId = snowflake.getDataCenterId();
-    return new RedisTemplateSnowflakeFactory(dataCenterId, 600, 30, applicationName, stringRedisTemplate);
+    String prefix = cacheProperties.formattedPrefix();
+    return new RedisTemplateSnowflakeFactory(dataCenterId, 600, 30, prefix, applicationName, stringRedisTemplate);
   }
 }

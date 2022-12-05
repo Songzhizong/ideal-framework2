@@ -18,9 +18,11 @@
     <module>ideal-starter-models</module>
     <module>ideal-starter-webmvc</module>
     <module>ideal-starter-webflux</module>
+    <module>ideal-starter-lock-redis</module>
+    <module>ideal-starter-lock-memory</module>
     <module>ideal-starter-idempotent</module>
     <module>ideal-starter-cache-redis</module>
-    <module>ideal-starter-lock-coroutine</module>
+    <module>ideal-starter-cache-memory</module>
     <module>ideal-starter-event-coroutine</module>
     <module>ideal-starter-snowflake-redis</module>
     <module>ideal-starter-trace-coroutine</module>

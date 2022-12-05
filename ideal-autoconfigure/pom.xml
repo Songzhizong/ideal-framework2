@@ -69,7 +69,7 @@
     <!--  models  -->
     <dependency>
       <groupId>cn.idealframework2</groupId>
-      <artifactId>ideal-starter-model-cache-redis</artifactId>
+      <artifactId>ideal-kotlin</artifactId>
       <version>3.0-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
@@ -82,12 +82,6 @@
     <dependency>
       <groupId>cn.idealframework2</groupId>
       <artifactId>ideal-starter-model-event-coroutine</artifactId>
-      <version>3.0-SNAPSHOT</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>cn.idealframework2</groupId>
-      <artifactId>ideal-starter-model-lock-coroutine</artifactId>
       <version>3.0-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>

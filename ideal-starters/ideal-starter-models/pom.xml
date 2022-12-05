@@ -17,9 +17,7 @@
     <module>ideal-starter-model-webmvc</module>
     <module>ideal-starter-model-webflux</module>
     <module>ideal-starter-model-idempotent</module>
-    <module>ideal-starter-model-cache-redis</module>
     <module>ideal-starter-model-event-coroutine</module>
-    <module>ideal-starter-model-lock-coroutine</module>
     <module>ideal-starter-model-trace-coroutine</module>
     <module>ideal-starter-model-idempotent-coroutine</module>
   </modules>

@@ -1,6 +1,4 @@
-cn.idealframework2.autoconfigure.cache.redis.RedisCacheAutoConfigure
 cn.idealframework2.autoconfigure.cache.CacheProperties
-cn.idealframework2.autoconfigure.cache.redis.CoroutineRedisCacheAutoConfigure
 cn.idealframework2.autoconfigure.event.properties.EventProperties
 cn.idealframework2.autoconfigure.event.properties.SpringRabbitProperties
 cn.idealframework2.autoconfigure.event.ReactiveRabbitEventAutoConfigure
@@ -14,7 +12,6 @@ cn.idealframework2.autoconfigure.trace.WebMvcTraceAutoConfigure
 cn.idealframework2.autoconfigure.idempotent.block.RedisTemplateIdempotentAutoConfigure
 cn.idealframework2.autoconfigure.idempotent.coroutine.CoroutineRedisTemplateIdempotentAutoConfigure
 cn.idealframework2.autoconfigure.idempotent.IdempotentProperties
-cn.idealframework2.autoconfigure.lock.CoroutineLockAutoConfigure
 cn.idealframework2.autoconfigure.lock.LockProperties
 cn.idealframework2.autoconfigure.mail.MailAutoConfigure
 cn.idealframework2.autoconfigure.mail.MailProperties
