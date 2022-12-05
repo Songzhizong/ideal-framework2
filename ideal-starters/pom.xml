@@ -20,13 +20,13 @@
     <module>ideal-starter-webflux</module>
     <module>ideal-starter-lock-redis</module>
     <module>ideal-starter-lock-memory</module>
-    <module>ideal-starter-idempotent</module>
     <module>ideal-starter-cache-redis</module>
     <module>ideal-starter-cache-memory</module>
     <module>ideal-starter-event-coroutine</module>
     <module>ideal-starter-snowflake-redis</module>
     <module>ideal-starter-trace-coroutine</module>
-    <module>ideal-starter-idempotent-coroutine</module>
+    <module>ideal-starter-idempotent-redis</module>
+    <module>ideal-starter-idempotent-memory</module>
     <module>ideal-starter-event-transaction-jdbc</module>
     <module>ideal-starter-event-transaction-mongo</module>
   </modules>

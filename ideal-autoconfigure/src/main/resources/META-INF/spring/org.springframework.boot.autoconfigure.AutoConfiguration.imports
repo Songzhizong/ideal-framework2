@@ -9,8 +9,6 @@ cn.idealframework2.autoconfigure.id.JpaIDGeneratorInitializing
 cn.idealframework2.autoconfigure.trace.TraceWebMvcConfigurer
 cn.idealframework2.autoconfigure.trace.WebFluxTraceAutoConfigure
 cn.idealframework2.autoconfigure.trace.WebMvcTraceAutoConfigure
-cn.idealframework2.autoconfigure.idempotent.block.RedisTemplateIdempotentAutoConfigure
-cn.idealframework2.autoconfigure.idempotent.coroutine.CoroutineRedisTemplateIdempotentAutoConfigure
 cn.idealframework2.autoconfigure.idempotent.IdempotentProperties
 cn.idealframework2.autoconfigure.lock.LockProperties
 cn.idealframework2.autoconfigure.mail.MailAutoConfigure

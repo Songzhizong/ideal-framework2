@@ -1,0 +1,2 @@
+cn.idealframework2.starter.idempotent.redis.CoroutineRedisTemplateIdempotentAutoConfigure
+cn.idealframework2.starter.idempotent.redis.RedisTemplateIdempotentAutoConfigure

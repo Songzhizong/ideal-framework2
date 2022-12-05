@@ -23,7 +23,7 @@
     </dependency>
     <dependency>
       <groupId>cn.idealframework2</groupId>
-      <artifactId>ideal-starter-idempotent</artifactId>
+      <artifactId>ideal-starter-idempotent-redis</artifactId>
       <version>3.0-SNAPSHOT</version>
     </dependency>
     <dependency>
