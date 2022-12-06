@@ -7,6 +7,7 @@ import cn.idealframework2.utils.Asserts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -17,6 +18,7 @@ import javax.sql.DataSource;
 /**
  * @author 宋志宗 on 2022/9/30
  */
+@ConditionalOnClass({JdbcTemplate.class, DataSource.class})
 public class JdbcEventAutoConfigure {
   private static final Logger log = LoggerFactory.getLogger(JdbcEventAutoConfigure.class);
 
