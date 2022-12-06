@@ -1,2 +1,1 @@
 cn.idealframework2.starter.event.transaction.mongo.MongoEventAutoConfigure
-cn.idealframework2.starter.event.transaction.mongo.ReactiveMongoEventAutoConfigure

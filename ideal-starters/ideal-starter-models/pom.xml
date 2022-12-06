@@ -12,11 +12,9 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>ideal-starter-model-event</module>
     <module>ideal-starter-model-trace</module>
     <module>ideal-starter-model-webmvc</module>
     <module>ideal-starter-model-webflux</module>
-    <module>ideal-starter-model-event-coroutine</module>
     <module>ideal-starter-model-trace-coroutine</module>
   </modules>
 </project>

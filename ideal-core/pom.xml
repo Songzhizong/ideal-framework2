@@ -117,11 +117,6 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>io.projectreactor.rabbitmq</groupId>
-      <artifactId>reactor-rabbitmq</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>io.projectreactor.netty</groupId>
       <artifactId>reactor-netty</artifactId>
       <scope>provided</scope>

@@ -21,7 +21,7 @@ public class EventRabbitProperties {
   /** 预取消息数 */
   private int prefetchCount = 0;
 
-  /** 消费者数 */
+  /** 默认消费者数 */
   private int consumers = 16;
 
   @Nonnull

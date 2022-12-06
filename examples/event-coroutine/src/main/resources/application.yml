@@ -17,9 +17,6 @@ spring:
     password: admin
 
 ideal-event:
-  transaction:
-    type: mongo
-    enabled: true
   rabbit:
     temporary: true
 

@@ -1,0 +1,3 @@
+cn.idealframework2.starter.event.rabbit.CoroutineRabbitEventAutoConfigure
+cn.idealframework2.starter.event.rabbit.RabbitEventAutoConfigure
+cn.idealframework2.starter.event.rabbit.RabbitEventRunner

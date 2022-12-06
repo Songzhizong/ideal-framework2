@@ -40,7 +40,6 @@
     <jackson.version>2.14.1</jackson.version>
     <jsr305.version>3.0.2</jsr305.version>
     <lombok.version>1.18.24</lombok.version>
-    <reactor-rabbitmq.version>1.5.5</reactor-rabbitmq.version>
     <redisson.version>3.18.1</redisson.version>
     <snakeyaml.version>1.33</snakeyaml.version>
     <snappy.version>1.1.8.4</snappy.version>
@@ -132,11 +131,6 @@
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
         <version>${lombok.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.projectreactor.rabbitmq</groupId>
-        <artifactId>reactor-rabbitmq</artifactId>
-        <version>${reactor-rabbitmq.version}</version>
       </dependency>
       <dependency>
         <groupId>org.redisson</groupId>

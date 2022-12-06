@@ -1,5 +1,5 @@
 ### 简单发布
-GET http://localhost:8080/publish
+GET http://localhost:8081/publish
 
 ### 事务发布
-GET http://localhost:8080/transactional_publish
+GET http://localhost:8081/transactional_publish
