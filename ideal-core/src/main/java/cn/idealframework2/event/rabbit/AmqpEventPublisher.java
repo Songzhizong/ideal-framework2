@@ -15,16 +15,11 @@ import java.util.Collection;
  * @author 宋志宗 on 2022/9/29
  */
 public class AmqpEventPublisher implements DirectEventPublisher {
-  private final String defaultExchange;
   private final AmqpTemplate amqpTemplate;
 
-  public AmqpEventPublisher(@Nonnull String defaultExchange,
-                            @Nonnull AmqpAdmin amqpAdmin,
+  public AmqpEventPublisher(@Nonnull AmqpAdmin amqpAdmin,
                             @Nonnull AmqpTemplate amqpTemplate) {
-    this.defaultExchange = defaultExchange;
     this.amqpTemplate = amqpTemplate;
-    TopicExchange topicExchange = new TopicExchange(defaultExchange);
-    amqpAdmin.declareExchange(topicExchange);
   }
 
   @Override
@@ -37,7 +32,9 @@ public class AmqpEventPublisher implements DirectEventPublisher {
       String topic = supplier.topic();
       String exchange = supplier.exchange();
       if (StringUtils.isBlank(exchange)) {
-        exchange = defaultExchange;
+        exchange = RabbitEventUtils.defaultExchange();
+      } else {
+        exchange = RabbitEventUtils.formatExchange(exchange);
       }
       byte[] originalBytes = eventJsonString.getBytes(StandardCharsets.UTF_8);
       Message message = MessageBuilder.withBody(originalBytes).build();

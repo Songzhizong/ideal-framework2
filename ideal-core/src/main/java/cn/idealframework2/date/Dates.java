@@ -35,7 +35,7 @@ public class Dates {
    */
   private static SimpleDateFormat getSimpleDateFormat(String pattern) {
     ThreadLocal<SimpleDateFormat> threadLocal = SDF_MAP.computeIfAbsent(pattern, k -> {
-      log.debug("put new SimpleDateFormat of pattern " + pattern + " to map");
+      log.debug("Put new SimpleDateFormat of pattern " + pattern + " to map");
       return ThreadLocal.withInitial(() -> new SimpleDateFormat(pattern));
     });
     return threadLocal.get();

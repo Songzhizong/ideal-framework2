@@ -1,6 +1,5 @@
 cn.idealframework2.autoconfigure.cache.CacheProperties
-cn.idealframework2.autoconfigure.event.properties.EventProperties
-cn.idealframework2.autoconfigure.event.properties.SpringRabbitProperties
+cn.idealframework2.autoconfigure.event.EventProperties
 cn.idealframework2.autoconfigure.id.IdProperties
 cn.idealframework2.autoconfigure.id.JpaIDGeneratorInitializing
 cn.idealframework2.autoconfigure.trace.TraceWebMvcConfigurer

@@ -8,8 +8,9 @@ import javax.annotation.Nullable;
 /**
  * @author 宋志宗 on 2022/9/30
  */
-@Event(topic = "idealframework2.example.test")
+@Event(exchange = TestEvent.EXCHANGE, topic = "idealframework2.example.test")
 public class TestEvent extends BaseEvent {
+  public static final String EXCHANGE = "ideal.example";
 
   @Nullable
   private Long id;

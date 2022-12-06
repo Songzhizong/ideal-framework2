@@ -58,7 +58,7 @@ class CoroutineTraceExampleApplication {
   @Bean
   fun operationLogStore(): OperationLogStore {
     return OperationLogStore { operationLog ->
-      logger.info("operation log: ${JsonUtils.toJsonString(operationLog)}")
+      logger.info("Operation log: ${JsonUtils.toJsonString(operationLog)}")
       Mono.just(true)
     }
   }
@@ -89,11 +89,11 @@ class CoroutineTraceExampleApplication {
         resp.bodyToMono(String::class.java)
           .defaultIfEmpty("")
           .doOnNext { body ->
-            logger.info("body logger: {}", body)
+            logger.info("Body logger: {}", body)
           }
           .flatMap { body ->
             mono {
-              log.mdcInfo { "body log: $body" }
+              log.mdcInfo { "Body log: $body" }
               body
             }
           }

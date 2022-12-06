@@ -1,7 +1,7 @@
 package cn.idealframework2.starter.event.rabbit;
 
-import cn.idealframework2.autoconfigure.event.properties.EventProperties;
-import cn.idealframework2.autoconfigure.event.properties.EventRabbitProperties;
+import cn.idealframework2.autoconfigure.event.EventProperties;
+import cn.idealframework2.autoconfigure.event.EventRabbitProperties;
 import cn.idealframework2.event.DirectEventPublisher;
 import cn.idealframework2.event.ReactiveDirectEventPublisher;
 import cn.idealframework2.event.rabbit.AmqpEventPublisher;
@@ -31,24 +31,19 @@ import java.time.Duration;
 public class RabbitEventAutoConfigure {
   private static final Logger log = LoggerFactory.getLogger(RabbitEventAutoConfigure.class);
 
+
   @Bean
   @Primary
-  public DirectEventPublisher directEventPublisher(@Nonnull EventProperties properties,
-                                                   @Nonnull AmqpAdmin amqpAdmin,
+  public DirectEventPublisher directEventPublisher(@Nonnull AmqpAdmin amqpAdmin,
                                                    @Nonnull AmqpTemplate amqpTemplate) {
-    EventRabbitProperties rabbit = properties.getRabbit();
-    String exchange = rabbit.getExchange();
-    return new AmqpEventPublisher(exchange, amqpAdmin, amqpTemplate);
+    return new AmqpEventPublisher(amqpAdmin, amqpTemplate);
   }
 
   @Bean
   @Primary
-  public ReactiveDirectEventPublisher reactiveDirectEventPublisher(@Nonnull EventProperties properties,
-                                                                   @Nonnull AmqpAdmin amqpAdmin,
+  public ReactiveDirectEventPublisher reactiveDirectEventPublisher(@Nonnull AmqpAdmin amqpAdmin,
                                                                    @Nonnull AmqpTemplate amqpTemplate) {
-    EventRabbitProperties rabbit = properties.getRabbit();
-    String exchange = rabbit.getExchange();
-    return new ReactiveAmqpEventPublisher(exchange, amqpAdmin, amqpTemplate);
+    return new ReactiveAmqpEventPublisher(amqpAdmin, amqpTemplate);
   }
 
   @Bean
@@ -58,7 +53,6 @@ public class RabbitEventAutoConfigure {
                                                                @Nonnull IdempotentHandlerFactory idempotentHandlerFactory) {
     EventRabbitProperties rabbit = eventProperties.getRabbit();
     boolean temporary = rabbit.isTemporary();
-    String exchange = rabbit.getExchange();
     String queuePrefix = rabbit.formattedQueuePrefix();
     Duration timeout = eventProperties.getIdempotent().getTimeout();
     IdempotentHandler idempotentHandler
@@ -66,7 +60,7 @@ public class RabbitEventAutoConfigure {
     AutowireCapableBeanFactory beanFactory = applicationContext.getAutowireCapableBeanFactory();
     SingletonBeanRegistry singletonBeanRegistry = (SingletonBeanRegistry) beanFactory;
     return new RabbitEventListenerManager(
-      temporary, exchange, queuePrefix, amqpAdmin, idempotentHandler, applicationContext, singletonBeanRegistry);
+      temporary, queuePrefix, amqpAdmin, idempotentHandler, applicationContext, singletonBeanRegistry);
   }
 
   @Bean

@@ -150,7 +150,7 @@ public class MongoEventLoop implements ApplicationRunner, DisposableBean {
         });
       return;
     }
-    log.error("mongoTemplate 和 reactiveMongoTemplate 均为null");
+    log.error("MongoTemplate 和 reactiveMongoTemplate 均为null");
   }
 
   @Nonnull
@@ -162,7 +162,7 @@ public class MongoEventLoop implements ApplicationRunner, DisposableBean {
       return reactiveMongoTemplate.find(QUERY, MongoEventTemp.class)
         .collectList().blockOptional().orElse(Collections.emptyList());
     }
-    log.error("mongoTemplate 和 reactiveMongoTemplate 均为null");
+    log.error("MongoTemplate 和 reactiveMongoTemplate 均为null");
     return Collections.emptyList();
   }
 
@@ -175,7 +175,7 @@ public class MongoEventLoop implements ApplicationRunner, DisposableBean {
       reactiveMongoTemplate.remove(QUERY, MongoEventTemp.class).block();
       return;
     }
-    log.error("mongoTemplate 和 reactiveMongoTemplate 均为null");
+    log.error("MongoTemplate 和 reactiveMongoTemplate 均为null");
   }
 
 

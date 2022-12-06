@@ -39,7 +39,7 @@ public class NettyExceptionHandlerAdvice {
    */
   @ExceptionHandler(ReadTimeoutException.class)
   public ResponseEntity<Object> readTimeoutExceptionHandler(@Nonnull ReadTimeoutException exception) {
-    log.warn("http请求超时: ", exception);
+    log.warn("Http请求超时: ", exception);
     BasicResult res = new BasicResult();
     res.setSuccess(false);
     res.setMessage("请求超时");

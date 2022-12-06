@@ -29,7 +29,7 @@ public enum CommonPool implements ExecutorService {
     try {
       maximumPoolSize = Integer.parseInt(maxSize);
     } catch (NumberFormatException e) {
-      log.error("ideal.commonPool.maxSize配置非int类型, 使用默认配置: 512");
+      log.error("Ideal.commonPool.maxSize配置非int类型, 使用默认配置: 512");
       maximumPoolSize = 512;
     }
     EXECUTOR = new ThreadPoolExecutor(
@@ -37,7 +37,7 @@ public enum CommonPool implements ExecutorService {
       60, TimeUnit.SECONDS, new SynchronousQueue<>(),
       BasicThreadFactory.builder().namingPattern("common-pool").build(),
       (r, executor) -> {
-        log.warn("common-pool线程池资源不足");
+        log.warn("Common-pool线程池资源不足");
         r.run();
       });
     if (log.isDebugEnabled()) {

@@ -33,7 +33,7 @@ public class BlockTraceExampleApplication {
   /** 操作日志存储库 */
   @Bean
   public OperationLogStore operationLogStore() {
-    return operationLog -> log.info("operation log: \n{}", JsonUtils.toPrettyJsonString(operationLog));
+    return operationLog -> log.info("Operation log: \n{}", JsonUtils.toPrettyJsonString(operationLog));
   }
 
   /** 操作人信息持有者 */

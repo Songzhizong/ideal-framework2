@@ -1,4 +1,4 @@
-package cn.idealframework2.autoconfigure.event.properties;
+package cn.idealframework2.autoconfigure.event;
 
 import javax.annotation.Nonnull;
 import java.time.Duration;

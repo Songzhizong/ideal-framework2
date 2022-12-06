@@ -1,5 +1,6 @@
 package cn.idealframework2.event.rabbit;
 
+import cn.idealframework2.event.EventExchangeDeclarer;
 import cn.idealframework2.event.EventListener;
 import cn.idealframework2.event.EventListenerRegistrar;
 import cn.idealframework2.event.EventListenerRegistry;
@@ -19,7 +20,9 @@ import org.springframework.context.ApplicationContext;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -43,7 +46,6 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
   private final SingletonBeanRegistry singletonBeanRegistry;
 
   public RabbitEventListenerManager(boolean temporary,
-                                    @Nonnull String defaultExchange,
                                     @Nonnull String queuePrefix,
                                     @Nonnull AmqpAdmin amqpAdmin,
                                     @Nonnull IdempotentHandler idempotentHandler,
@@ -52,20 +54,35 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
     this.temporary = temporary;
     this.queuePrefix = queuePrefix;
     this.amqpAdmin = amqpAdmin;
-    this.defaultExchange = new TopicExchange(defaultExchange);
+    this.defaultExchange = new TopicExchange(RabbitEventUtils.defaultExchange());
     this.idempotentHandler = idempotentHandler;
     this.applicationContext = applicationContext;
     this.singletonBeanRegistry = singletonBeanRegistry;
+    declareExchange(amqpAdmin, applicationContext);
+  }
+
+  private static void declareExchange(@Nonnull AmqpAdmin amqpAdmin, @Nonnull ApplicationContext applicationContext) {
+    Map<String, EventExchangeDeclarer> beansOfType = applicationContext.getBeansOfType(EventExchangeDeclarer.class);
+    Set<String> exchanges = new HashSet<>();
+    beansOfType.forEach((n, d) -> exchanges.addAll(d.exchanges()));
+    TopicExchange defaultExchange = new TopicExchange(RabbitEventUtils.defaultExchange());
+    amqpAdmin.declareExchange(defaultExchange);
+    log.info("Declare exchange: {}", defaultExchange.getName());
+    for (String exchange : exchanges) {
+      TopicExchange topicExchange = new TopicExchange(RabbitEventUtils.formatExchange(exchange));
+      amqpAdmin.declareExchange(topicExchange);
+      log.info("Declare exchange: {}", topicExchange.getName());
+    }
   }
 
   @Override
   public void onMessage(@Nullable Message message, @Nullable Channel channel) throws Exception {
     if (channel == null) {
-      log.error("channel is null");
+      log.error("Channel is null");
       return;
     }
     if (message == null) {
-      log.error("message is null");
+      log.error("Message is null");
       return;
     }
     MessageProperties messageProperties = message.getMessageProperties();
@@ -119,7 +136,7 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
     if (StringUtils.isBlank(exchangeName)) {
       exchange = defaultExchange;
     } else {
-      exchange = exchangeMap.computeIfAbsent(exchangeName, TopicExchange::new);
+      exchange = exchangeMap.computeIfAbsent(RabbitEventUtils.formatExchange(exchangeName), TopicExchange::new);
     }
     String topic = annotation.topic();
     String queueName = queuePrefix + name;
@@ -131,13 +148,12 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
       queue = new Queue(queueName, true, false, false);
     }
     RabbitEventQueues.add(queueName);
-    RabbitEventListener<E> listener = new RabbitEventListener<>(
-      clazz, queueName, consumer, idempotentHandler);
+    RabbitEventListener<E> listener = new RabbitEventListener<>(clazz, queueName, consumer, idempotentHandler);
     listenerMap.put(queueName, listener);
     amqpAdmin.declareQueue(queue);
     amqpAdmin.declareBinding(BindingBuilder.bind(queue).to(exchange).with(topic));
     singletonBeanRegistry.registerSingleton(name, listener);
-    log.info("register event listener: {}  ->  {}", name, topic);
+    log.info("Register event listener: {}  ->  {}", name, topic);
   }
 
   @Override
@@ -167,8 +183,7 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
       try {
         event = JsonUtils.parse(message, clazz);
       } catch (Throwable throwable) {
-        log.error("将消息反序列化为 " + clazz.getName() +
-          " 出现异常, message = " + message + " e:", throwable);
+        log.error("将消息反序列化为 {} 出现异常, message = {} e:", clazz.getName(), message, throwable);
         return;
       }
       String key = null;

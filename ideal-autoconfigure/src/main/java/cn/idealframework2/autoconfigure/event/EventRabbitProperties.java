@@ -1,4 +1,4 @@
-package cn.idealframework2.autoconfigure.event.properties;
+package cn.idealframework2.autoconfigure.event;
 
 import cn.idealframework2.lang.StringUtils;
 
@@ -8,9 +8,6 @@ import javax.annotation.Nonnull;
  * @author 宋志宗 on 2022/8/13
  */
 public class EventRabbitProperties {
-
-  /** 默认交换区 */
-  private String exchange = "event.exchange";
 
   /** 消费队列前缀 */
   private String queuePrefix = "event.queue";
@@ -34,14 +31,6 @@ public class EventRabbitProperties {
       return queuePrefix;
     }
     return queuePrefix + suffix;
-  }
-
-  public String getExchange() {
-    return exchange;
-  }
-
-  public void setExchange(String exchange) {
-    this.exchange = exchange;
   }
 
   public String getQueuePrefix() {
