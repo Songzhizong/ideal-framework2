@@ -80,7 +80,7 @@ public class OperationInterceptor implements HandlerInterceptor {
   @Override
   public void afterCompletion(@Nonnull HttpServletRequest request,
                               @Nonnull HttpServletResponse response,
-                              @Nonnull Object handler, Exception ex) throws Exception {
+                              @Nonnull Object handler, Exception ex) {
     OperationLog operationLog = Operations.get();
     if (operationLog == null) {
       return;

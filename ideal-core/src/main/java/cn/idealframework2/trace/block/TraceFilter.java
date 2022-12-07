@@ -39,9 +39,11 @@ public class TraceFilter implements Ordered, Filter {
     String spanId = httpServletRequest.getHeader(TraceConstants.SPAN_ID_HEADER_NAME);
     // 初始化TraceContext
     TraceContext traceContext;
+    boolean newTrace = false;
     if (StringUtils.isNotBlank(traceId) && StringUtils.isNotBlank(spanId)) {
       traceContext = new TraceContext(traceId, spanId);
     } else {
+      newTrace = true;
       traceContext = new TraceContext(TraceIdGenerator.Holder.get().generate());
     }
     if (StringUtils.isNotBlank(traceId) && StringUtils.isBlank(spanId)) {
@@ -54,7 +56,9 @@ public class TraceFilter implements Ordered, Filter {
     String method = httpServletRequest.getMethod();
     log.info("{} {}", method, requestPath);
     if (response instanceof HttpServletResponse httpServletResponse) {
-      httpServletResponse.setHeader(TraceConstants.TRACE_ID_HEADER_NAME, traceContext.getTraceId());
+      if (newTrace) {
+        httpServletResponse.setHeader(TraceConstants.TRACE_ID_HEADER_NAME, traceContext.getTraceId());
+      }
     }
     try {
       chain.doFilter(request, response);

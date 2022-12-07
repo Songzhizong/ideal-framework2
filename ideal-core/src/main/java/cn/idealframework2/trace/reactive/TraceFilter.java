@@ -65,11 +65,13 @@ public class TraceFilter implements Ordered, WebFilter {
     HttpHeaders headers = request.getHeaders();
     final String traceId = headers.getFirst(TraceConstants.TRACE_ID_HEADER_NAME);
     final String spanId = headers.getFirst(TraceConstants.SPAN_ID_HEADER_NAME);
+    boolean newTraceContext = false;
     // 初始化TraceContext
     TraceContext traceContext;
     if (StringUtils.isNotBlank(traceId) && StringUtils.isNotBlank(spanId)) {
       traceContext = new TraceContext(traceId, spanId);
     } else {
+      newTraceContext = true;
       traceContext = new TraceContext(TraceIdGenerator.Holder.get().generate());
     }
     MDC.put(TraceConstants.TRACE_ID_HEADER_NAME, traceContext.getTraceId());
@@ -79,8 +81,10 @@ public class TraceFilter implements Ordered, WebFilter {
       log.warn("traceId不为空, 但是spanId为空");
     }
     // 为响应头附加traceId
-    exchange.getResponse().getHeaders()
-      .set(TraceConstants.TRACE_ID_HEADER_NAME, traceContext.getTraceId());
+    if (newTraceContext) {
+      HttpHeaders responseHeaders = exchange.getResponse().getHeaders();
+      responseHeaders.set(TraceConstants.TRACE_ID_HEADER_NAME, traceContext.getTraceId());
+    }
 
     String method = request.getMethod().name();
     log.info(method + " " + requestPath);

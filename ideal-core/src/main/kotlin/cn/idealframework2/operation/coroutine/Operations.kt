@@ -14,6 +14,11 @@ object Operations {
     return Operations.current().awaitSingle().orElse(null)
   }
 
+  suspend inline fun message(block: () -> String) {
+    val operationLog = awaitOperationLog() ?: return
+    operationLog.message = block.invoke()
+  }
+
   suspend inline fun details(block: () -> String) {
     val operationLog = awaitOperationLog() ?: return
     operationLog.details = block.invoke()

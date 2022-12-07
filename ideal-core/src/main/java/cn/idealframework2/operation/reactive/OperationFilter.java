@@ -22,7 +22,6 @@ import reactor.core.publisher.Mono;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -71,8 +70,7 @@ public class OperationFilter implements Ordered, WebFilter {
     Mono<Optional<TraceContext>> traceContextMono = TraceContextHolder.current()
       .defaultIfEmpty(Optional.empty());
 
-    AtomicBoolean successRef = new AtomicBoolean(true);
-    AtomicReference<String> messageRef = new AtomicReference<>("success");
+    AtomicReference<String> exceptionMessageRef = new AtomicReference<>(null);
     AtomicReference<OperationLog> operationLogRef = new AtomicReference<>(null);
 
     return Mono.zip(operatorMono, operationMono, traceContextMono)
@@ -100,21 +98,24 @@ public class OperationFilter implements Ordered, WebFilter {
           })
       )
       .doOnError(throwable -> {
-        successRef.set(false);
         String msg = throwable.getMessage();
         if (StringUtils.isNotBlank(msg)) {
-          messageRef.set(msg);
+          exceptionMessageRef.set(msg);
         } else {
           String name = throwable.getClass().getName();
-          messageRef.set(name);
+          exceptionMessageRef.set(name);
         }
       }).doFinally(t -> {
         OperationLog operationLog = operationLogRef.get();
         if (operationLog != null) {
-          boolean s = successRef.get();
-          String msg = messageRef.get();
-          operationLog.setSuccess(s);
-          operationLog.setMessage(msg);
+          String msg = exceptionMessageRef.get();
+          if (msg != null) {
+            operationLog.setSuccess(false);
+            operationLog.setMessage(msg);
+          }
+          long operationTime = operationLog.getOperationTime();
+          long consuming = System.currentTimeMillis() - operationTime;
+          operationLog.setConsuming(Math.toIntExact(consuming));
           //noinspection CallingSubscribeInNonBlockingScope
           operationLogStore.save(operationLog).subscribe();
         }
