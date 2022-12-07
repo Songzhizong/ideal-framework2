@@ -36,8 +36,7 @@ public class ReactiveAmqpEventPublisher implements ReactiveDirectEventPublisher 
     });
   private final AmqpTemplate amqpTemplate;
 
-  public ReactiveAmqpEventPublisher(@Nonnull AmqpAdmin amqpAdmin,
-                                    @Nonnull AmqpTemplate amqpTemplate) {
+  public ReactiveAmqpEventPublisher(@Nonnull AmqpTemplate amqpTemplate) {
     this.amqpTemplate = amqpTemplate;
   }
 
@@ -59,8 +58,6 @@ public class ReactiveAmqpEventPublisher implements ReactiveDirectEventPublisher 
       String exchange = supplier.exchange();
       if (StringUtils.isBlank(exchange)) {
         exchange = RabbitEventUtils.defaultExchange();
-      } else {
-        exchange = RabbitEventUtils.formatExchange(exchange);
       }
       byte[] originalBytes = eventJsonString.getBytes(StandardCharsets.UTF_8);
       Message message = MessageBuilder.withBody(originalBytes).build();

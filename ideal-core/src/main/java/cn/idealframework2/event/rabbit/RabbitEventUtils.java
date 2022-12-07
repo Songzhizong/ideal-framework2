@@ -8,13 +8,8 @@ import javax.annotation.Nonnull;
 public class RabbitEventUtils {
 
   @Nonnull
-  public static String formatExchange(@Nonnull String exchangeName) {
-    return "event." + exchangeName;
-  }
-
-  @Nonnull
   public static String defaultExchange() {
-    return "event.default";
+    return "event.exchange";
   }
 
   private RabbitEventUtils() {

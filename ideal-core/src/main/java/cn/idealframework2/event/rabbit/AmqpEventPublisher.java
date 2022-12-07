@@ -17,8 +17,7 @@ import java.util.Collection;
 public class AmqpEventPublisher implements DirectEventPublisher {
   private final AmqpTemplate amqpTemplate;
 
-  public AmqpEventPublisher(@Nonnull AmqpAdmin amqpAdmin,
-                            @Nonnull AmqpTemplate amqpTemplate) {
+  public AmqpEventPublisher(@Nonnull AmqpTemplate amqpTemplate) {
     this.amqpTemplate = amqpTemplate;
   }
 
@@ -33,8 +32,6 @@ public class AmqpEventPublisher implements DirectEventPublisher {
       String exchange = supplier.exchange();
       if (StringUtils.isBlank(exchange)) {
         exchange = RabbitEventUtils.defaultExchange();
-      } else {
-        exchange = RabbitEventUtils.formatExchange(exchange);
       }
       byte[] originalBytes = eventJsonString.getBytes(StandardCharsets.UTF_8);
       Message message = MessageBuilder.withBody(originalBytes).build();

@@ -132,48 +132,15 @@ public class SensitiveWordFilter {
     return new Task(text, desensitize, sensitiveWordSet, sensitiveWordFrequency);
   }
 
-  public static class Task {
-    /** 原始文本 */
-    @Nonnull
-    private final String original;
-    /** 脱敏后的文本 */
-    @Nonnull
-    private final String desensitize;
-    /** 命中的敏感词 */
-    @Nonnull
-    private final Set<String> sensitiveWords;
-    /** 各敏感词出现频次 */
-    @Nonnull
-    private final Map<String, Integer> sensitiveWordFrequency;
-
-    public Task(@Nonnull String original,
-                @Nonnull String desensitize,
-                @Nonnull Set<String> sensitiveWords,
-                @Nonnull Map<String, Integer> sensitiveWordFrequency) {
-      this.original = original;
-      this.desensitize = desensitize;
-      this.sensitiveWords = sensitiveWords;
-      this.sensitiveWordFrequency = sensitiveWordFrequency;
-    }
-
-    @Nonnull
-    public String getOriginal() {
-      return original;
-    }
-
-    @Nonnull
-    public String getDesensitize() {
-      return desensitize;
-    }
-
-    @Nonnull
-    public Set<String> getSensitiveWords() {
-      return sensitiveWords;
-    }
-
-    @Nonnull
-    public Map<String, Integer> getSensitiveWordFrequency() {
-      return sensitiveWordFrequency;
-    }
+  /**
+   * @param original               原始文本
+   * @param desensitize            脱敏后的文本
+   * @param sensitiveWords         命中的敏感词
+   * @param sensitiveWordFrequency 各敏感词出现频次
+   */
+  public record Task(@Nonnull String original,
+                     @Nonnull String desensitize,
+                     @Nonnull Set<String> sensitiveWords,
+                     @Nonnull Map<String, Integer> sensitiveWordFrequency) {
   }
 }

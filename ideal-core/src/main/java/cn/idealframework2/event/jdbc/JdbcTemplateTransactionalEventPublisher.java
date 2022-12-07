@@ -162,14 +162,6 @@ public class JdbcTemplateTransactionalEventPublisher
       e.printStackTrace();
       return Collections.emptyList();
     }
-//    return jdbcTemplate.query(sql, (rs, rn) -> {
-//      long id = rs.getLong("id");
-//      String eventInfo = rs.getString("event_info");
-//      String topic = rs.getString("topic");
-//      String exchange = rs.getString("exchange");
-//      long timestamp = rs.getLong("timestamp");
-//      return new JdbcEventTemp(id, eventInfo, topic, exchange, timestamp);
-//    });
   }
 
   private void removeEventTemps(@Nonnull Connection connection, @Nonnull Collection<Long> ids) {

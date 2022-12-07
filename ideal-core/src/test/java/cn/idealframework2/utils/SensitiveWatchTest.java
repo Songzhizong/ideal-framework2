@@ -29,11 +29,11 @@ public class SensitiveWatchTest {
   public void filter() {
     SensitiveWordFilter filter = SensitiveWordFilter.getDefaultInstance();
     SensitiveWordFilter.Task task = filter.watch(TEXT);
-    String desensitize = task.getDesensitize();
+    String desensitize = task.desensitize();
     System.out.println("脱敏后的文本: " + desensitize);
-    Set<String> sensitiveWords = task.getSensitiveWords();
+    Set<String> sensitiveWords = task.sensitiveWords();
     System.out.println("原文本中出现过的敏感词: " + JsonUtils.toJsonString(sensitiveWords));
-    Map<String, Integer> wordFrequency = task.getSensitiveWordFrequency();
+    Map<String, Integer> wordFrequency = task.sensitiveWordFrequency();
     System.out.println("原文本中各敏感词出现的次数: " + JsonUtils.toJsonString(wordFrequency));
   }
 

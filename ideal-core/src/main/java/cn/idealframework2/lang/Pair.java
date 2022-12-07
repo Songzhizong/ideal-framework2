@@ -49,9 +49,8 @@ public class Pair<L, R> implements Map.Entry<L, R> {
     return left;
   }
 
-  public Pair<L, R> setLeft(@Nonnull L left) {
+  public void setLeft(@Nonnull L left) {
     this.left = left;
-    return this;
   }
 
   @Nonnull
@@ -59,8 +58,7 @@ public class Pair<L, R> implements Map.Entry<L, R> {
     return right;
   }
 
-  public Pair<L, R> setRight(@Nonnull R right) {
+  public void setRight(@Nonnull R right) {
     this.right = right;
-    return this;
   }
 }

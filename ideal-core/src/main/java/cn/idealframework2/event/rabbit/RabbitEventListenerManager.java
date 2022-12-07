@@ -69,7 +69,7 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
     amqpAdmin.declareExchange(defaultExchange);
     log.info("Declare exchange: {}", defaultExchange.getName());
     for (String exchange : exchanges) {
-      TopicExchange topicExchange = new TopicExchange(RabbitEventUtils.formatExchange(exchange));
+      TopicExchange topicExchange = new TopicExchange(exchange);
       amqpAdmin.declareExchange(topicExchange);
       log.info("Declare exchange: {}", topicExchange.getName());
     }
@@ -136,7 +136,7 @@ public class RabbitEventListenerManager implements ChannelAwareMessageListener, 
     if (StringUtils.isBlank(exchangeName)) {
       exchange = defaultExchange;
     } else {
-      exchange = exchangeMap.computeIfAbsent(RabbitEventUtils.formatExchange(exchangeName), TopicExchange::new);
+      exchange = exchangeMap.computeIfAbsent(exchangeName, TopicExchange::new);
     }
     String topic = annotation.topic();
     String queueName = queuePrefix + name;

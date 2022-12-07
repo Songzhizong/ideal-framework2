@@ -34,16 +34,14 @@ public class RabbitEventAutoConfigure {
 
   @Bean
   @Primary
-  public DirectEventPublisher directEventPublisher(@Nonnull AmqpAdmin amqpAdmin,
-                                                   @Nonnull AmqpTemplate amqpTemplate) {
-    return new AmqpEventPublisher(amqpAdmin, amqpTemplate);
+  public DirectEventPublisher directEventPublisher(@Nonnull AmqpTemplate amqpTemplate) {
+    return new AmqpEventPublisher(amqpTemplate);
   }
 
   @Bean
   @Primary
-  public ReactiveDirectEventPublisher reactiveDirectEventPublisher(@Nonnull AmqpAdmin amqpAdmin,
-                                                                   @Nonnull AmqpTemplate amqpTemplate) {
-    return new ReactiveAmqpEventPublisher(amqpAdmin, amqpTemplate);
+  public ReactiveDirectEventPublisher reactiveDirectEventPublisher(@Nonnull AmqpTemplate amqpTemplate) {
+    return new ReactiveAmqpEventPublisher(amqpTemplate);
   }
 
   @Bean

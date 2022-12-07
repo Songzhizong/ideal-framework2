@@ -186,7 +186,7 @@ public class MongoEventLoop implements ApplicationRunner, DisposableBean {
   }
 
   @Override
-  public void run(ApplicationArguments args) throws Exception {
+  public void run(ApplicationArguments args){
     this.start();
   }
 }

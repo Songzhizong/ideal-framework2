@@ -4938,9 +4938,10 @@ public class StringUtils {
 
     int outputLength = inputLength * repeat;
     switch (inputLength) {
-      case 1:
+      case 1 -> {
         return repeat(str.charAt(0), repeat);
-      case 2:
+      }
+      case 2 -> {
         char ch0 = str.charAt(0);
         char ch1 = str.charAt(1);
         char[] output2 = new char[outputLength];
@@ -4949,8 +4950,10 @@ public class StringUtils {
           output2[i + 1] = ch1;
         }
         return new String(output2);
-      default:
+      }
+      default -> {
         return str.repeat(repeat);
+      }
     }
   }
 

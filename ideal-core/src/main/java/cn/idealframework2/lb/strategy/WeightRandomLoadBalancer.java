@@ -5,6 +5,7 @@ import cn.idealframework2.lb.LoadBalancer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.io.Serial;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -69,6 +70,7 @@ public class WeightRandomLoadBalancer<Server extends LbServer> implements LoadBa
   }
 
   public static class WeightedRandomError extends Error {
+    @Serial
     private static final long serialVersionUID = 6894376381157620855L;
 
     public WeightedRandomError(String message) {

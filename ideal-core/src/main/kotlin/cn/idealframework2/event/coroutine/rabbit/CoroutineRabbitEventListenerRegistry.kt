@@ -28,6 +28,6 @@ class CoroutineRabbitEventListenerRegistry(
 
   override fun afterSingletonsInstantiated() {
     val beansOfType = applicationContext.getBeansOfType(EventListenerRegistrar::class.java)
-    beansOfType.forEach { n, r -> r.registerEventListener(this) }
+    beansOfType.forEach { (_, r) -> r.registerEventListener(this) }
   }
 }
