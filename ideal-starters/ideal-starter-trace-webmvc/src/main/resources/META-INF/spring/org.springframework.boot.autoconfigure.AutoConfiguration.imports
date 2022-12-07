@@ -1,0 +1,2 @@
+cn.idealframework2.starter.trace.webmvc.TraceWebMvcConfigurer
+cn.idealframework2.starter.trace.webmvc.WebMvcTraceAutoConfigure

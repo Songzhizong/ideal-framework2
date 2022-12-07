@@ -39,7 +39,7 @@ public class AmqpEventPublisher implements DirectEventPublisher {
       byte[] originalBytes = eventJsonString.getBytes(StandardCharsets.UTF_8);
       Message message = MessageBuilder.withBody(originalBytes).build();
       MessageProperties properties = message.getMessageProperties();
-      properties.setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+      properties.setDeliveryMode(MessageDeliveryMode.NON_PERSISTENT);
       amqpTemplate.send(exchange, topic, message);
     }
   }

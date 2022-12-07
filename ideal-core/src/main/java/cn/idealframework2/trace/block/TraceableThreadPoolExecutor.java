@@ -1,11 +1,13 @@
 package cn.idealframework2.trace.block;
 
 import cn.idealframework2.trace.TraceContext;
+import org.slf4j.MDC;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
@@ -67,7 +69,8 @@ public class TraceableThreadPoolExecutor extends ThreadPoolExecutor {
   @Override
   protected <T> RunnableFuture<T> newTaskFor(@Nonnull Callable<T> callable) {
     TraceContext context = TraceContextHolder.current().orElse(null);
-    TraceableCallable<T> traceableCallable = new TraceableCallable<>(callable, context);
+    Map<String, String> mdcContext = MDC.getCopyOfContextMap();
+    TraceableCallable<T> traceableCallable = new TraceableCallable<>(callable, context, mdcContext);
     return super.newTaskFor(traceableCallable);
   }
 
@@ -88,7 +91,8 @@ public class TraceableThreadPoolExecutor extends ThreadPoolExecutor {
   @Override
   public <T> Future<T> submit(@Nonnull Callable<T> task) {
     TraceContext context = TraceContextHolder.current().orElse(null);
-    TraceableCallable<T> callable = new TraceableCallable<>(task, context);
+    Map<String, String> mdcContext = MDC.getCopyOfContextMap();
+    TraceableCallable<T> callable = new TraceableCallable<>(task, context, mdcContext);
     return super.submit(callable);
   }
 
@@ -129,8 +133,9 @@ public class TraceableThreadPoolExecutor extends ThreadPoolExecutor {
       throw new NullPointerException("tasks is null");
     }
     TraceContext context = TraceContextHolder.current().orElse(null);
+    Map<String, String> mdcContext = MDC.getCopyOfContextMap();
     return tasks.stream()
-      .map(task -> new TraceableCallable<>(task, context))
+      .map(task -> new TraceableCallable<>(task, context, mdcContext))
       .collect(Collectors.toList());
   }
 
@@ -164,11 +169,15 @@ public class TraceableThreadPoolExecutor extends ThreadPoolExecutor {
     private final Callable<V> callable;
     @Nullable
     private final TraceContext traceContext;
+    @Nullable
+    private final Map<String, String> mdcContext;
 
     public TraceableCallable(@Nonnull Callable<V> callable,
-                             @Nullable TraceContext traceContext) {
+                             @Nullable TraceContext traceContext,
+                             @Nullable Map<String, String> mdcContext) {
       this.callable = callable;
       this.traceContext = traceContext;
+      this.mdcContext = mdcContext;
     }
 
     @Override
@@ -176,9 +185,13 @@ public class TraceableThreadPoolExecutor extends ThreadPoolExecutor {
       if (traceContext != null) {
         TraceContextHolder.set(traceContext);
       }
+      if (mdcContext != null) {
+        MDC.setContextMap(mdcContext);
+      }
       try {
         return callable.call();
       } finally {
+        MDC.clear();
         TraceContextHolder.release();
       }
     }

@@ -4,7 +4,6 @@ import cn.idealframework2.lang.StringUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -20,10 +19,6 @@ public class TraceContext {
 
   @Nonnull
   private final String spanId;
-
-  /** 用户操作日志 */
-  @Nullable
-  private OperationLog operationLog = null;
 
   public TraceContext(@Nonnull String traceId, @Nonnull String spanId) {
     this.traceId = traceId;
@@ -59,15 +54,5 @@ public class TraceContext {
   @Nonnull
   public String getSpanId() {
     return spanId;
-  }
-
-  @Nullable
-  public OperationLog getOperationLog() {
-    return operationLog;
-  }
-
-  public TraceContext setOperationLog(@Nullable OperationLog operationLog) {
-    this.operationLog = operationLog;
-    return this;
   }
 }

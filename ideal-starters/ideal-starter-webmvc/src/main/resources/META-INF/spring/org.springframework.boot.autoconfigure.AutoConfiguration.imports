@@ -1,0 +1,5 @@
+cn.idealframework2.starter.webmvc.CustomWebMvcConfigurer
+cn.idealframework2.starter.webmvc.GeneralExceptionHandlerAdvice
+cn.idealframework2.starter.webmvc.NettyExceptionHandlerAdvice
+cn.idealframework2.starter.webmvc.SpringJdbcExceptionHandlerAdvice
+cn.idealframework2.starter.webmvc.TraceIdResponseBodyAdvice

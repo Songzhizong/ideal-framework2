@@ -12,22 +12,8 @@ import java.util.Set;
 @ConfigurationProperties("ideal-trace")
 public class TraceProperties {
 
-  /** 系统编码 */
-  @Nonnull
-  private String system = "";
-
   @Nonnull
   private Set<String> excludePatterns = new HashSet<>();
-
-  @Nonnull
-  public String getSystem() {
-    return system;
-  }
-
-  public TraceProperties setSystem(@Nonnull String system) {
-    this.system = system;
-    return this;
-  }
 
   @Nonnull
   public Set<String> getExcludePatterns() {

@@ -24,8 +24,8 @@ public final class TraceContextHolder {
         return Mono.just(Optional.empty());
       }
       Object o = ctx.get(TraceConstants.CTX_KEY);
-      if (o instanceof TraceContext) {
-        return Mono.just(Optional.of((TraceContext) o));
+      if (o instanceof TraceContext traceContext) {
+        return Mono.just(Optional.of(traceContext));
       }
       String className = o.getClass().getName();
       log.error("从上下文获取到的TraceContext值实际类型为: " + className);

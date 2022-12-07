@@ -1,0 +1,4 @@
+cn.idealframework2.starter.webflux.CustomWebFluxConfigurer
+cn.idealframework2.starter.webflux.GeneralWebExceptionHandler
+cn.idealframework2.starter.webflux.SpringMongoWebExceptionHandler
+cn.idealframework2.starter.webflux.SpringTxWebExceptionHandler
