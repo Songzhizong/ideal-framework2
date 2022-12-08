@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
  */
 public class MemoryCacheAutoConfigure {
 
-  @Bean("blockCacheBuilderFactory")
+  @Bean
   public CacheBuilderFactory cacheBuilderFactory() {
     return new CaffeineCacheBuilderFactory();
   }

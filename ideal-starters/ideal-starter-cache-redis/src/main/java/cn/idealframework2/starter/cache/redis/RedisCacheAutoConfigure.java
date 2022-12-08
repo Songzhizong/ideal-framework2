@@ -13,7 +13,7 @@ import javax.annotation.Nonnull;
  */
 public class RedisCacheAutoConfigure {
 
-  @Bean("blockCacheBuilderFactory")
+  @Bean
   public CacheBuilderFactory cacheBuilderFactory(@Nonnull CacheProperties cacheProperties,
                                                       @Nonnull StringRedisTemplate redisTemplate) {
     String prefix = cacheProperties.formattedPrefix();
